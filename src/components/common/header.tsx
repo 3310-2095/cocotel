@@ -27,7 +27,7 @@ const Header = () => {
         </div>
 
         {/* Navigation Links */}
-        <div className="hidden lg:flex space-x-6 text-green-700 font-medium">
+        <div className="hidden lg:flex space-x-16 text-[#4baa42] font-light">
           <h2 className="hover:text-green-900 cursor-pointer">Home</h2>
           <h2 className="hover:text-green-900 cursor-pointer">Explore</h2>
           <h2 className="hover:text-green-900 cursor-pointer">Events at Cocotel</h2>
