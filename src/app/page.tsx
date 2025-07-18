@@ -1,3 +1,4 @@
+
 import HotelCard from "@/components/homeComponnent/HotelCard";
 import SearchBar from "@/components/homeComponnent/SearchBar";
 import Image from "next/image";
@@ -23,8 +24,10 @@ async function getInitialHotels() {
 export default async function Home() {
   const initialHotels = await getInitialHotels();
 
+
   return (
     <>
+
       {/* Hero Section */}
       <section className="container mx-auto mt-6">
         <div className="home-main-section">
