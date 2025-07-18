@@ -1,1 +1,11 @@
+
 @import "tailwindcss";
+
+:root {
+  --color-primery: #212529;
+}
+body{
+    color: var(--color-primery);
+}
+
+
