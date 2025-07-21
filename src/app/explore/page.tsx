@@ -33,7 +33,11 @@ const HotelCard = () => {
   }, []);
 
   return (
+
+    
     <section className="bg-[#f6f6f6] p-6 flex justify-center">
+
+
       <div className="bg-white w-full max-w-5xl rounded-2xl shadow-[0_4px_12px_rgba(0,0,0,0.3)] flex flex-col sm:flex-row overflow-hidden">
         {/* Image Section */}
         <div className="relative w-full sm:w-1/2 h-[300px] sm:h-[350px] md:h-[400px]">
