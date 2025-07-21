@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import HotelCard from "@/components/homeComponnent/HotelCard";
 import { getFeaturedHotels, Hotel } from "@/lib/api";
+import WowWrapper from '@/components/WOWWrapper';
 
 interface HotelListProps {
   initialHotels: Hotel[];
@@ -11,7 +12,7 @@ interface HotelListProps {
 
 export default function HotelList({ initialHotels, provinces }: HotelListProps) {
   const [hotels, setHotels] = useState<Hotel[]>(initialHotels);
-  const [selectedProvince, setSelectedProvince] = useState<string | undefined>(undefined);
+  const [selectedProvince, setSelectedProvince] = useState('Batangas');
 
   useEffect(() => {
     async function fetchHotels() {
@@ -22,6 +23,7 @@ export default function HotelList({ initialHotels, provinces }: HotelListProps) 
   }, [selectedProvince]);
 
   return (
+    <WowWrapper>
     <div>
       <div className="flex space-x-3 mb-6">
         {provinces.map((province) => (
@@ -39,10 +41,17 @@ export default function HotelList({ initialHotels, provinces }: HotelListProps) 
         ))}
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {hotels.map((hotel) => (
-          <HotelCard key={hotel.id} hotel={hotel} />
+        {hotels.map((hotel,index) => (
+         <div
+          key={hotel.id}
+          className="wow animate__animated animate__fadeInUp"
+          data-wow-delay={`${index * 0.3}s`}
+        >
+          <HotelCard hotel={hotel} />
+        </div>
         ))}
       </div>
     </div>
+    </WowWrapper>
   );
 }

@@ -66,7 +66,7 @@ export default function HotelCard({ hotel }: HotelCardProps) {
         <p className="text-gray-500 text-sm line-through mt-1">
           ${hotel.price} Per Night
         </p>
-        <p className="text-red-500 font-bold text-2xl mt-1">
+        <p className="text-red-500 font-semibold text-2xl mt-1 animate-slide-up">
           ${hotel.discountPrice} Per Night
         </p>
       </div>

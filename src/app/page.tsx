@@ -4,6 +4,8 @@ import SearchBar from "@/components/homeComponnent/SearchBar";
 import Image from "next/image";
 import { getFeaturedHotels, Hotel } from "@/lib/api";
 import HotelList from "@/components/homeComponnent/HotelList"; // Import the new file
+import WowWrapper from '@/components/WOWWrapper';
+
 
 const provinces = [
   "Batangas",
@@ -33,10 +35,12 @@ export default async function Home() {
         <div className="home-main-section">
           <div className="grid grid-cols-1 lg:grid-cols-2 home-main-section">
             <div className="escape-the-ordinary-main">
-              <h1 className="text-5xl lg:text-7xl font-semibold">
+              <WowWrapper>
+              <h1 className="text-5xl lg:text-7xl font-semibold animate__animated animate__fadeInUp">
                 Just Unpacked!
               </h1>
-              <p className="text-xl mt-8">
+              <p className="text-xl mt-8 animate__animated animate__fadeInUp wow" data-wow-delay="0.3s"
+              data-wow-duration="1s">
                 Just unpacked! Welcome to our new look website. Discover the
                 Cocotel Collection, featuring 4-5 star hotels and resorts. Each
                 property is meticulously selected for explorers, business
@@ -44,6 +48,7 @@ export default async function Home() {
                 over 300+ hotels, book directly for the best pricing and
                 exclusive deals!
               </p>
+              </WowWrapper>
             </div>
             <div className="escape-the-ordinary-img">
               <Image
@@ -61,11 +66,12 @@ export default async function Home() {
 
       {/* Featured Hotels Section */}
       <section className="container mx-auto mt-0 lg:mt-32">
-        <h2 className="text-[40px] font-semibold text-start mb-5">
+        <WowWrapper>
+        <h2 className="text-[40px] font-semibold text-start mb-5 animate__animated animate__fadeInUp wow">
           Our most visited hotels and resorts
         </h2>
-        <div className="flex justify-between items-center mb-5">
-          <p className="text-base">
+        <div className="flex justify-between items-center mb-5 ">
+          <p className="text-base animate__animated animate__fadeInUp wow" data-wow-delay="0.5s">
             "Discover #CocotelCollections and exceptional stays in the
             Philippines.<br />
             Explore Batangas, Cebu, and more top destinations"
@@ -74,6 +80,7 @@ export default async function Home() {
             View All
           </button>
         </div>
+        </WowWrapper>
 
         <HotelList initialHotels={initialHotels} provinces={provinces} />
       </section>
