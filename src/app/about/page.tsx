@@ -14,7 +14,7 @@ const page = () => {
             <h1 className="text-2xl sm:text-3xl md:text-4xl leading-tight font-normal font-[MontserratSemiBold] mb-4 sm:mb-6">
               ABOUT US
             </h1>
-            <p className="text-base sm:text-lg md:text-xl leading-relaxed font-normal font-[Montserrat] mb-6 sm:mb-8">
+            <p className="text-base sm:text-lg md:text-xl leading-relaxed font-normal font-[Montserrat] mb-6 sm:mb-8 ">
               Cocotel is an online hotel management company, Southeast Asia's leading one-stop solutions
               for independent hotels and resorts, offering innovative e-commerce and property management
               solutions that increase revenue by at least 30% with zero upfront cost. Our network spans
