@@ -1,6 +1,5 @@
 import NodeCache from 'node-cache';
 
-// Initialize cache with a TTL of 1 hour (3600 seconds)
 const cache = new NodeCache({ stdTTL: 3600, checkperiod: 120 });
 
 export interface Hotel {
@@ -13,13 +12,28 @@ export interface Hotel {
   province: string;
   rating: number;
   reviews: number;
+  sectionData?: {
+    Company?: {
+      name?: string;
+      city?: string;
+      province?: string;
+      country?: string;
+      description?: string;
+      gallery_image?: string;
+      amenities?: string;
+      promo_active?: number;
+      price?: number;
+      discountPrice?: number;
+      primary_image?: string;
+    };
+  };
 }
 
 export async function getFeaturedHotels(province?: string): Promise<Hotel[]> {
   const cacheKey = province ? `hotels_${province}` : 'hotels_all';
-  // Check if data exists in cache
   const cachedData = cache.get<Hotel[]>(cacheKey);
   if (cachedData) {
+    console.log(`Returning cached hotels for key: ${cacheKey}`);
     return cachedData;
   }
 
@@ -28,13 +42,14 @@ export async function getFeaturedHotels(province?: string): Promise<Hotel[]> {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': 'LHCHoE0IlCOuESA4VQuJ'
+        'x-api-key': 'w5K4iw1tRCTbnOrkprhs',
       },
       body: JSON.stringify({
         dbName: 'hanahotelnew',
         collectionName: 'company',
+        limit: "0",
+        ...(province && { filter: { "sectionData.Company.province": province } }),
       }),
-     
       cache: 'force-cache',
     });
 
@@ -44,25 +59,63 @@ export async function getFeaturedHotels(province?: string): Promise<Hotel[]> {
 
     const dataRes = await response.json();
     const data = dataRes.data;
+    console.log('API response data:', JSON.stringify(data, null, 2));
 
-    const hotels: Hotel[] = (Array.isArray(data) ? data : [data]).map((item: any) => ({
-      id: item._id,
-      name: item.sectionData.Company?.name || 'Unknown Hotel',
-      location: `${item.sectionData?.Company?.city || ''}, ${item.sectionData?.Company?.province || ''}, ${item.sectionData?.Company?.country || ''}`.replace(/, , /g, ', ').trim(),
-      price: 100,
-      discountPrice: 42,
-      image: item.sectionData?.Company?.primary_image || 'https://via.placeholder.com/400x200',
-      province: item.sectionData?.Company?.province || '',
-      rating: 4.6,
-      reviews: 12,
-    }));
+    const hotels: Hotel[] = (Array.isArray(data) ? data : [data]).map((item: any) => {
+      const primaryImage =
+        item.sectionData?.Company?.primary_image &&
+        typeof item.sectionData.Company.primary_image === "string" &&
+        item.sectionData.Company.primary_image.match(/^https?:\/\/[^\s/$.?#].[^\s]*$/)
+          ? item.sectionData.Company.primary_image.trim()
+          : '';
+      const galleryImages =
+        item.sectionData?.Company?.gallery_image && typeof item.sectionData.Company.gallery_image === "string"
+          ? item.sectionData.Company.gallery_image
+              .split(",")
+              .map((s: string) => s.trim())
+              .filter((s: string) => s.match(/^https?:\/\/[^\s/$.?#].[^\s]*$/))
+          : [];
+      const image = primaryImage || (galleryImages.length > 0 ? galleryImages[0] : '/images/fallback-image.jpg');
 
-    // Filter by province if provided
+      return {
+        id: item._id || 'unknown',
+        name: item.sectionData?.Company?.name || 'Unknown Hotel',
+        location: [
+          item.sectionData?.Company?.city,
+          item.sectionData?.Company?.province,
+          item.sectionData?.Company?.country,
+        ]
+          .filter(Boolean)
+          .join(", ")
+          .replace(/, , /g, ', ')
+          .trim() || 'Unknown Location',
+        price: Number(item.sectionData?.Company?.price) || 0,
+        discountPrice: Number(item.sectionData?.Company?.discountPrice) || 0,
+        image,
+        province: item.sectionData?.Company?.province || '',
+        rating: Number(item.sectionData?.Company?.rating) || 0,
+        reviews: Number(item.sectionData?.Company?.reviews) || 0,
+        sectionData: {
+          Company: {
+            name: item.sectionData?.Company?.name,
+            city: item.sectionData?.Company?.city,
+            province: item.sectionData?.Company?.province,
+            country: item.sectionData?.Company?.country,
+            description: item.sectionData?.Company?.description,
+            gallery_image: item.sectionData?.Company?.gallery_image,
+            amenities: item.sectionData?.Company?.amenities,
+            promo_active: Number(item.sectionData?.Company?.promo_active) || 0,
+            price: Number(item.sectionData?.Company?.price) || 0,
+            discountPrice: Number(item.sectionData?.Company?.discountPrice) || 0,
+            primary_image: item.sectionData?.Company?.primary_image,
+          },
+        },
+      };
+    });
+
+    console.log('Mapped hotels:', JSON.stringify(hotels, null, 2));
     const filteredHotels = province ? hotels.filter(hotel => hotel.province === province) : hotels;
-
-    // Store the result in cache
     cache.set(cacheKey, filteredHotels);
-    
     return filteredHotels;
   } catch (error) {
     console.error('Error fetching featured hotels:', error);
