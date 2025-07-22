@@ -3,7 +3,8 @@ import HotelCard from "@/components/homeComponnent/HotelCard";
 import SearchBar from "@/components/homeComponnent/SearchBar";
 import Image from "next/image";
 import { getFeaturedHotels, Hotel } from "@/lib/api";
-import HotelList from "@/components/homeComponnent/HotelList"; // Import the new file
+import HotelList from "@/components/homeComponnent/HotelList"; 
+import DiscoverSection from "@/components/homeComponnent/DiscoverSection"
 import WowWrapper from '@/components/WOWWrapper';
 
 
@@ -83,6 +84,9 @@ export default async function Home() {
         </WowWrapper>
 
         <HotelList initialHotels={initialHotels} provinces={provinces} />
+      </section>
+      <section className="container mx-auto mt-5">
+        <DiscoverSection></DiscoverSection>
       </section>
     </>
   );
