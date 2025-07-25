@@ -4,7 +4,9 @@ import SearchBar from "@/components/homeComponnent/SearchBar";
 import Image from "next/image";
 import { getFeaturedHotels, Hotel } from "@/lib/api";
 import HotelList from "@/components/homeComponnent/HotelList"; 
-import DiscoverSection from "@/components/homeComponnent/DiscoverSection"
+import DiscoverSection from "@/components/homeComponnent/DiscoverSection";
+import DiscoverNew from "@/components/homeComponnent/DiscoverNew";
+import UserReview from "@/components/homeComponnent/UserReview";
 import WowWrapper from '@/components/WOWWrapper';
 
 
@@ -71,13 +73,13 @@ export default async function Home() {
         <h2 className="text-[40px] font-semibold text-start mb-5 animate__animated animate__fadeInUp wow">
           Our most visited hotels and resorts
         </h2>
-        <div className="flex justify-between items-center mb-5 ">
+        <div className="flex flex-col sm:flex-row justify-between items-center mb-5 ">
           <p className="text-base animate__animated animate__fadeInUp wow" data-wow-delay="0.5s">
             "Discover #CocotelCollections and exceptional stays in the
             Philippines.<br />
             Explore Batangas, Cebu, and more top destinations"
           </p>
-          <button className="text-base text-green-600 bg-green-200 py-2 px-6 cursor-pointer rounded">
+          <button className="flex text-base text-green-600 bg-green-200 py-2 px-6 cursor-pointer rounded">
             View All
           </button>
         </div>
@@ -85,9 +87,19 @@ export default async function Home() {
 
         <HotelList initialHotels={initialHotels} provinces={provinces} />
       </section>
-      <section className="container mx-auto mt-5">
-        <DiscoverSection></DiscoverSection>
+      <section className="container mx-auto mt-20 mb-10">
+        <DiscoverSection/>
       </section>
+
+      <section className="container mx-auto mt-20 mb-10">
+        <DiscoverNew/>
+      </section>
+      <section className="container mx-auto mt-20 mb-10">
+        <UserReview/>
+      </section>
+
+      
+
     </>
   );
 }

@@ -15,6 +15,9 @@
 .hotel-card:hover{
   box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
 }
+.aminities-main a:hover{
+  box-shadow: 2px 12px 14px -3px #d8d2d2;
+}
 
 .escape-the-ordinary-img {
   box-shadow: 2px 2px 5px -1px #736c6c;
@@ -52,4 +55,39 @@
   .escape-the-ordinary-img img {
     border-radius: 0px;
   }
+}
+
+.swiper-button-next{
+  background-color: white !important;
+  color: #00a63e !important;
+  border: none !important;
+  border-radius: 50% !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 40px !important;
+  height: 40px !important;
+  cursor: pointer;
+  outline: none;
+  z-index: 222 !important;
+  right: 0px !important;
+}
+.swiper-button-next::after{
+font-size: 20px !important;
+font-weight: bold !important;
+}
+.swiper-button-prev{
+  background-color: white !important;
+  color: #00a63e !important;
+  border: none !important;
+  border-radius: 50% !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 40px !important;
+  height: 40px !important;
+  cursor: pointer;
+  outline: none;
+  z-index: 222 !important;
+  left: 0px !important;
+}
+.swiper-button-prev::after{
+font-size: 20px !important;
+font-weight: bold !important;
 }
