@@ -25,7 +25,7 @@ export default function HotelList({ initialHotels, provinces }: HotelListProps) 
   return (
     <WowWrapper>
     <div>
-      <div className="flex space-x-3 mb-6">
+      <div className="flex flex-wrap gap-3 mb-6">
         {provinces.map((province) => (
           <button
             key={province}

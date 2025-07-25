@@ -47,7 +47,6 @@ export async function getFeaturedHotels(province?: string): Promise<Hotel[]> {
       body: JSON.stringify({
         dbName: 'hanahotelnew',
         collectionName: 'company',
-        limit: "0",
         ...(province && { filter: { "sectionData.Company.province": province } }),
       }),
       cache: 'force-cache',
