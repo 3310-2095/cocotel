@@ -438,7 +438,7 @@ const AboutPage = () => {
                 </div>
                 <button
                   type="submit"
-                  className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 transition-all duration-300 wow animate__animated animate__fadeInUp"
+                  className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 "
                   data-wow-delay="2.4s"
                   data-wow-duration="1s"
                 >

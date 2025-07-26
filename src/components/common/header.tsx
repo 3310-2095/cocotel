@@ -118,11 +118,12 @@ const Header = () => {
                 {link.name}
               </Link>
             ))}
-            <Link href="/login">
-              <button className="bg-green-600 text-white px-5 py-2 rounded hover:bg-green-700 w-full text-center">
-                Login
-              </button>
-            </Link>
+<Link href="/login">
+  <button className="bg-green-600 text-white px-5 py-2 rounded hover:bg-green-700 w-full text-center">
+    Login
+  </button>
+</Link>
+
             <div className="relative">
               <button
                 onClick={() => setShowDropdown(!showDropdown)}

@@ -2,12 +2,10 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Montserrat } from 'next/font/google';
 import Header from "@/components/common/header";
-import Footer from "@/components/common/footer";
+import ClientLayout from "@/components/common/clientLayout"; // New Client Component
 import "../../public/css/style.css";
 
-
 const montserrat = Montserrat({ subsets: ['latin'] });
-
 
 export const metadata: Metadata = {
   title: 'Hotel Booking - Find Your Perfect Stay',
@@ -41,13 +39,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-    
       <body className={montserrat.className}>
         <Header />
-        {children}
-        <Footer />
+        <ClientLayout>{children}</ClientLayout>
       </body>
-      
     </html>
   );
 }
