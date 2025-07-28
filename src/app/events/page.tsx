@@ -1,10 +1,87 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from "next/image";
 import WOWWrapper from "@/components/WOWWrapper";
+import Link from 'next/link';
+
+interface Event {
+  id: string;
+  event_name: string;
+  event_type: string;
+  capacity: string;
+  budget: string;
+  organizer_name: string;
+  organizer_contact: string;
+  additional_services: string;
+  description: string;
+  event_image: string;
+}
 
 const Page = () => {
+  const [events, setEvents] = useState<Event[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await fetch('https://crmapi.conscor.com/api/general/mfind', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': 'w5K4iw1tRCTbnOrkprhs',
+          },
+          body: JSON.stringify({
+            dbName: 'hanahotelnew',
+            collectionName: 'event',
+            limit: 0,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const dataRes = await response.json();
+        const data = dataRes.data;
+
+        const mappedEvents: Event[] = (Array.isArray(data) ? data : [data]).map((item: any) => ({
+          id: item._id || 'unknown',
+          event_name: item.sectionData?.event_details?.event_name || 'Unknown Event',
+          event_type: item.sectionData?.event_details?.event_type || '',
+          capacity: item.sectionData?.event_details?.capacity || '0',
+          budget: item.sectionData?.event_details?.budget || '0',
+          organizer_name: item.sectionData?.event_details?.organizer_name || '',
+          organizer_contact: item.sectionData?.event_details?.organizer_contact || '',
+          additional_services: item.sectionData?.event_details?.additional_services || '',
+          description: item.sectionData?.event_details?.description || '',
+          event_image: item.sectionData?.event_details?.event_image && 
+                      item.sectionData.event_details.event_image.match(/^https?:\/\/[^\s/$.?#].[^\s]*$/) 
+                      ? item.sectionData.event_details.event_image.trim() 
+                      : '/images/fallback-image.jpg',
+        }));
+
+        setEvents(mappedEvents);
+        setLoading(false);
+      } catch (err) {
+        console.error('Error fetching events:', err);
+        setError('Failed to load events');
+        setLoading(false);
+      }
+    };
+
+    fetchEvents();
+  }, []);
+
+  if (loading) {
+    return <div className="text-center py-10">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="text-center py-10 text-red-600">{error}</div>;
+  }
+
   return (
     <WOWWrapper>
       <section>
@@ -37,44 +114,43 @@ const Page = () => {
             Events
           </h1>
 
-          {[1].map((_, i) => (
+          {events.map((event, index) => (
             <div
-              key={i}
+              key={event.id}
               className="flex flex-col md:flex-row bg-white rounded-lg shadow-lg overflow-hidden mt-20 wow animate__animated animate__fadeInUp"
-              data-wow-delay={`${0.3 + i * 0.2}s`}
+              data-wow-delay={`${0.3 + index * 0.1}s`}
               data-wow-duration="1s"
             >
               {/* Image Section */}
               <div className="relative w-full md:w-1/2 h-[510px]">
                 <Image
-                  src="/events/event_1.png"
-                  alt="Vision Mission"
+                  src={event.event_image}
+                  alt={event.event_name}
                   fill
                   className="object-cover w-full h-full"
-                  priority
+                  priority={index === 0}
                 />
               </div>
 
               {/* Text Section */}
               <div className="w-full md:w-1/2 bg-green-50 p-6 flex flex-col justify-between">
                 <div>
-                  <h3 className="text-gray-600 text-xl uppercase tracking-wide font-semibold wow animate__animated animate__fadeInLeft" data-wow-delay={`${0.4 + i * 0.2}s`}>
-                    Corporate Sales and Events
+                  <h3 className="text-gray-600 text-xl uppercase tracking-wide font-semibold wow animate__animated animate__fadeInLeft" data-wow-delay="0.4s">
+                    {event.event_type}
                   </h3>
-                  <h2 className="text-gray-900 text-4xl mt-4 font-semibold wow animate__animated animate__fadeInLeft" data-wow-delay={`${0.5 + i * 0.2}s`}>
-                    Beyond Meetings Luxurious Corporate Experiences with Cocotel
+                  <h2 className="text-gray-900 text-4xl mt-4 font-semibold wow animate__animated animate__fadeInLeft" data-wow-delay="0.5s">
+                    {event.event_name}
                   </h2>
-                  <p className="text-black text-base mt-6 leading-relaxed wow animate__animated animate__fadeIn" data-wow-delay={`${0.6 + i * 0.2}s`}>
-                    Seal the Deal in Style. Making an exceptional impression is essential,
-                    giving you the ideal setting for business dealings. We offer conference
-                    facilities and diverse venue options. Our comprehensive accommodation
-                    packages complement your event needs.
+                  <p className="text-black text-base mt-6 leading-relaxed wow animate__animated animate__fadeIn" data-wow-delay="0.6s">
+                    {event.description}
                   </p>
                 </div>
                 <div className="flex mt-8">
-                  <button className="sm:mt-0 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded text-base wow animate__animated animate__fadeInUp" data-wow-delay={`${0.7 + i * 0.2}s`}>
-                    See more
-                  </button>
+                  <Link href={`/events/${encodeURIComponent(event.event_name.replace(/\s+/g, '-').toLowerCase())}`}>
+                    <button className="sm:mt-0 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded text-base wow animate__animated animate__fadeInUp" data-wow-delay="0.7s">
+                      See more
+                    </button>
+                  </Link>
                 </div>
               </div>
             </div>
