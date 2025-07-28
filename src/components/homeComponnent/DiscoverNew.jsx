@@ -45,7 +45,7 @@ const DiscoverNew = () => {
                   alt={hotel.title}
                   width={600}
                   height={400}
-                  className="rounded-tl-[20px] rounded-bl-[20px] rounded-tr-none rounded-br-none object-cover w-full h-full"
+                  className="rounded-tl-[20px] rounded-bl-[20px] rounded-tr-[20px] lg:rounded-tr-none rounded-br-[20px]  lg:rounded-br-none object-cover w-full h-full"
                 />
               </div>
               <div className="p-8 h-full">

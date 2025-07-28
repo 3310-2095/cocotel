@@ -20,15 +20,12 @@ const Header = () => {
 
   const navLinks = [
     { name: "Home", href: "/" },
-    { name: "Explore", href: "/explore" },
     { name: "Events at Cocotel", href: "/events" },
-    { name: "Blog", href: "/blog" },
-    { name: "About", href: "/about" },
-    { name: "Careers", href: "/careers" },
+    { name: "Partner With Us", href: "/about" },
   ];
 
   return (
-    <header className="bg-white shadow-lg  lg:sticky top-0 z-50">
+    <header className="bg-white shadow-lg ">
       <nav className="max-w-[84rem] mx-auto py-5 px-2 flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center">
@@ -75,6 +72,11 @@ const Header = () => {
               Login
             </button>
           </Link>
+          <Link href="/register">
+            <button className="bg-green-600 text-white px-5 py-2 rounded hover:bg-green-700 transition">
+              Register
+            </button>
+          </Link>
 
           {/* Country Dropdown */}
           <div className="relative">
@@ -118,11 +120,16 @@ const Header = () => {
                 {link.name}
               </Link>
             ))}
-<Link href="/login">
-  <button className="bg-green-600 text-white px-5 py-2 rounded hover:bg-green-700 w-full text-center">
-    Login
-  </button>
-</Link>
+            <Link href="/login">
+              <button className="bg-green-600 text-white px-5 py-2 rounded hover:bg-green-700 w-full text-center">
+                Login
+              </button>
+            </Link>
+            <Link href="/register">
+            <button className="bg-green-600 text-white px-5 py-2 rounded hover:bg-green-700 w-full text-center">
+              Register
+            </button>
+          </Link>
 
             <div className="relative">
               <button
