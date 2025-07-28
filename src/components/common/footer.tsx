@@ -10,7 +10,7 @@ import Image from "next/image";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#2E7D32] text-white py-10 px-4 md:px-6">
+    <footer className="bg-[#4baa42] text-white py-10 px-4 md:px-6">
       {/* Main Footer Grid */}
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-10 md:gap-16">
         {/* Column 1: Social + Logo */}
@@ -53,7 +53,7 @@ const Footer = () => {
                 links: ["Main Events", "Meetings", "Milestones", "Weddings"],
               },
             ].map((section, idx) => (
-              <div key={idx} className="w-full">
+              <div key={idx} className="w-full text-center md:text-start">
                 <h4 className="text-xl font-semibold mb-4">{section.title}</h4>
                 <ul className="space-y-3 text-base">
                   {section.links.map((link, i) => (

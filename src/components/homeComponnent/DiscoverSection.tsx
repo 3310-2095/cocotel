@@ -31,7 +31,7 @@ const DiscoverSection = () => {
         </WowWrapper>
       </div>
       <div className="col-span-1 lg:col-span-2">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-8 aminities-main">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6  aminities-main">
           <Link
             href="#"
             className="bg-white border border-gray-200 rounded-lg px-4 py-8 shadow-sm  transition-shadow flex flex-col justify-center items-center wow animate__animated animate__fadeInLeft"

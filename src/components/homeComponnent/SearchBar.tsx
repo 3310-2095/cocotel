@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { DateRange } from "react-date-range";
@@ -12,7 +12,8 @@ const SearchBox = () => {
   const [location, setLocation] = useState("");
   const [showLocationDropdown, setShowLocationDropdown] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [adults, setAdults] = useState(3);
+  const [adults, setAdults] = useState(1);
+  const [child, setChild] = useState(0);
   const [rooms, setRooms] = useState(1);
   const [showGuestsDropdown, setShowGuestsDropdown] = useState(false);
 
@@ -30,15 +31,39 @@ const SearchBox = () => {
     format(addDays(new Date(), 1), "yyyy-MM-dd")
   );
 
+  // Refs for dropdown elements
+  const locationRef = useRef(null);
+  const datePickerRef = useRef(null);
+  const guestsRef = useRef(null);
+
   useEffect(() => {
     setCheckIn(format(state[0].startDate, "yyyy-MM-dd"));
     setCheckOut(format(state[0].endDate, "yyyy-MM-dd"));
   }, [state]);
 
-  const handleSearch = (e: React.FormEvent) => {
+  // Handle clicks outside to close dropdowns
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (locationRef.current && !locationRef.current.contains(event.target)) {
+        setShowLocationDropdown(false);
+      }
+      if (datePickerRef.current && !datePickerRef.current.contains(event.target)) {
+        setShowDatePicker(false);
+      }
+      if (guestsRef.current && !guestsRef.current.contains(event.target)) {
+        setShowGuestsDropdown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const handleSearch = (e) => {
     e.preventDefault();
-    console.log({ location, checkIn, checkOut, adults, rooms });
-    // Add your search logic here (e.g., navigate to /hotels with query params)
+   
   };
 
   // Sample location data (replace with API data if needed)
@@ -61,13 +86,13 @@ const SearchBox = () => {
   );
 
   return (
-    <div className="relative z-10 max-w-4xl mx-auto px-4 custom-margin">
+    <div className="relative z-10 max-w-5xl mx-auto px-4 custom-margin">
       <form
         onSubmit={handleSearch}
         className="search-hotel-form bg-white/90 backdrop-blur-md flex flex-col lg:flex-row items-center space-y-4 lg:space-y-0 lg:space-x-4"
       >
         {/* Location (Searchable Select) */}
-        <div className="ms-3 flex-1 relative w-full lg-w-auto">
+        <div className="ms-3 flex-1 relative w-full lg-w-auto" ref={locationRef}>
           <input
             type="text"
             placeholder="Location"
@@ -77,7 +102,6 @@ const SearchBox = () => {
               setShowLocationDropdown(true);
             }}
             onFocus={() => setShowLocationDropdown(true)}
-            onBlur={() => setTimeout(() => setShowLocationDropdown(false), 200)} // Delay to allow click
             className="text-sm text-black font-medium w-full p-2 cursor-pointer rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 pl-8 placeholder-black"
           />
           <Image
@@ -88,7 +112,6 @@ const SearchBox = () => {
             className="object-cover absolute left-2 top-2.5 text-green-600"
             priority
           />
-          {/* <FiSearch className="absolute left-2 top-2 text-gray-400" /> */}
           {showLocationDropdown && filteredLocations.length > 0 && (
             <ul className="absolute z-50 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-40 overflow-y-auto">
               {filteredLocations.map((loc) => (
@@ -108,7 +131,7 @@ const SearchBox = () => {
         </div>
 
         {/* Date Range */}
-        <div className="flex-1 relative w-full lg-w-auto">
+        <div className="flex-1 relative w-full lg-w-auto" ref={datePickerRef}>
           <button
             type="button"
             onClick={() => setShowDatePicker(!showDatePicker)}
@@ -123,7 +146,7 @@ const SearchBox = () => {
             <FiCalendar className="absolute left-2 top-2.5 text-gray-400 text-green-600" />
           </button>
           {showDatePicker && (
-            <div className="absolute z-50 mt-2 w-full bg-white border border-gray-300 rounded-md shadow-lg ">
+            <div className="absolute z-50 mt-2 w-full bg-white border border-gray-300 rounded-md shadow-lg">
               <DateRange
                 editableDateInputs={true}
                 onChange={(item) => setState([item.selection])}
@@ -137,13 +160,13 @@ const SearchBox = () => {
         </div>
 
         {/* Guests and Rooms */}
-        <div className="relative flex-1 w-full lg-w-auto">
+        <div className="relative flex-1 w-full lg-w-auto" ref={guestsRef}>
           <button
             type="button"
             onClick={() => setShowGuestsDropdown(!showGuestsDropdown)}
-            className="w-full cursor-pointer text-sm text-black font-medium p-2  rounded-md text-left focus:outline-none focus:ring-1 focus:ring-green-500 pl-8"
+            className="w-full cursor-pointer text-sm text-black font-medium p-2 rounded-md text-left focus:outline-none focus:ring-1 focus:ring-green-500 pl-8"
           >
-            <span className="text-gray-700">{`${adults} Adults - ${rooms} Room`}</span>
+            <span className="text-gray-700">{`${adults} Adults - ${child} Child - ${rooms} Room`}</span>
             <FiUsers className="absolute left-2 top-2.5 text-gray-400 text-green-600" />
           </button>
           {showGuestsDropdown && (
@@ -163,6 +186,26 @@ const SearchBox = () => {
                     <button
                       type="button"
                       onClick={() => setAdults(adults + 1)}
+                      className="w-8 h-8 bg-gray-200 text-base font-bold text-green-600 rounded-full flex items-center justify-center hover:bg-gray-300 cursor-pointer"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+                <div className="flex justify-between items-center mb-4">
+                  <span>Child</span>
+                  <div className="flex items-center space-x-2">
+                    <button
+                      type="button"
+                      onClick={() => setChild(Math.max(0, child - 1))}
+                      className="w-8 h-8 bg-gray-200 text-base font-bold text-green-600 rounded-full flex items-center justify-center hover:bg-gray-300 cursor-pointer"
+                    >
+                      -
+                    </button>
+                    <span>{child}</span>
+                    <button
+                      type="button"
+                      onClick={() => setChild(child + 1)}
                       className="w-8 h-8 bg-gray-200 text-base font-bold text-green-600 rounded-full flex items-center justify-center hover:bg-gray-300 cursor-pointer"
                     >
                       +
@@ -204,7 +247,7 @@ const SearchBox = () => {
         {/* Search Button */}
         <button
           type="submit"
-          className="bg-green-500 text-white p-2 rounded-full w-full lg:w-auto h-[50px] lg:h-[80px] px-6 hover:bg-green-600 transition"
+          className="bg-green-500 text-white p-2 rounded-full w-full lg:w-auto h-[50px] lg:h-[85px] px-8 hover:bg-green-600 transition"
         >
           <FiSearch className="inline mr-2" /> Search
         </button>
