@@ -6,7 +6,7 @@ import WowWrapper from "@/components/WOWWrapper";
 
 const DiscoverSection = () => {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3">
+    <div className="grid grid-cols-1 lg:grid-cols-3 ">
       <div className="col-span-1 lg:col-span-1 p-3">
         <WowWrapper>
           <h2 className="text-2xl md:text-4xl font-semibold text-black mb-4 wow animate__animated animate__fadeInUp">

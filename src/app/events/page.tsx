@@ -87,11 +87,12 @@ const Page = () => {
       <section>
         {/* Hero Section */}
         <div
-          className="relative bg-cover bg-center bg-no-repeat text-white w-full mx-auto px-4 sm:px-6 lg:px-8 wow animate__animated animate__fadeInUp"
-          style={{ backgroundImage: "url('/events/event_banner.png')" }}
-          data-wow-duration="1.2s"
-          data-wow-delay="0.2s"
-        >
+  className="relative bg-cover bg-center bg-no-repeat text-white w-full h-[500px] sm:h-[600px] lg:h-[550px] mx-auto px-4 sm:px-6 lg:px-8 wow animate__animated animate__fadeInUp"
+  style={{ backgroundImage: "url('/events/event_banner.png')" }}
+  data-wow-duration="1.2s"
+  data-wow-delay="0.2s"
+>
+
           <div className="relative mx-auto py-10 sm:py-16 text-center">
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold wow animate__animated animate__fadeInDown" data-wow-delay="0.4s">
               DISCOVER YOUR PERFECT EVENTS
@@ -109,7 +110,7 @@ const Page = () => {
         </div>
 
         {/* Events Section */}
-        <div className="max-w-7xl mx-auto p-4">
+        <div className=" max-w-[80rem] mx-auto p-1">
           <h1 className="text-[38px] font-normal font-[MontserratSemiBold] md:text-left mt-10 text-[#212529] wow animate__animated animate__fadeInUp" data-wow-delay="0.2s">
             Events
           </h1>
@@ -117,7 +118,7 @@ const Page = () => {
           {events.map((event, index) => (
             <div
               key={event.id}
-              className="flex flex-col md:flex-row bg-white rounded-lg shadow-lg overflow-hidden mt-20 wow animate__animated animate__fadeInUp"
+              className="flex flex-col md:flex-row bg-white rounded-lg shadow-lg overflow-hidden mt-2 wow animate__animated animate__fadeInUp"
               data-wow-delay={`${0.3 + index * 0.1}s`}
               data-wow-duration="1s"
             >
@@ -144,14 +145,15 @@ const Page = () => {
                   <p className="text-black text-base mt-6 leading-relaxed wow animate__animated animate__fadeIn" data-wow-delay="0.6s">
                     {event.description}
                   </p>
-                </div>
-                <div className="flex mt-8">
+                  <div className="flex mt-8">
                   <Link href={`/events/${encodeURIComponent(event.event_name.replace(/\s+/g, '-').toLowerCase())}`}>
                     <button className="sm:mt-0 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded text-base wow animate__animated animate__fadeInUp" data-wow-delay="0.7s">
                       See more
                     </button>
                   </Link>
                 </div>
+                </div>
+
               </div>
             </div>
           ))}

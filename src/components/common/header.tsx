@@ -26,7 +26,7 @@ const Header = () => {
 
   return (
     <header className="bg-white shadow-lg ">
-      <nav className="max-w-[84rem] mx-auto py-5 px-2 flex items-center justify-between">
+      <nav className="max-w-[82rem] mx-auto py-5 px-2 flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center">
           <Link href="/">
@@ -47,7 +47,7 @@ const Header = () => {
             <Link
               key={link.name}
               href={link.href}
-              className=" text-base transition transform hover:scale-105 hover:text-green-700 border-b-1 border-transparent hover:border-green-700"
+              className=" text-base transition transform hover:scale-105 hover:text-green-700  border-transparent hover:border-green-700"
             >
               {link.name}
             </Link>

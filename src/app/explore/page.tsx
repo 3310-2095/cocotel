@@ -518,8 +518,8 @@ const HotelCard: React.FC<{ province?: string }> = ({ province }) => {
         return (
           <div
             key={hotel.id}
-            className="bg-white w-full max-w-6xl rounded-2xl shadow-[0_4px_12px_rgba(0,0,0,0.3)] flex flex-col sm:flex-row overflow-hidden mb-6"
-          >
+            className="bg-white w-full max-w-6xl rounded-2xl shadow-[0_4px_12px_rgba(0,0,0,0.3)] flex flex-col md:flex-row overflow-hidden mb-6">
+          
             <div className="relative w-full sm:w-[40%] h-[200px] sm:h-[240px] md:h-[280px] lg:h-[300px]">
               <ImageWithErrorBoundary
                 src={images[imgIndex]}

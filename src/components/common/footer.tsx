@@ -7,6 +7,8 @@ import {
   FaPhoneAlt,
 } from "react-icons/fa";
 import Image from "next/image";
+import Link from "next/link";
+
 
 const Footer = () => {
   return (
@@ -40,33 +42,45 @@ const Footer = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
             {/* Reusable List Column Component */}
             {[
-              {
-                title: "About Cocotel",
-                links: ["Home", "Blog", "Explore", "Gallery"],
-              },
-              {
-                title: "Partner With Us",
-                links: ["Contact Us", "Careers", "Franchise"],
-              },
-              {
-                title: "Events",
-                links: ["Main Events", "Meetings", "Milestones", "Weddings"],
-              },
-            ].map((section, idx) => (
-              <div key={idx} className="w-full text-center md:text-start">
-                <h4 className="text-xl font-semibold mb-4">{section.title}</h4>
-                <ul className="space-y-3 text-base">
-                  {section.links.map((link, i) => (
-                    <li
-                      key={i}
-                      className=" cursor-pointer hover:drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] transition duration-300"
-                    >
-                      {link}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+  {
+    title: "About Cocotel",
+    links: [
+      { name: "Home", href: "/" },
+      { name: "Blog", href: "/blog" },
+      { name: "Explore", href: "/explore" },
+      { name: "Gallery", href: "/gallery" },
+    ],
+  },
+  {
+    title: "Partner With Us",
+    links: [
+      { name: "Contact Us", href: "/contact" },
+      { name: "Careers", href: "/careers" },  // ✅ This links to CareerPage
+      { name: "Franchise", href: "/franchise" },
+    ],
+  },
+  {
+    title: "Events",
+    links: [
+      { name: "Main Events", href: "/events" },
+      { name: "Meetings", href: "/events/meetings" },
+      { name: "Milestones", href: "/events/milestones" },
+      { name: "Weddings", href: "/events/weddings" },
+    ],
+  },
+].map((section, idx) => (
+  <div key={idx} className="w-full text-center md:text-start">
+    <h4 className="text-xl font-semibold mb-4">{section.title}</h4>
+    <ul className="space-y-3 text-base">
+      {section.links.map((link, i) => (
+        <li key={i} className="cursor-pointer hover:drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] transition duration-300">
+          <Link href={link.href}>{link.name}</Link>
+        </li>
+      ))}
+    </ul>
+  </div>
+))}
+
           </div>
         </div>
       </div>

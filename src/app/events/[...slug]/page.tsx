@@ -222,7 +222,7 @@ const EventPage = () => {
 
       {/* Closing Section */}
       <div className="max-w-7xl mx-auto px-4 py-16 text-center">
-        <h1 className="text-[32px] font-bold leading-snug mb-6 wow animate__animated animate__fadeInDown" data-wow-delay="0.4s">
+        <h1 className="text-[32px] font-bold leading-snug mb-2 wow animate__animated animate__fadeInDown" data-wow-delay="0.4s">
           WHERE BUSINESS MEETS LUXURY
         </h1>
         <p className="text-[20px] text-gray-700 leading-relaxed max-w-7xl mx-auto mb-8 wow animate__animated animate__fadeIn" data-wow-delay="0.6s">

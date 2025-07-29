@@ -34,8 +34,8 @@ export default async function Home() {
     <>
 
       {/* Hero Section */}
-      <section className="container mx-auto mt-6 p-4">
-        <div className="home-main-section">
+      <section className="container mx-auto mt-6 p-4 max-w-[80rem] py-5 px-2 flex">
+        <div className="home-main-section ">
           <div className="grid grid-cols-1 lg:grid-cols-2 home-main-section">
             <div className="escape-the-ordinary-main">
               <WowWrapper>
@@ -68,7 +68,7 @@ export default async function Home() {
       </section>
 
       {/* Featured Hotels Section */}
-      <section className="container p-4 mx-auto mt-0 lg:mt-32">
+      <section className="container p-4 mx-auto mt-0 lg:mt-32  max-w-[80rem] ">
         <WowWrapper>
         <h2 className="text-[40px] font-semibold text-start mb-5 animate__animated animate__fadeInUp wow">
           Our most visited hotels and resorts
@@ -87,14 +87,14 @@ export default async function Home() {
 
         <HotelList initialHotels={initialHotels} provinces={provinces} />
       </section>
-      <section className="container p-4 mx-auto mt-20 mb-10">
+      <section className="container p-4 mx-auto mt-20 mb-10  max-w-[80rem]">
         <DiscoverSection/>
       </section>
 
-      <section className="container p-4 mx-auto mt-20 mb-10">
+      <section className="container p-4 mx-auto mt-20 mb-10  max-w-[80rem]">
         <DiscoverNew/>
       </section>
-      <section className="container p-4 mx-auto mt-20 mb-10">
+      <section className="container p-4 mx-auto mt-20 mb-10  max-w-[80rem]">
         <UserReview/>
       </section>
 

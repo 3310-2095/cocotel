@@ -43,8 +43,7 @@ const CareerPage = () => {
             <div className="text-center text-white max-w-3xl">
               <h1 className="text-xl sm:text-3xl md:text-4xl font-bold mb-4">COCOTEL IS ALWAYS HIRING!</h1>
               <p className="text-sm sm:text-base md:text-lg mb-6">
-                Embark on a journey with Cocotel, a one-stop reservation, marketing, and property-management solution in the hospitality industry.
-              </p>
+              Embark on a journey with Cocotel, a one-stop reservation, marketing, and property-management solution in the hospitality industry. Collaborate with a vibrant team from diverse backgrounds and contribute to shaping unforgettable guest experiences. At Cocotel, we're committed to your success and believe in empowering you to reach your full potential.              </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <button className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded">Join Us</button>
                 <button className="border border-white text-white px-6 py-2 rounded hover:bg-white hover:text-black">Career</button>

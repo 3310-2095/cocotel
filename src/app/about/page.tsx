@@ -52,7 +52,7 @@ const AboutPage = () => {
       </div>
 
       {/* Vision and Mission Section */}
-      <section className="container mx-auto p-4 mt-10">
+      <section className="container mx-auto p-4 mt-10  max-w-[80rem]">
         <div className="flex flex-col lg:flex-row gap-6 sm:gap-8 items-start">
           <div
             className="w-full lg:w-2/5 wow animate__animated animate__fadeInLeft"
