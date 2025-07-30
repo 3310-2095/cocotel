@@ -30,11 +30,9 @@ const SearchBox = () => {
   const [checkOut, setCheckOut] = useState(
     format(addDays(new Date(), 1), "yyyy-MM-dd")
   );
-
-  // Refs for dropdown elements
-  const locationRef = useRef(null);
-  const datePickerRef = useRef(null);
-  const guestsRef = useRef(null);
+  const locationRef = useRef<HTMLDivElement>(null);
+  const datePickerRef = useRef<HTMLDivElement>(null);
+  const guestsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setCheckIn(format(state[0].startDate, "yyyy-MM-dd"));
@@ -43,14 +41,16 @@ const SearchBox = () => {
 
   // Handle clicks outside to close dropdowns
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (locationRef.current && !locationRef.current.contains(event.target)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Node;
+
+      if (locationRef.current && !locationRef.current.contains(target)) {
         setShowLocationDropdown(false);
       }
-      if (datePickerRef.current && !datePickerRef.current.contains(event.target)) {
+      if (datePickerRef.current && !datePickerRef.current.contains(target)) {
         setShowDatePicker(false);
       }
-      if (guestsRef.current && !guestsRef.current.contains(event.target)) {
+      if (guestsRef.current && !guestsRef.current.contains(target)) {
         setShowGuestsDropdown(false);
       }
     };
@@ -60,12 +60,12 @@ const SearchBox = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
-  const handleSearch = (e) => {
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-   
+    console.log("Check-In:", checkIn);
+    console.log("Check-Out:", checkOut);
+    // or pass them to a parent callback if using props.onSearch
   };
-
   // Sample location data (replace with API data if needed)
   const locations = [
     "New York, USA",
@@ -92,7 +92,10 @@ const SearchBox = () => {
         className="search-hotel-form bg-white/90 backdrop-blur-md flex flex-col lg:flex-row items-center space-y-4 lg:space-y-0 lg:space-x-4"
       >
         {/* Location (Searchable Select) */}
-        <div className="ms-3 flex-1 relative w-full lg-w-auto" ref={locationRef}>
+        <div
+          className="ms-3 flex-1 relative w-full lg-w-auto"
+          ref={locationRef}
+        >
           <input
             type="text"
             placeholder="Location"
@@ -149,7 +152,15 @@ const SearchBox = () => {
             <div className="absolute z-50 mt-2 w-full bg-white border border-gray-300 rounded-md shadow-lg">
               <DateRange
                 editableDateInputs={true}
-                onChange={(item) => setState([item.selection])}
+                onChange={(item) =>
+                  setState([
+                    {
+                      startDate: item.selection.startDate || new Date(),
+                      endDate: item.selection.endDate || new Date(),
+                      key: "selection",
+                    },
+                  ])
+                }
                 moveRangeOnFirstSelection={false}
                 ranges={state}
                 minDate={new Date()}

@@ -1,6 +1,29 @@
 import NodeCache from 'node-cache';
 
+// Initialize cache
 const cache = new NodeCache({ stdTTL: 3600, checkperiod: 120 });
+
+// Define API response interface
+interface ApiHotel {
+  _id?: string;
+  sectionData?: {
+    Company?: {
+      name?: string;
+      city?: string;
+      province?: string;
+      country?: string;
+      description?: string;
+      gallery_image?: string;
+      amenities?: string;
+      promo_active?: number | string;
+      price?: number | string;
+      discountPrice?: number | string;
+      primary_image?: string;
+      rating?: number | string;
+      reviews?: number | string;
+    };
+  };
+}
 
 export interface Hotel {
   id: string;
@@ -47,9 +70,8 @@ export async function getFeaturedHotels(province?: string): Promise<Hotel[]> {
       body: JSON.stringify({
         dbName: 'hanahotelnew',
         collectionName: 'company',
-        ...(province && { filter: { "sectionData.Company.province": province } }),
+        ...(province && { filter: { 'sectionData.Company.province': province } }),
       }),
-      cache: 'force-cache',
     });
 
     if (!response.ok) {
@@ -57,67 +79,66 @@ export async function getFeaturedHotels(province?: string): Promise<Hotel[]> {
     }
 
     const dataRes = await response.json();
-    const data = dataRes.data;
-    console.log('API response data:', JSON.stringify(data, null, 2));
+    const data: ApiHotel[] | ApiHotel = dataRes?.data;
 
-    const hotels: Hotel[] = (Array.isArray(data) ? data : [data]).map((item: any) => {
+    if (!data) {
+      console.warn('No data returned from API');
+      return [];
+    }
+
+    const hotels: Hotel[] = (Array.isArray(data) ? data : [data]).map((item: ApiHotel) => {
+      const company = item.sectionData?.Company || {};
       const primaryImage =
-        item.sectionData?.Company?.primary_image &&
-        typeof item.sectionData.Company.primary_image === "string" &&
-        item.sectionData.Company.primary_image.match(/^https?:\/\/[^\s/$.?#].[^\s]*$/)
-          ? item.sectionData.Company.primary_image.trim()
+        typeof company.primary_image === 'string' &&
+        company.primary_image.match(/^https?:\/\/[^\s/$.?#].[^\s]*$/)
+          ? company.primary_image.trim()
           : '';
       const galleryImages =
-        item.sectionData?.Company?.gallery_image && typeof item.sectionData.Company.gallery_image === "string"
-          ? item.sectionData.Company.gallery_image
-              .split(",")
+        typeof company.gallery_image === 'string'
+          ? company.gallery_image
+              .split(',')
               .map((s: string) => s.trim())
               .filter((s: string) => s.match(/^https?:\/\/[^\s/$.?#].[^\s]*$/))
           : [];
-      const image = primaryImage || (galleryImages.length > 0 ? galleryImages[0] : '/images/fallback-image.jpg');
+      const image = primaryImage || (galleryImages.length > 0 ? galleryImages[0] : 'https://example.com/fallback-image.jpg');
 
       return {
         id: item._id || 'unknown',
-        name: item.sectionData?.Company?.name || 'Unknown Hotel',
-        location: [
-          item.sectionData?.Company?.city,
-          item.sectionData?.Company?.province,
-          item.sectionData?.Company?.country,
-        ]
+        name: company.name || 'Unknown Hotel',
+        location: [company.city, company.province, company.country]
           .filter(Boolean)
-          .join(", ")
+          .join(', ')
           .replace(/, , /g, ', ')
           .trim() || 'Unknown Location',
-        price: Number(item.sectionData?.Company?.price) || 0,
-        discountPrice: Number(item.sectionData?.Company?.discountPrice) || 0,
+        price: Number(company.price) || 0,
+        discountPrice: Number(company.discountPrice) || 0,
         image,
-        province: item.sectionData?.Company?.province || '',
-        rating: Number(item.sectionData?.Company?.rating) || 0,
-        reviews: Number(item.sectionData?.Company?.reviews) || 0,
+        province: company.province || '',
+        rating: Number(company.rating) || 0,
+        reviews: Number(company.reviews) || 0,
         sectionData: {
           Company: {
-            name: item.sectionData?.Company?.name,
-            city: item.sectionData?.Company?.city,
-            province: item.sectionData?.Company?.province,
-            country: item.sectionData?.Company?.country,
-            description: item.sectionData?.Company?.description,
-            gallery_image: item.sectionData?.Company?.gallery_image,
-            amenities: item.sectionData?.Company?.amenities,
-            promo_active: Number(item.sectionData?.Company?.promo_active) || 0,
-            price: Number(item.sectionData?.Company?.price) || 0,
-            discountPrice: Number(item.sectionData?.Company?.discountPrice) || 0,
-            primary_image: item.sectionData?.Company?.primary_image,
+            name: company.name,
+            city: company.city,
+            province: company.province,
+            country: company.country,
+            description: company.description,
+            gallery_image: company.gallery_image,
+            amenities: company.amenities,
+            promo_active: Number(company.promo_active) || 0,
+            price: Number(company.price) || 0,
+            discountPrice: Number(company.discountPrice) || 0,
+            primary_image: company.primary_image,
           },
         },
       };
     });
 
     console.log('Mapped hotels:', JSON.stringify(hotels, null, 2));
-    const filteredHotels = province ? hotels.filter(hotel => hotel.province === province) : hotels;
-    cache.set(cacheKey, filteredHotels);
-    return filteredHotels;
+    cache.set(cacheKey, hotels);
+    return hotels;
   } catch (error) {
     console.error('Error fetching featured hotels:', error);
-    throw error;
+    return [];
   }
 }

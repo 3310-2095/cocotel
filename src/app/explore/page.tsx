@@ -1,7 +1,8 @@
+// page.tsx
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { DateRange } from "react-date-range";
+import React, { useState, useEffect, JSX } from "react";
+import { DateRange } from "react-date-range"; // Import Range type
 import Image from "next/image";
 import { addDays, format } from "date-fns";
 import {
@@ -40,7 +41,9 @@ const ImageWithErrorBoundary: React.FC<{
   objectFit: "cover" | "contain";
   className?: string;
 }> = ({ src, alt, layout, objectFit, className }) => {
-  const [imageSrc, setImageSrc] = useState<string>("/images/fallback-image.jpg");
+  const [imageSrc, setImageSrc] = useState<string>(
+    "/images/fallback-image.jpg"
+  );
   const [hasError, setHasError] = useState(false);
   const fallbackImage = "/images/fallback-image.jpg";
 
@@ -88,7 +91,9 @@ const ImageWithErrorBoundary: React.FC<{
 
 const HotelCard: React.FC<{ province?: string }> = ({ province }) => {
   const [hotels, setHotels] = useState<ExtendedHotel[]>([]);
-  const [currentImage, setCurrentImage] = useState<{ [key: string]: number }>({});
+  const [currentImage, setCurrentImage] = useState<{ [key: string]: number }>(
+    {}
+  );
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -101,6 +106,7 @@ const HotelCard: React.FC<{ province?: string }> = ({ province }) => {
   const [adults, setAdults] = useState(3);
   const [rooms, setRooms] = useState(1);
   const [showGuestsDropdown, setShowGuestsDropdown] = useState(false);
+  // Corrected type for DateRange state
   const [state, setState] = useState([
     {
       startDate: new Date(),
@@ -109,7 +115,9 @@ const HotelCard: React.FC<{ province?: string }> = ({ province }) => {
     },
   ]);
   const [checkIn, setCheckIn] = useState(format(new Date(), "yyyy-MM-dd"));
-  const [checkOut, setCheckOut] = useState(format(addDays(new Date(), 1), "yyyy-MM-dd"));
+  const [checkOut, setCheckOut] = useState(
+    format(addDays(new Date(), 1), "yyyy-MM-dd")
+  );
 
   // Sample location data
   const locations = [
@@ -139,7 +147,9 @@ const HotelCard: React.FC<{ province?: string }> = ({ province }) => {
     const fetchHotels = async () => {
       try {
         setLoading(true);
-        const fetched = await getFeaturedHotels(province || location.split(",")[1]?.trim());
+        const fetched = await getFeaturedHotels(
+          province || location.split(",")[1]?.trim()
+        );
         console.log("Fetched hotels:", JSON.stringify(fetched, null, 2));
         setHotels(fetched);
         const initState = fetched.reduce((acc, h) => {
@@ -251,7 +261,7 @@ const HotelCard: React.FC<{ province?: string }> = ({ province }) => {
     const buttons: JSX.Element[] = [];
     const maxButtons = 5;
     let startPage = Math.max(1, currentPage - Math.floor(maxButtons / 2));
-    let endPage = Math.min(totalPages, startPage + maxButtons - 1);
+    const endPage = Math.min(totalPages, startPage + maxButtons - 1);
 
     if (endPage - startPage + 1 < maxButtons) {
       startPage = Math.max(1, endPage - maxButtons + 1);
@@ -366,7 +376,9 @@ const HotelCard: React.FC<{ province?: string }> = ({ province }) => {
                 setShowLocationDropdown(true);
               }}
               onFocus={() => setShowLocationDropdown(true)}
-              onBlur={() => setTimeout(() => setShowLocationDropdown(false), 200)}
+              onBlur={() =>
+                setTimeout(() => setShowLocationDropdown(false), 200)
+              }
               className="text-sm text-black font-medium w-full p-2 sm:p-3 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 pl-8 sm:pl-10 placeholder-black"
             />
             <Image
@@ -414,7 +426,16 @@ const HotelCard: React.FC<{ province?: string }> = ({ province }) => {
               <div className="absolute top-full left-0 mt-2 z-50 bg-white border border-gray-300 rounded-md shadow-lg w-full">
                 <DateRange
                   editableDateInputs={true}
-                  onChange={(item) => setState([item.selection])}
+                  onChange={(item) =>
+                    setState([
+                      {
+                        startDate: item.selection.startDate || new Date(), // Provide a default or handle undefined
+                        endDate:
+                          item.selection.endDate || addDays(new Date(), 1), // Provide a default or handle undefined
+                        key: "selection",
+                      },
+                    ])
+                  }
                   moveRangeOnFirstSelection={false}
                   ranges={state}
                   minDate={new Date()}
@@ -518,8 +539,8 @@ const HotelCard: React.FC<{ province?: string }> = ({ province }) => {
         return (
           <div
             key={hotel.id}
-            className="bg-white w-full max-w-6xl rounded-2xl shadow-[0_4px_12px_rgba(0,0,0,0.3)] flex flex-col md:flex-row overflow-hidden mb-6">
-          
+            className="bg-white w-full max-w-6xl rounded-2xl shadow-[0_4px_12px_rgba(0,0,0,0.3)] flex flex-col md:flex-row overflow-hidden mb-6"
+          >
             <div className="relative w-full sm:w-[40%] h-[200px] sm:h-[240px] md:h-[280px] lg:h-[300px]">
               <ImageWithErrorBoundary
                 src={images[imgIndex]}
@@ -556,7 +577,9 @@ const HotelCard: React.FC<{ province?: string }> = ({ province }) => {
                       width={16}
                       height={16}
                       className="sm:w-5 sm:h-5"
-                      onError={() => console.warn("Failed to load full-star.svg")}
+                      onError={() =>
+                        console.warn("Failed to load full-star.svg")
+                      }
                     />
                   ))}
                   {(hotel.rating || 0) % 1 !== 0 && (
@@ -566,7 +589,9 @@ const HotelCard: React.FC<{ province?: string }> = ({ province }) => {
                       width={16}
                       height={16}
                       className="sm:w-5 sm:h-5"
-                      onError={() => console.warn("Failed to load half-star.svg")}
+                      onError={() =>
+                        console.warn("Failed to load half-star.svg")
+                      }
                     />
                   )}
                   <span className="text-xs sm:text-sm text-gray-600 ml-2">
@@ -596,7 +621,9 @@ const HotelCard: React.FC<{ province?: string }> = ({ province }) => {
                             width={24}
                             height={24}
                             className="sm:w-9 sm:h-9 hover:scale-110 transition-transform duration-200"
-                            onError={() => console.warn(`Failed to load amenity icon: ${a}`)}
+                            onError={() =>
+                              console.warn(`Failed to load amenity icon: ${a}`)
+                            }
                           />
                           <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 whitespace-nowrap">
                             {a}
@@ -623,7 +650,9 @@ const HotelCard: React.FC<{ province?: string }> = ({ province }) => {
                     </div>
                     <div className="text-sm sm:text-lg font-bold text-yellow-500 ml-1">
                       {hotel.price && hotel.discountPrice
-                        ? Math.round((1 - hotel.discountPrice / hotel.price) * 100)
+                        ? Math.round(
+                            (1 - hotel.discountPrice / hotel.price) * 100
+                          )
                         : 0}
                       %
                     </div>
@@ -646,4 +675,9 @@ const HotelCard: React.FC<{ province?: string }> = ({ province }) => {
   );
 };
 
-export default HotelCard;
+// export default HotelCard;
+const ExplorePage = () => {
+  return <HotelCard />;
+};
+
+export default ExplorePage;

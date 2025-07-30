@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import HotelCard from "@/components/homeComponnent/HotelCard";
 import { getFeaturedHotels, Hotel } from "@/lib/api";
-import WowWrapper from '@/components/WOWWrapper';
+// import WowWrapper from '@/components/WOWWrapper';
+import dynamic from "next/dynamic";
 
 interface HotelListProps {
   initialHotels: Hotel[];
@@ -11,6 +12,9 @@ interface HotelListProps {
 }
 
 export default function HotelList({ initialHotels, provinces }: HotelListProps) {
+  const WOWWrapper = dynamic(() => import("@/components/WOWWrapper"), {
+      ssr: false,
+    });
   const [hotels, setHotels] = useState<Hotel[]>(initialHotels);
   const [selectedProvince, setSelectedProvince] = useState('Batangas');
 
@@ -23,7 +27,7 @@ export default function HotelList({ initialHotels, provinces }: HotelListProps) 
   }, [selectedProvince]);
 
   return (
-    <WowWrapper>
+    <WOWWrapper>
     <div>
       <div className="flex flex-wrap gap-3 mb-6">
         {provinces.map((province) => (
@@ -52,6 +56,6 @@ export default function HotelList({ initialHotels, provinces }: HotelListProps) 
         ))}
       </div>
     </div>
-    </WowWrapper>
+    </WOWWrapper>
   );
 }

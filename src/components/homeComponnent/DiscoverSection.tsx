@@ -2,13 +2,17 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import WowWrapper from "@/components/WOWWrapper";
+import dynamic from "next/dynamic";
+// import WowWrapper from "@/components/WOWWrapper";
 
 const DiscoverSection = () => {
+  const WOWWrapper = dynamic(() => import("@/components/WOWWrapper"), {
+    ssr: false,
+  });
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 ">
       <div className="col-span-1 lg:col-span-1 p-3">
-        <WowWrapper>
+        <WOWWrapper>
           <h2 className="text-2xl md:text-4xl font-semibold text-black mb-4 wow animate__animated animate__fadeInUp">
             Discover What Cocotel has to Offer
           </h2>
@@ -28,14 +32,13 @@ const DiscoverSection = () => {
           >
             Explore
           </button>
-        </WowWrapper>
+        </WOWWrapper>
       </div>
       <div className="col-span-1 lg:col-span-2">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6  aminities-main">
           <Link
             href="#"
             className="bg-white border border-gray-200 rounded-lg px-4 py-8 shadow-sm  transition-shadow flex flex-col justify-center items-center wow animate__animated animate__fadeInLeft"
-            
           >
             <div className="text-2xl mb-2 text-green-600">
               <Image
@@ -69,7 +72,8 @@ const DiscoverSection = () => {
             href="#"
             className="bg-white border border-gray-200 rounded-lg px-4 py-8 shadow-sm  transition-shadow flex flex-col justify-center items-center wow animate__animated animate__fadeInLeft"
             data-wow-delay="0.2s"
-            data-wow-duration="1s">
+            data-wow-duration="1s"
+          >
             <div className="text-2xl mb-2 text-green-600">
               <Image
                 src="/images/resorts.svg"

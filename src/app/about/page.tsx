@@ -1,63 +1,41 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import Image from "next/image";
-import WOW from "wowjs";
-
-import "animate.css";
 
 const AboutPage = () => {
-  useEffect(() => {
-    new WOW.WOW({ live: false }).init();
-  }, []);
-
   return (
     <>
       {/* Banner Section */}
       <div
-        className="relative bg-cover bg-center bg-no-repeat text-white w-full mx-auto px-4 sm:px-6 lg:px-8 wow animate__animated animate__fadeInUp"
+        className="relative bg-cover bg-center bg-no-repeat text-white w-full mx-auto px-4 sm:px-6 lg:px-8"
         style={{
           backgroundImage:
             "linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/about/about-banner-1.png')",
         }}
-        data-wow-duration="1s"
       >
         <div className="relative mx-auto py-10 sm:py-32 text-center">
-          <h1
-            className="text-2xl sm:text-3xl md:text-4xl font-semibold wow animate__animated animate__fadeInUp"
-            data-wow-duration="1s"
-          >
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold">
             ABOUT US
           </h1>
-          <p
-            className="text-xl mt-4 sm:mt-6 max-w-5xl mx-auto wow animate__animated animate__fadeInUp"
-            data-wow-delay="0.3s"
-            data-wow-duration="1s"
-          >
-            Cocotel is an online hotel management company, Southeast Asia's
+          <p className="text-xl mt-4 sm:mt-6 max-w-5xl mx-auto">
+            Cocotel is an online hotel management company, Southeast Asia&apos;s
             leading one-stop solutions for independent hotels and resorts,
             offering innovative e-commerce and property management solutions
             that increase revenue by at least 30% with zero upfront cost. Our
             network spans over 300+ properties, where we set industry standards
             and use technology to enhance hospitality and tourism.
           </p>
-          <button
-            className="mt-6 sm:mt-8 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded text-base wow animate__animated animate__fadeInUp"
-            data-wow-delay="0.5s"
-            data-wow-duration="1s"
-          >
+          <button className="mt-6 sm:mt-8 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded text-base">
             I want to know more
           </button>
         </div>
       </div>
 
       {/* Vision and Mission Section */}
-      <section className="container mx-auto p-4 mt-10  max-w-[80rem]">
+      <section className="container mx-auto p-4 mt-10 max-w-[80rem]">
         <div className="flex flex-col lg:flex-row gap-6 sm:gap-8 items-start">
-          <div
-            className="w-full lg:w-2/5 wow animate__animated animate__fadeInLeft"
-            data-wow-duration="1s"
-          >
+          <div className="w-full lg:w-2/5">
             <Image
               src="/about/about_v_m.png"
               alt="Vision Mission"
@@ -67,22 +45,12 @@ const AboutPage = () => {
               priority
             />
           </div>
-          <div
-            className="w-full lg:w-3/5 space-y-6 sm:space-y-8 wow animate__animated animate__fadeInLeft"
-            data-wow-duration="1s"
-          >
+          <div className="w-full lg:w-3/5 space-y-6 sm:space-y-8">
             <div className="mt-4">
-              <h1
-                className="text-2xl sm:text-3xl md:text-[32px] font-normal font-semibold mb-2 sm:mb-4 wow animate__animated animate__fadeInLeft"
-                data-wow-duration="1s"
-              >
+              <h1 className="text-2xl sm:text-3xl md:text-[32px] font-normal font-semibold mb-2 sm:mb-4">
                 VISION
               </h1>
-              <p
-                className="text-xl wow animate__animated animate__fadeInLeft"
-                data-wow-delay="0.3s"
-                data-wow-duration="1s"
-              >
+              <p className="text-xl">
                 At Cocotel, our vision is to establish ourselves as the premier
                 one-stop solution for independent hotels and resorts,
                 revolutionizing e-commerce in Southeast Asia. We are committed
@@ -93,18 +61,10 @@ const AboutPage = () => {
               </p>
             </div>
             <div className="mt-4">
-              <h1
-                className="text-2xl sm:text-3xl md:text-[32px] font-normal font-semibold mb-2 sm:mb-4 wow animate__animated animate__fadeInLeft"
-                data-wow-delay="0.3s"
-                data-wow-duration="1s"
-              >
+              <h1 className="text-2xl sm:text-3xl md:text-[32px] font-normal font-semibold mb-2 sm:mb-4">
                 MISSION
               </h1>
-              <p
-                className="text-xl wow animate__animated animate__fadeInLeft"
-                data-wow-delay="0.3s"
-                data-wow-duration="1s"
-              >
+              <p className="text-xl">
                 Cocotel is dedicated to delivering top-notch service through
                 innovative technology and comprehensive online solutions. Our
                 mission is to lead the hotel management sector in Southeast
@@ -121,19 +81,15 @@ const AboutPage = () => {
 
       {/* Future of Hotel Ecommerce Section */}
       <section
-        className="mt-10 relative bg-cover bg-center bg-no-repeat text-white w-full mx-auto wow animate__animated animate__fadeInUp"
+        className="mt-10 relative bg-cover bg-center bg-no-repeat text-white w-full mx-auto"
         style={{
           backgroundImage:
             "linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/about/about-banner-1.png')",
           backgroundSize: "cover",
         }}
-        data-wow-duration="1s"
       >
         <div className="relative mx-auto py-10 sm:py-16 md:py-20 text-center h-[756px]">
-          <div
-            className="mb-6 sm:mb-8 wow animate__animated animate__fadeInUp"
-            data-wow-duration="1s"
-          >
+          <div className="mb-6 sm:mb-8">
             <Image
               src="/about/cocotel-vertical-logo.png"
               alt="Cocotel Logo"
@@ -143,25 +99,13 @@ const AboutPage = () => {
               priority
             />
           </div>
-          <h3
-            className="text-sm sm:text-lg md:text-xl font-semibold mb-2 wow animate__animated animate__fadeInUp"
-            data-wow-delay="0.2s"
-            data-wow-duration="1s"
-          >
+          <h3 className="text-sm sm:text-lg md:text-xl font-semibold mb-2">
             The Future of Hotel Ecommerce
           </h3>
-          <h4
-            className="text-xs sm:text-base md:text-lg mb-6  wow animate__animated animate__fadeInUp"
-            data-wow-delay="0.3s"
-            data-wow-duration="1s"
-          >
+          <h4 className="text-xs sm:text-base md:text-lg mb-6">
             REVolutionizing Independent Hotels and Resorts Digital Sales
           </h4>
-          <div
-            className=" flex justify-center mb-6 sm:mb-10 wow animate__animated animate__fadeInUp"
-            data-wow-delay="0.4s"
-            data-wow-duration="1s"
-          >
+          <div className="flex justify-center mb-6 sm:mb-10">
             <Image
               src="/about/cocotel-progress-bar.png"
               alt="Progress Bar"
@@ -172,41 +116,31 @@ const AboutPage = () => {
           </div>
           <div className="flex flex-col sm:flex-row justify-between items-center mt-6 sm:mt-20 px-4 sm:px-20">
             <Image
-              src={`/about/CHS.png`}
+              src="/about/CHS.png"
               alt="Cocotel Hospitality Solutions"
               width={500}
               height={500}
-              className="object-contain w-[140px] sm:w-[170px] h-auto wow animate__animated animate__fadeInUp"
-              data-wow-delay="0.5s"
-              data-wow-duration="1s"
+              className="object-contain w-[140px] sm:w-[170px] h-auto"
               priority
             />
             <Image
-              src={`/about/PoweredBy1.png`}
+              src="/about/PoweredBy1.png"
               alt="Powered By Cocotel"
               width={600}
               height={600}
-              className="object-contain w-[230px] sm:w-[250px] h-auto wow animate__animated animate__fadeInUp"
-              data-wow-delay="0.5s"
-              data-wow-duration="1s"
+              className="object-contain w-[230px] sm:w-[250px] h-auto"
               priority
             />
             <Image
-              src={`/about/IMG_0919C.png`}
+              src="/about/IMG_0919C.png"
               alt="Cocotel bedbank"
               width={500}
               height={500}
-              className="object-contain w-[120px] sm:w-[150px] h-auto wow animate__animated animate__fadeInUp"
-              data-wow-delay="0.5s"
-              data-wow-duration="1s"
+              className="object-contain w-[120px] sm:w-[150px] h-auto"
               priority
             />
           </div>
-          <div
-            className="absolute bottom-2 sm:bottom-4 right-2 sm:right-6 text-xs sm:text-sm text-right max-w-3/5 wow animate__animated animate__fadeInUp"
-            data-wow-delay="0.5s"
-            data-wow-duration="1s"
-          >
+          <div className="absolute bottom-2 sm:bottom-4 right-2 sm:right-6 text-xs sm:text-sm text-right max-w-3/5">
             <p>
               All content, including images, text, and graphics, is the property
               of Cocotel International Inc and is protected by copyright and
@@ -222,10 +156,7 @@ const AboutPage = () => {
       {/* Cocotel In Numbers Section */}
       <section className="container mx-auto p-4 mt-10 bg-white">
         <div className="container mx-auto text-center">
-          <h1
-            className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-4 sm:mb-8 wow animate__animated animate__fadeInUp"
-            data-wow-duration="1s"
-          >
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-4 sm:mb-8">
             Cocotel In Numbers
           </h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6">
@@ -246,9 +177,7 @@ const AboutPage = () => {
             ].map((item, i) => (
               <div
                 key={i}
-                className="bg-white p-4 sm:p-6 rounded-lg about-custom-shadow hover:bg-green-100 transition duration-300 transform hover:scale-105 wow animate__animated animate__fadeInUp"
-                data-wow-delay={`${i * 0.2}s`}
-                data-wow-duration="1s"
+                className="bg-white p-4 sm:p-6 rounded-lg about-custom-shadow hover:bg-green-100 transition duration-300 transform hover:scale-105"
               >
                 <Image
                   src={`/about/${item.img}`}
@@ -257,18 +186,10 @@ const AboutPage = () => {
                   height={130}
                   className="object-contain mx-auto"
                 />
-                <h1
-                  className="text-2xl sm:text-3xl md:text-4xl font-bold text-green-600 mt-2 sm:mt-4 wow animate__animated animate__fadeInUp"
-                  data-wow-delay={`${i * 0.2 + 0.2}s`}
-                  data-wow-duration="1s"
-                >
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-green-600 mt-2 sm:mt-4">
                   {item.value}
                 </h1>
-                <h3
-                  className="text-base sm:text-lg text-gray-600 wow animate__animated animate__fadeInUp"
-                  data-wow-delay={`${i * 0.2 + 0.4}s`}
-                  data-wow-duration="1s"
-                >
+                <h3 className="text-base sm:text-lg text-gray-600">
                   {item.label}
                 </h3>
               </div>
@@ -276,39 +197,26 @@ const AboutPage = () => {
           </div>
         </div>
       </section>
-      {/* Cocotel story */}
-      <section className=" container mx-auto p-4 mt-10 bg-white">
+
+      {/* Cocotel Story */}
+      <section className="container mx-auto p-4 mt-10 bg-white">
         <div className="container mx-auto text-center">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-6 sm:gap-10 w-full px-4 py-6 sm:py-10">
-            <div
-              className="w-full lg:w-1/2 space-y-4 sm:space-y-6 text-left wow animate__animated animate__fadeInLeft"
-              data-wow-duration="1s"
-            >
-              <h1
-                className="text-2xl sm:text-3xl md:text-[32px] font-semibold font-normal wow animate__animated animate__fadeInLeft"
-                data-wow-duration="1s"
-              >
+            <div className="w-full lg:w-1/2 space-y-4 sm:space-y-6 text-left">
+              <h1 className="text-2xl sm:text-3xl md:text-[32px] font-semibold font-normal">
                 COCOTEL STORY
               </h1>
-              <p
-                className="text-base sm:text-lg md:text-[20px] font-[Montserrat] font-normal wow animate__animated animate__fadeInLeft"
-                data-wow-delay="0.3s"
-                data-wow-duration="1s"
-              >
+              <p className="text-base sm:text-lg md:text-[20px] font-[Montserrat] font-normal">
                 Ever wondered how Cocotel was formed?
               </p>
-              <p
-                className="text-xl wow animate__animated animate__fadeInLeft"
-                data-wow-delay="0.5s"
-                data-wow-duration="1s"
-              >
+              <p className="text-xl">
                 Was formed in December 2018 by Rafael Jouwena and Reginald Go.
                 Inspired by a business disruption in the budget hotel industry,
                 they applied the concept in the Philippines, focusing on local
                 resorts and getaways. Incorporated in 2019, they signed their
                 first 5 hotel clients in Boracay. Despite the challenges posed
                 by the pandemic, Cocotel grew from 5 to 26 clients by November
-                2019. Their innovative approach, including the 'Cocotel Vibe'
+                2019. Their innovative approach, including the &apos;Cocotel Vibe&apos;
                 service, and participation in the Ideaspace Accelerator program,
                 enabled them to sustainably expand and refine their operations.
                 Today, Cocotel boasts 300+ hotels and resorts across the
@@ -316,10 +224,7 @@ const AboutPage = () => {
                 hospitality professionals.
               </p>
             </div>
-            <div
-              className="w-full lg:w-1/2 flex justify-center wow animate__animated animate__fadeInUp"
-              data-wow-duration="1s"
-            >
+            <div className="w-full lg:w-1/2 flex justify-center">
               <Image
                 src="/about/cocotel_story.png"
                 alt="Cocotel Story"
@@ -341,7 +246,7 @@ const AboutPage = () => {
           }}
         >
           <div
-            className=" w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[700px] bg-cover bg-center text-white px-4 sm:px-6 md:px-8 lg:px-12 py-0 lg:py-10"
+            className="w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[700px] bg-cover bg-center text-white px-4 sm:px-6 md:px-8 lg:px-12 py-0 lg:py-10"
             style={{
               backgroundImage: "url('/images/e-commerce-world.png')",
             }}
@@ -349,17 +254,10 @@ const AboutPage = () => {
             <div className="flex flex-col justify-between items-center lg:items-start h-full mt-0 lg:mt-5">
               <div>
                 <div className="text-left mt-[-50px] md:mt-0">
-                  <h4
-                    className="text-sm sm:text-lg md:text-2xl font-medium wow animate__animated animate__fadeInUp"
-                    data-wow-duration="1s"
-                  >
+                  <h4 className="text-sm sm:text-lg md:text-2xl font-medium">
                     Understanding The Hotel
                   </h4>
-                  <h2
-                    className="text-xl sm:text-2xl md:text-3xl  font-semibold wow animate__animated animate__fadeInUp"
-                    data-wow-delay="0.3s"
-                    data-wow-duration="1s"
-                  >
+                  <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold">
                     Ecommerce World
                   </h2>
                 </div>
@@ -369,33 +267,27 @@ const AboutPage = () => {
                     alt="Cocotel Logo"
                     width={200}
                     height={200}
-                    className="absolute top-2 right-2 mx-auto sm:mx-0 w-14 h-auto wow animate__animated animate__fadeInUp"
-                    data-wow-delay="0.5s"
-                    data-wow-duration="1s"
+                    className="absolute top-2 right-2 mx-auto sm:mx-0 w-14 h-auto"
                     priority
                   />
                 </div>
               </div>
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-6 mt-4 sm:mt-6 md:mt-10">
-                <div
-                  className="w-full lg:w-1/3 text-xs md:text-base mb-[-110px] md:mb-[-20px] lg:mb-0 leading-relaxed wow animate__animated animate__fadeInUp"
-                  data-wow-delay="0.7s"
-                  data-wow-duration="1s"
-                >
+                <div className="w-full lg:w-1/3 text-xs md:text-base mb-[-110px] md:mb-[-20px] lg:mb-0 leading-relaxed">
                   <p>
                     Struggling with low revenue and low occupancy rates? With
                     Cocotel, your hotel can rise to the top! Gain full inventory
-                    control, optimize distribution, and unlock your property's
+                    control, optimize distribution, and unlock your property&apos;s
                     full market potential by reaching over 10,000+ sales
                     channels. Maximize your revenue today!
                   </p>
                 </div>
               </div>
             </div>
-            <div className="absolute right-5 bottom-2 text-sm  font-semibold text-right country-list">
+            <div className="absolute right-5 bottom-2 text-sm font-semibold text-right country-list">
               <ul className="flex gap-2">
                 {["PHILIPPINES", "INDONESIA", "AUSTRALIA"].map((country, i) => (
-                  <li>{country}</li>
+                  <li key={i}>{country}</li>
                 ))}
               </ul>
             </div>
@@ -406,7 +298,7 @@ const AboutPage = () => {
           alt="Progress Bar"
           width={1000}
           height={200}
-          className=" w-full h-7"
+          className="w-full h-7"
         />
       </section>
       <section>
@@ -418,7 +310,7 @@ const AboutPage = () => {
                 "linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),url('/images/ecommerce-bg-image.png')",
             }}
           ></div>
-          <div className="relative z-10 ">
+          <div className="relative z-10">
             <div className="w-full text-white p-2 md:p-10">
               <div className="flex mt-3 mb-8">
                 <div className="hidden lg:block w-1/2 text-[32px] font-semibold text-white text-end">
@@ -435,24 +327,16 @@ const AboutPage = () => {
                   alt="Cocotel Logo"
                   width={200}
                   height={200}
-                  className="absolute top-2 right-2 mx-auto sm:mx-0 w-14 h-auto wow animate__animated animate__fadeInUp"
-                  data-wow-delay="0.5s"
-                  data-wow-duration="1s"
+                  className="absolute top-2 right-2 mx-auto sm:mx-0 w-14 h-auto"
                   priority
                 />
               </div>
               <div className="flex flex-col lg:flex-row">
                 <div className="w-full lg:w-[45%]">
-                  <div
-                    className="text-xl font-semibold wow slideUp"
-                    data-wow-delay="0.1s"
-                  >
+                  <div className="text-xl font-semibold">
                     1. HOTEL CHAIN/MANAGEMENT/OWNERS
                   </div>
-                  <p
-                    className="text-lg font-normal mb-4 wow slideUp"
-                    data-wow-delay="0.1s"
-                  >
+                  <p className="text-lg font-normal mb-4">
                     Hotel Chains, Management Companies, and Owners oversee full
                     hotel operations, owning majority shares or managing
                     properties. They control branding, services, pricing, and
@@ -465,33 +349,48 @@ const AboutPage = () => {
                     <div className="hidden lg:block img-top-line"></div>
                     <div className="hidden lg:block w-[5%]"></div>
                     <div className="logo-wrapper">
-                      <img
+                      <Image
                         src="https://www.cocotel.com/frontend/images/Asset-44.png"
                         alt="Wyndham"
+                        width={100}
+                        height={100}
+                        className="w-full h-auto"
                       />
                     </div>
                     <div className="logo-wrapper">
-                      <img
+                      <Image
                         src="https://www.cocotel.com/frontend/images/Asset-42.png"
                         alt="Wyndham"
+                        width={100}
+                        height={100}
+                        className="w-full h-auto"
                       />
                     </div>
                     <div className="logo-wrapper">
-                      <img
+                      <Image
                         src="https://www.cocotel.com/frontend/images/Asset-15.png"
                         alt="Wyndham"
+                        width={100}
+                        height={100}
+                        className="w-full h-auto"
                       />
                     </div>
                     <div className="logo-wrapper">
-                      <img
+                      <Image
                         src="https://www.cocotel.com/frontend/images/Asset-43.png"
                         alt="Wyndham"
+                        width={100}
+                        height={100}
+                        className="w-full h-auto"
                       />
                     </div>
                     <div className="logo-wrapper">
-                      <img
+                      <Image
                         src="https://www.cocotel.com/frontend/images/Asset-41.png"
                         alt="Wyndham"
+                        width={100}
+                        height={100}
+                        className="w-full h-auto"
                       />
                     </div>
                   </div>
@@ -499,16 +398,10 @@ const AboutPage = () => {
               </div>
               <div className="flex flex-col lg:flex-row">
                 <div className="w-full lg:w-[45%]">
-                  <div
-                    className="text-xl font-semibold wow slideUp"
-                    data-wow-delay="0.2s"
-                  >
+                  <div className="text-xl font-semibold">
                     2. Distribution Channel Manager
                   </div>
-                  <p
-                    className="text-lg font-normal mb-4 wow slideUp"
-                    data-wow-delay="0.2s"
-                  >
+                  <p className="text-lg font-normal mb-4">
                     A Distribution Channel Manager oversees hotel inventory and
                     pricing across multiple online and offline channels,
                     ensuring optimal visibility, rate parity, and maximizing
@@ -521,27 +414,39 @@ const AboutPage = () => {
                     <div className="img-top-line hidden lg:block"></div>
                     <div className="w-[5%] hidden lg:block"></div>
                     <div className="logo-wrapper">
-                      <img
+                      <Image
                         src="https://www.cocotel.com/frontend/images/Asset-191.png"
                         alt="Wyndham"
+                        width={100}
+                        height={100}
+                        className="w-full h-auto"
                       />
                     </div>
                     <div className="logo-wrapper">
-                      <img
+                      <Image
                         src="https://www.cocotel.com/frontend/images/Asset-18.png"
                         alt="IHG"
+                        width={100}
+                        height={100}
+                        className="w-full h-auto"
                       />
                     </div>
                     <div className="logo-wrapper">
-                      <img
+                      <Image
                         src="https://www.cocotel.com/frontend/images/Asset-17.png"
                         alt="IHG"
+                        width={100}
+                        height={100}
+                        className="w-full h-auto"
                       />
                     </div>
                     <div className="logo-wrapper">
-                      <img
+                      <Image
                         src="https://www.cocotel.com/frontend/images/Asset-16.png"
                         alt="Wyndham"
+                        width={100}
+                        height={100}
+                        className="w-full h-auto"
                       />
                     </div>
                   </div>
@@ -549,16 +454,10 @@ const AboutPage = () => {
               </div>
               <div className="flex flex-col lg:flex-row">
                 <div className="w-full lg:w-[45%]">
-                  <div
-                    className="text-xl font-semibold wow slideUp"
-                    data-wow-delay="0.2s"
-                  >
+                  <div className="text-xl font-semibold">
                     3. B2C Distribution
                   </div>
-                  <p
-                    className="text-lg font-normal mb-4 wow slideUp"
-                    data-wow-delay="0.2s"
-                  >
+                  <p className="text-lg font-normal mb-4">
                     B2C Distribution refers to platforms and channels that sell
                     hotel stays directly to consumers. This includes Online
                     Travel Agencies (OTAs), metasearch engines, brand websites,
@@ -571,39 +470,57 @@ const AboutPage = () => {
                     <div className="img-top-line hidden lg:block"></div>
                     <div className="w-[8%] hidden lg:block"></div>
                     <div className="logo-wrapper">
-                      <img
+                      <Image
                         src="https://www.cocotel.com/frontend/images/Asset-35.png"
                         alt="Accor"
+                        width={100}
+                        height={100}
+                        className="w-full h-auto"
                       />
                     </div>
                     <div className="logo-wrapper">
-                      <img
+                      <Image
                         src="https://www.cocotel.com/frontend/images/Asset-34.png"
                         alt="Wyndham"
+                        width={100}
+                        height={100}
+                        className="w-full h-auto"
                       />
                     </div>
                     <div className="logo-wrapper">
-                      <img
+                      <Image
                         src="https://www.cocotel.com/frontend/images/Asset-33.png"
                         alt="Accor"
+                        width={100}
+                        height={100}
+                        className="w-full h-auto"
                       />
                     </div>
                     <div className="logo-wrapper">
-                      <img
+                      <Image
                         src="https://www.cocotel.com/frontend/images/Asset-32.png"
                         alt="IHG"
+                        width={100}
+                        height={100}
+                        className="w-full h-auto"
                       />
                     </div>
                     <div className="logo-wrapper">
-                      <img
+                      <Image
                         src="https://www.cocotel.com/frontend/images/Asset-31.png"
                         alt="Cocotel"
+                        width={100}
+                        height={100}
+                        className="w-full h-auto"
                       />
                     </div>
                     <div className="logo-wrapper">
-                      <img
+                      <Image
                         src="https://www.cocotel.com/frontend/images/Asset-30.png"
                         alt="IHG"
+                        width={100}
+                        height={100}
+                        className="w-full h-auto"
                       />
                     </div>
                   </div>
@@ -611,16 +528,10 @@ const AboutPage = () => {
               </div>
               <div className="flex flex-col lg:flex-row">
                 <div className="w-full lg:w-[45%]">
-                  <div
-                    className="text-xl font-semibold wow slideUp"
-                    data-wow-delay="0.2s"
-                  >
+                  <div className="text-xl font-semibold">
                     4. B2B Wholesaler
                   </div>
-                  <p
-                    className="text-lg font-normal mb-4 wow slideUp"
-                    data-wow-delay="0.2s"
-                  >
+                  <p className="text-lg font-normal mb-4">
                     B2B Wholesalers distribute hotel inventory to travel agents,
                     tour operators, and other intermediaries at negotiated
                     rates. They act as a bridge between hotels and B2C sellers,
@@ -632,21 +543,30 @@ const AboutPage = () => {
                     <div className="img-top-line hidden lg:block"></div>
                     <div className="w-[5%] hidden lg:block"></div>
                     <div className="logo-wrapper">
-                      <img
+                      <Image
                         src="https://www.cocotel.com/frontend/images/Asset-28.png"
                         alt="Wyndham"
+                        width={100}
+                        height={100}
+                        className="w-full h-auto"
                       />
                     </div>
                     <div className="logo-wrapper">
-                      <img
+                      <Image
                         src="https://www.cocotel.com/frontend/images/Asset-29.png"
                         alt="Cocotel"
+                        width={100}
+                        height={100}
+                        className="w-full h-auto"
                       />
                     </div>
                     <div className="logo-wrapper">
-                      <img
+                      <Image
                         src="https://www.cocotel.com/frontend/images/Asset-27.png"
                         alt="Wyndham"
+                        width={100}
+                        height={100}
+                        className="w-full h-auto"
                       />
                     </div>
                   </div>
@@ -654,16 +574,10 @@ const AboutPage = () => {
               </div>
               <div className="flex flex-col lg:flex-row">
                 <div className="w-full lg:w-[45%]">
-                  <div
-                    className="text-xl font-semibold wow slideUp"
-                    data-wow-delay="0.2s"
-                  >
+                  <div className="text-xl font-semibold">
                     5. Travel Buyers and Operators
                   </div>
-                  <p
-                    className="text-lg font-normal mb-4 wow slideUp"
-                    data-wow-delay="0.2s"
-                  >
+                  <p className="text-lg font-normal mb-4">
                     Travel Buyers and Operators purchase hotel inventory in bulk
                     or curate travel packages for resale. They include travel
                     agencies, tour operators, and corporate travel managers who
@@ -676,65 +590,84 @@ const AboutPage = () => {
                     <div className="img-top-line hidden lg:block"></div>
                     <div className="w-[8%] hidden lg:block"></div>
                     <div className="logo-wrapper">
-                      <img
-                        className="max-image"
+                      <Image
                         src="https://www.cocotel.com/frontend/images/Asset-26.png"
                         alt="Cocotel"
+                        width={100}
+                        height={100}
+                        className="w-full h-auto"
                       />
                     </div>
                     <div className="logo-wrapper">
-                      <img
-                        className="max-image"
+                      <Image
                         src="https://www.cocotel.com/frontend/images/Asset-25.png"
                         alt="Wyndham"
+                        width={100}
+                        height={100}
+                        className="w-full h-auto"
                       />
                     </div>
                     <div className="logo-wrapper">
-                      <img
-                        className="max-image"
+                      <Image
                         src="https://www.cocotel.com/frontend/images/Asset-24.png"
                         alt="Accor"
+                        width={100}
+                        height={100}
+                        className="w-full h-auto"
                       />
                     </div>
                     <div className="logo-wrapper">
-                      <img
-                        className="max-image"
+                      <Image
                         src="https://www.cocotel.com/frontend/images/Asset-24.png"
                         alt="Accor"
+                        width={100}
+                        height={100}
+                        className="w-full h-auto"
                       />
                     </div>
                     <div className="logo-wrapper">
-                      <img
-                        className="max-image"
+                      <Image
                         src="https://www.cocotel.com/frontend/images/Asset-23.png"
                         alt="Wyndham"
+                        width={100}
+                        height={100}
+                        className="w-full h-auto"
                       />
                     </div>
                     <div className="logo-wrapper">
-                      <img
+                      <Image
                         src="https://www.cocotel.com/frontend/images/Asset-22.png"
                         alt="IHG"
+                        width={100}
+                        height={100}
+                        className="w-full h-auto"
                       />
                     </div>
                     <div className="logo-wrapper">
-                      <img
-                        className="max-image"
+                      <Image
                         src="https://www.cocotel.com/frontend/images/Asset-20.png"
                         alt="IHG"
+                        width={100}
+                        height={100}
+                        className="w-full h-auto"
                       />
                     </div>
                     <div className="logo-wrapper">
-                      <img
-                        className="max-image"
+                      <Image
                         src="https://www.cocotel.com/frontend/images/Asset-14.png"
                         alt="IHG"
+                        width={100}
+                        height={100}
+                        className="w-full h-auto"
                       />
                     </div>
                     <div className="logo-wrapper">
-                      <img
-                        className="max-image"
+                      <Image
                         src="https://www.cocotel.com/frontend/images/Asset-21.png"
                         alt="Cocotel"
+                        width={100}
+                        height={100}
+                        className="w-full h-auto"
                       />
                     </div>
                   </div>
@@ -745,7 +678,7 @@ const AboutPage = () => {
           <div className="absolute right-5 bottom-2 text-sm text-blue-500 font-semibold text-right country-list">
             <ul className="flex gap-2">
               {["PHILIPPINES", "INDONESIA", "AUSTRALIA"].map((country, i) => (
-                <li>{country}</li>
+                <li key={i}>{country}</li>
               ))}
             </ul>
           </div>
@@ -755,7 +688,7 @@ const AboutPage = () => {
           alt="Progress Bar"
           width={1000}
           height={200}
-          className=" w-full h-7"
+          className="w-full h-7"
         />
       </section>
 
@@ -763,21 +696,14 @@ const AboutPage = () => {
       <section
         className="py-12 bg-white mt-5"
         style={{
-          backgroundImage: " url('/about/about_partner_banner.png')",
+          backgroundImage: "url('/about/about_partner_banner.png')",
         }}
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-15 text-center">
-          <h1
-            className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 sm:mb-8 wow animate__animated animate__fadeInUp"
-            data-wow-duration="1s"
-          >
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 sm:mb-8">
             A Partnership with Cocotel Promises
           </h1>
-          <p
-            className="text-base sm:text-lg md:text-xl text-white font-semibold mb-6 sm:mb-10 mx-auto wow animate__animated animate__fadeInUp"
-            data-wow-delay="0.3s"
-            data-wow-duration="1s"
-          >
+          <p className="text-base sm:text-lg md:text-xl text-white font-semibold mb-6 sm:mb-10 mx-auto">
             Enjoy full ownership and unique branding while benefiting from
             5-star services. Expect a 25-50% increase in occupancy rate and save
             up to $3,000 on property management systems.
@@ -788,11 +714,7 @@ const AboutPage = () => {
       {/* Our Board */}
       <section className="mt-10">
         <div className="container">
-          <h2
-            className="text-4xl font-bold text-center mb-12 wow animate__animated animate__fadeInUp"
-            data-wow-delay="0.5s"
-            data-wow-duration="1s"
-          >
+          <h2 className="text-4xl font-bold text-center mb-12">
             Our Board
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8">
@@ -816,12 +738,7 @@ const AboutPage = () => {
                 desc: "Growing up as a dedicated and highly innovative business technopreneur, Jitendra Dadhaniya embarks his passion with Cocotel offering the most advanced technology system to help the internal organization Fastrack processes so that leaders can focus more on what matters.",
               },
             ].map((member, i) => (
-              <div
-                key={i}
-                className="flex flex-col items-center text-center wow animate__animated animate__fadeInUp"
-                data-wow-delay={`${i * 0.2}s`}
-                data-wow-duration="1s"
-              >
+              <div key={i} className="flex flex-col items-center text-center">
                 <div className="w-32 h-32 sm:w-40 sm:h-40 md:w-52 md:h-58 rounded-full overflow-hidden">
                   <Image
                     src={member.img}
@@ -832,25 +749,13 @@ const AboutPage = () => {
                     priority
                   />
                 </div>
-                <h3
-                  className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 mt-4 wow animate__animated animate__fadeInUp"
-                  data-wow-delay={`${i * 0.2 + 0.2}s`}
-                  data-wow-duration="1s"
-                >
+                <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 mt-4">
                   {member.name}
                 </h3>
-                <h5
-                  className="text-lg sm:text-xl font-semibold text-gray-800 mt-2 wow animate__animated animate__fadeInUp"
-                  data-wow-delay={`${i * 0.2 + 0.4}s`}
-                  data-wow-duration="1s"
-                >
+                <h5 className="text-lg sm:text-xl font-semibold text-gray-800 mt-2">
                   {member.title}
                 </h5>
-                <p
-                  className="text-sm sm:text-base md:text-lg text-gray-600 mt-2 max-w-xs mx-auto wow animate__animated animate__fadeInUp"
-                  data-wow-delay={`${i * 0.2 + 0.6}s`}
-                  data-wow-duration="1s"
-                >
+                <p className="text-sm sm:text-base md:text-lg text-gray-600 mt-2 max-w-xs mx-auto">
                   {member.desc}
                 </p>
               </div>
@@ -860,15 +765,14 @@ const AboutPage = () => {
       </section>
 
       {/* Services Section */}
-      <section className="py-12 bg-gray-50 mt-10"
-      style={{
-          backgroundImage: " url('/about/service_bg.png')",
-        }}>
+      <section
+        className="py-12 bg-gray-50 mt-10"
+        style={{
+          backgroundImage: "url('/about/service_bg.png')",
+        }}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2
-            className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-12 wow animate__animated animate__fadeInUp"
-            data-wow-duration="1s"
-          >
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-12">
             Cocotel includes these services for free
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-12">
@@ -883,37 +787,24 @@ const AboutPage = () => {
               { img: "service_5.png", label: "Property Management System" },
               { img: "service_6.png", label: "Revenue Management" },
             ].map((service, i) => (
-              <div
-                key={i}
-                className="flex flex-col items-center wow animate__animated animate__fadeInUp"
-                data-wow-delay={`${i * 0.2}s`}
-                data-wow-duration="1s"
-              >
+              <div key={i} className="flex flex-col items-center">
                 <div className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 rounded-full bg-white flex items-center justify-center shadow-md hover:shadow-lg hover:scale-105 transition-transform duration-300">
                   <Image
                     src={`/about/${service.img}`}
                     alt={service.label}
                     width={400}
                     height={400}
-                    className="w-full h-full "
+                    className="w-full h-full"
                     priority
                   />
                 </div>
-                <p
-                  className=" md:text-xl font-bold mt-4 wow animate__animated animate__fadeInUp"
-                  data-wow-delay={`${i * 0.2 + 0.2}s`}
-                  data-wow-duration="1s"
-                >
+                <p className="md:text-xl font-bold mt-4">
                   {service.label}
                 </p>
               </div>
             ))}
           </div>
-          <p
-            className="text-sm sm:text-base md:text-lg text-gray-600 mt-10  line-clamp-3 wow animate__animated animate__fadeInUp"
-            data-wow-delay="1.4s"
-            data-wow-duration="1s"
-          >
+          <p className="text-sm sm:text-base md:text-lg text-gray-600 mt-10 line-clamp-3">
             No subscription or setup costs. Boost your digital presence to reach
             500,000-1.2M people with personalized digital sales and marketing.
             Be present on over 30 online travel agency platforms, 10,000+
@@ -927,32 +818,49 @@ const AboutPage = () => {
       {/* Featured In and Partner Section */}
       <section className="py-12 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <h2
-            className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-12 text-center wow animate__animated animate__fadeInUp"
-            data-wow-duration="1s"
-          >
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-12 text-center">
             Featured in
           </h2>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-10">
             <div className="p-4">
-              <img src="/about/anc.png"alt="anc" className="w-full h-auto"/>
+              <Image
+                src="/about/anc.png"
+                alt="ANC"
+                width={200}
+                height={100}
+                className="w-full h-auto"
+              />
             </div>
             <div className="p-4">
-              <img src="/about/cnn.png"alt="cnn" className="w-full h-auto"/>
+              <Image
+                src="/about/cnn.png"
+                alt="CNN"
+                width={200}
+                height={100}
+                className="w-full h-auto"
+              />
             </div>
             <div className="p-4">
-              <img src="/about/finalpitch.png"alt="finalpitch" className="w-full h-auto"/>
+              <Image
+                src="/about/finalpitch.png"
+                alt="Final Pitch"
+                width={200}
+                height={100}
+                className="w-full h-auto"
+              />
             </div>
             <div className="p-4">
-              <img src="/about/inquirer.png"alt="inquirer" className="w-full h-auto"/>
+              <Image
+                src="/about/inquirer.png"
+                alt="Inquirer"
+                width={200}
+                height={100}
+                className="w-full h-auto"
+              />
             </div>
           </div>
-          {/* Add Featured In content here if available */}
           <div className="flex flex-col lg:flex-row gap-8 sm:gap-12 items-center">
-            <div
-              className="flex flex-col items-center w-full lg:w-1/2 wow animate__animated animate__fadeInUp"
-              data-wow-duration="1s"
-            >
+            <div className="flex flex-col items-center w-full lg:w-1/2">
               <Image
                 src="/about/bewith_cocotel.png"
                 alt="Achieve Revenue"
@@ -961,16 +869,9 @@ const AboutPage = () => {
                 className="object-contain"
                 priority
               />
-              
             </div>
-            <div
-              className="w-full lg:w-1/2 bg-white p-5  wow animate__animated animate__fadeInUp"
-              data-wow-duration="1s"
-            >
-              <h2
-                className="text-3xl lg:text-4xl font-semibold mb-1  pb-2 wow animate__animated animate__fadeInUp"
-                data-wow-duration="1s"
-              >
+            <div className="w-full lg:w-1/2 bg-white p-5">
+              <h2 className="text-3xl lg:text-4xl font-semibold mb-1 pb-2">
                 Be A Coco Partner
               </h2>
               <form className="space-y-5">
@@ -997,94 +898,61 @@ const AboutPage = () => {
                   },
                 ].map((field, i) => (
                   <div key={i}>
-                    <label
-                      className="block text-sm font-medium text-gray-700"
-                      data-wow-delay={`${i * 0.2}s`}
-                      data-wow-duration="1s"
-                    >
+                    <label className="block text-sm font-medium text-gray-700">
                       {field.label}
                     </label>
                     <input
                       type={field.type}
                       placeholder={field.placeholder}
-                      className="mt-1 block w-full border-[2px] border-gray-500 focus:border-gray-500 focus:outline-none rounded-md shadow-sm px-3 py-2 "
-                      data-wow-delay={`${i * 0.2 + 0.2}s`}
-                      data-wow-duration="1s"
+                      className="mt-1 block w-full border-[2px] border-gray-500 focus:border-gray-500 focus:outline-none rounded-md shadow-sm px-3 py-2"
                     />
                   </div>
                 ))}
                 <div className="flex gap-4">
                   <div className="w-1/2">
-                    <label
-                      className="block text-sm font-medium text-gray-700"
-                      data-wow-delay="0.8s"
-                      data-wow-duration="1s"
-                    >
+                    <label className="block text-sm font-medium text-gray-700">
                       Location
                     </label>
                     <input
                       type="text"
                       placeholder="Location"
-                      className="mt-1 block w-full border-[2px] border-gray-500 focus:border-gray-500 focus:outline-none rounded-md shadow-sm px-3 py-2 "
-                      data-wow-delay="1s"
-                      data-wow-duration="1s"
+                      className="mt-1 block w-full border-[2px] border-gray-500 focus:border-gray-500 focus:outline-none rounded-md shadow-sm px-3 py-2"
                     />
                   </div>
                   <div className="w-1/2">
-                    <label
-                      className="block text-sm font-medium text-gray-700 "
-                      data-wow-delay="1.2s"
-                      data-wow-duration="1s"
-                    >
+                    <label className="block text-sm font-medium text-gray-700">
                       Room Count
                     </label>
                     <input
                       type="text"
                       placeholder="Put Number Here"
-                      className="mt-1 block w-full border-[2px] border-gray-500 focus:border-gray-500 focus:outline-none rounded-md px-3 py-2 "
-                      data-wow-delay="1.4s"
-                      data-wow-duration="1s"
+                      className="mt-1 block w-full border-[2px] border-gray-500 focus:border-gray-500 focus:outline-none rounded-md px-3 py-2"
                     />
                   </div>
                 </div>
                 <div>
-                  <label
-                    className="block text-sm font-medium text-gray-700 "
-                    data-wow-delay="1.6s"
-                    data-wow-duration="1s"
-                  >
+                  <label className="block text-sm font-medium text-gray-700">
                     Message
                   </label>
                   <textarea
                     placeholder="Write your message here"
-                    className="mt-1 block w-full border-[2px] border-gray-500 focus:border-gray-500 focus:outline-none rounded-md px-3 py-2 "
-                    data-wow-delay="1.8s"
-                    data-wow-duration="1s"
+                    className="mt-1 block w-full border-[2px] border-gray-500 focus:border-gray-500 focus:outline-none rounded-md px-3 py-2"
                   ></textarea>
                 </div>
                 <div className="flex items-center">
                   <input
                     type="checkbox"
                     id="notRobot"
-                    className="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded "
-                    data-wow-delay="2s"
-                    data-wow-duration="1s"
+                    className="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
                   />
-                  <label
-                    htmlFor="notRobot"
-                    className="ml-2 text-sm text-red-600"
-                    data-wow-delay="2.2s"
-                    data-wow-duration="1s"
-                  >
-                    I'm not a robot (verification expired. Check the checkbox
+                  <label htmlFor="notRobot" className="ml-2 text-sm text-red-600">
+                    I&apos;m not a robot (verification expired. Check the checkbox
                     again)
                   </label>
                 </div>
                 <button
                   type="submit"
-                  className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 "
-                  data-wow-delay="2.4s"
-                  data-wow-duration="1s"
+                  className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700"
                 >
                   Submit
                 </button>
