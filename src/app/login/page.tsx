@@ -25,7 +25,7 @@ const LoginPage = () => {
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="username"
               >
-                Username
+                Username/Email id
               </label>
               <div className="flex items-center border-b-2 border-gray-300 py-2">
                 <FaUser className="text-gray-400 mr-2" />
@@ -74,10 +74,10 @@ const LoginPage = () => {
             </div>
             {/* Sign Up */}
             <div className="text-center mt-10">
-              <p className="text-black">Or Sign Up Using</p>
+              <p className="text-black">Don&apos;t have an account?</p>
               <h3 className="text-black font-bold">
                 <a href="/register" className="hover:text-green-600 transition">
-                  SIGN UP
+                  Sign up/Register
                 </a>
               </h3>
             </div>

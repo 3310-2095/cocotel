@@ -25,11 +25,9 @@ const SearchBox = () => {
     },
   ]);
 
-  // Sync checkIn and checkOut with DateRange state
   const [checkIn, setCheckIn] = useState(format(new Date(), "yyyy-MM-dd"));
-  const [checkOut, setCheckOut] = useState(
-    format(addDays(new Date(), 1), "yyyy-MM-dd")
-  );
+  const [checkOut, setCheckOut] = useState(format(addDays(new Date(), 1), "yyyy-MM-dd"));
+
   const locationRef = useRef<HTMLDivElement>(null);
   const datePickerRef = useRef<HTMLDivElement>(null);
   const guestsRef = useRef<HTMLDivElement>(null);
@@ -39,7 +37,6 @@ const SearchBox = () => {
     setCheckOut(format(state[0].endDate, "yyyy-MM-dd"));
   }, [state]);
 
-  // Handle clicks outside to close dropdowns
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Node;
@@ -60,13 +57,15 @@ const SearchBox = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log("Location:", location);
     console.log("Check-In:", checkIn);
     console.log("Check-Out:", checkOut);
-    // or pass them to a parent callback if using props.onSearch
+    console.log("Guests:", adults, "Child:", child, "Rooms:", rooms);
   };
-  // Sample location data (replace with API data if needed)
+
   const locations = [
     "New York, USA",
     "London, UK",
@@ -80,10 +79,13 @@ const SearchBox = () => {
     "Rome, Italy",
   ];
 
-  // Filter locations based on input
-  const filteredLocations = locations.filter((loc) =>
-    loc.toLowerCase().includes(location.toLowerCase())
-  );
+  const filteredLocations =
+  location.trim() === "" || locations.includes(location)
+    ? locations
+    : locations.filter((loc) =>
+        loc.toLowerCase().includes(location.toLowerCase())
+      );
+
 
   return (
     <div className="relative z-10 max-w-5xl mx-auto px-4 custom-margin">
@@ -91,25 +93,33 @@ const SearchBox = () => {
         onSubmit={handleSearch}
         className="search-hotel-form bg-white/90 backdrop-blur-md flex flex-col lg:flex-row items-center space-y-4 lg:space-y-0 lg:space-x-4"
       >
-        {/* Location (Searchable Select) */}
+        {/* Location */}
         <div
           className="ms-3 flex-1 relative w-full lg-w-auto"
           ref={locationRef}
         >
-          <input
-            type="text"
-            placeholder="Location"
-            value={location}
-            onChange={(e) => {
-              setLocation(e.target.value);
-              setShowLocationDropdown(true);
-            }}
-            onFocus={() => setShowLocationDropdown(true)}
-            className="text-sm text-black font-medium w-full p-2 cursor-pointer rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 pl-8 placeholder-black"
-          />
+<input
+  type="text"
+  placeholder="Location"
+  value={location}
+  onChange={(e) => {
+    setLocation(e.target.value);
+    setShowLocationDropdown(true);
+  }}
+  onFocus={() => {
+    setShowLocationDropdown(true);
+  }}
+  onKeyDown={(e) => {
+    if (e.key === "Enter") {
+      e.preventDefault(); // ✅ Prevent form submission on Enter
+    }
+  }}
+  className="text-sm text-black font-medium w-full p-2 cursor-pointer rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 pl-8 placeholder-black"
+/>
+
           <Image
             src="/images/location.svg"
-            alt="Logo"
+            alt="Location"
             width={14}
             height={14}
             className="object-cover absolute left-2 top-2.5 text-green-600"
@@ -135,40 +145,49 @@ const SearchBox = () => {
 
         {/* Date Range */}
         <div className="flex-1 relative w-full lg-w-auto" ref={datePickerRef}>
-          <button
-            type="button"
-            onClick={() => setShowDatePicker(!showDatePicker)}
-            className="w-full text-sm p-2 cursor-pointer rounded-md text-left focus:outline-none focus:ring-1 focus:ring-green-500 pl-8"
-          >
-            <span className="text-gray-700 text-sm text-black font-medium">
-              {`${format(state[0].startDate, "dd MMM yyyy")} - ${format(
-                state[0].endDate,
-                "dd MMM yyyy"
-              )}`}
-            </span>
-            <FiCalendar className="absolute left-2 top-2.5 text-gray-400 text-green-600" />
-          </button>
-          {showDatePicker && (
-            <div className="absolute z-50 mt-2 w-full bg-white border border-gray-300 rounded-md shadow-lg">
-              <DateRange
-                editableDateInputs={true}
-                onChange={(item) =>
-                  setState([
-                    {
-                      startDate: item.selection.startDate || new Date(),
-                      endDate: item.selection.endDate || new Date(),
-                      key: "selection",
-                    },
-                  ])
-                }
-                moveRangeOnFirstSelection={false}
-                ranges={state}
-                minDate={new Date()}
-                className="p-4"
-              />
-            </div>
-          )}
-        </div>
+  <button
+    type="button"
+    onClick={() => setShowDatePicker(!showDatePicker)}
+    className="w-full text-sm p-2 cursor-pointer rounded-md text-left focus:outline-none focus:ring-1 focus:ring-green-500 pl-8"
+  >
+    <span className="text-black font-medium">
+      {`${format(state[0].startDate, "dd MMM yyyy")} - ${format(
+        state[0].endDate,
+        "dd MMM yyyy"
+      )}`}
+    </span>
+    <FiCalendar className="absolute left-2 top-2.5 text-green-600" />
+  </button>
+
+  {/* ✅ Calendar inside same div with ref */}
+  {showDatePicker && (
+    <div className="absolute z-50 mt-2 w-full bg-white border border-gray-300 rounded-md shadow-lg">
+<DateRange
+  editableDateInputs={true}
+  onChange={(item) => {
+    const { startDate, endDate } = item.selection;
+    setState([
+      {
+        startDate: startDate || new Date(),
+        endDate: endDate || new Date(),
+        key: "selection",
+      },
+    ]);
+
+    // Only close if both dates are picked
+    if (startDate && endDate && startDate.getTime() !== endDate.getTime()) {
+      setShowDatePicker(false);
+    }
+  }}
+  moveRangeOnFirstSelection={false}
+  ranges={state}
+  minDate={new Date()}
+  className="p-4"
+/>
+
+    </div>
+  )}
+</div>
 
         {/* Guests and Rooms */}
         <div className="relative flex-1 w-full lg-w-auto" ref={guestsRef}>
@@ -177,19 +196,20 @@ const SearchBox = () => {
             onClick={() => setShowGuestsDropdown(!showGuestsDropdown)}
             className="w-full cursor-pointer text-sm text-black font-medium p-2 rounded-md text-left focus:outline-none focus:ring-1 focus:ring-green-500 pl-8"
           >
-            <span className="text-gray-700">{`${adults} Adults - ${child} Child - ${rooms} Room`}</span>
-            <FiUsers className="absolute left-2 top-2.5 text-gray-400 text-green-600" />
+            <span>{`${adults} Adults - ${child} Child - ${rooms} Room`}</span>
+            <FiUsers className="absolute left-2 top-2.5 text-green-600" />
           </button>
           {showGuestsDropdown && (
             <div className="absolute z-10 mt-2 w-full bg-white border border-gray-300 rounded-md shadow-lg">
               <div className="p-4">
+                {/* Adults */}
                 <div className="flex justify-between items-center mb-4">
                   <span>Adults</span>
                   <div className="flex items-center space-x-2">
                     <button
                       type="button"
                       onClick={() => setAdults(Math.max(1, adults - 1))}
-                      className="w-8 h-8 bg-gray-200 text-base font-bold text-green-600 rounded-full flex items-center justify-center hover:bg-gray-300 cursor-pointer"
+                      className="w-8 h-8 bg-gray-200 text-green-600 rounded-full font-bold hover:bg-gray-300"
                     >
                       -
                     </button>
@@ -197,19 +217,21 @@ const SearchBox = () => {
                     <button
                       type="button"
                       onClick={() => setAdults(adults + 1)}
-                      className="w-8 h-8 bg-gray-200 text-base font-bold text-green-600 rounded-full flex items-center justify-center hover:bg-gray-300 cursor-pointer"
+                      className="w-8 h-8 bg-gray-200 text-green-600 rounded-full font-bold hover:bg-gray-300"
                     >
                       +
                     </button>
                   </div>
                 </div>
+
+                {/* Children */}
                 <div className="flex justify-between items-center mb-4">
                   <span>Child</span>
                   <div className="flex items-center space-x-2">
                     <button
                       type="button"
                       onClick={() => setChild(Math.max(0, child - 1))}
-                      className="w-8 h-8 bg-gray-200 text-base font-bold text-green-600 rounded-full flex items-center justify-center hover:bg-gray-300 cursor-pointer"
+                      className="w-8 h-8 bg-gray-200 text-green-600 rounded-full font-bold hover:bg-gray-300"
                     >
                       -
                     </button>
@@ -217,19 +239,21 @@ const SearchBox = () => {
                     <button
                       type="button"
                       onClick={() => setChild(child + 1)}
-                      className="w-8 h-8 bg-gray-200 text-base font-bold text-green-600 rounded-full flex items-center justify-center hover:bg-gray-300 cursor-pointer"
+                      className="w-8 h-8 bg-gray-200 text-green-600 rounded-full font-bold hover:bg-gray-300"
                     >
                       +
                     </button>
                   </div>
                 </div>
+
+                {/* Rooms */}
                 <div className="flex justify-between items-center">
                   <span>Rooms</span>
                   <div className="flex items-center space-x-2">
                     <button
                       type="button"
                       onClick={() => setRooms(Math.max(1, rooms - 1))}
-                      className="w-8 h-8 bg-gray-200 text-base font-bold text-green-600 rounded-full flex items-center justify-center hover:bg-gray-300 cursor-pointer"
+                      className="w-8 h-8 bg-gray-200 text-green-600 rounded-full font-bold hover:bg-gray-300"
                     >
                       -
                     </button>
@@ -237,12 +261,14 @@ const SearchBox = () => {
                     <button
                       type="button"
                       onClick={() => setRooms(rooms + 1)}
-                      className="w-8 h-8 bg-gray-200 text-base font-bold text-green-600 rounded-full flex items-center justify-center hover:bg-gray-300 cursor-pointer"
+                      className="w-8 h-8 bg-gray-200 text-green-600 rounded-full font-bold hover:bg-gray-300"
                     >
                       +
                     </button>
                   </div>
                 </div>
+
+                {/* Done Button */}
                 <button
                   type="button"
                   onClick={() => setShowGuestsDropdown(false)}

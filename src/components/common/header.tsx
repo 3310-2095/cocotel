@@ -3,12 +3,15 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation"; // Import usePathname
 import { FiChevronDown, FiMenu, FiX } from "react-icons/fi";
 
 const Header = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState("USA - $");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const pathname = usePathname(); // Get the current URL path
 
   const countries = [
     "USA - $",
@@ -25,7 +28,7 @@ const Header = () => {
   ];
 
   return (
-    <header className="bg-white shadow-lg ">
+    <header className="bg-white shadow-lg">
       <nav className="max-w-[82rem] mx-auto py-5 px-2 flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center">
@@ -47,7 +50,11 @@ const Header = () => {
             <Link
               key={link.name}
               href={link.href}
-              className=" text-base transition transform hover:scale-105 hover:text-green-700  border-transparent hover:border-green-700"
+              className={`text-base transition transform hover:scale-105 hover:text-green-700 ${
+                pathname === link.href
+                  ? "text-green-900 font-bold border-b-2 border-green-700"
+                  : "border-transparent"
+              }`}
             >
               {link.name}
             </Link>
@@ -87,7 +94,7 @@ const Header = () => {
               {selectedCountry} <FiChevronDown className="ml-1" />
             </button>
             {showDropdown && (
-              <ul className="absolute z-10 mt-2 bg-white border rounded shadow w-36 right-0">
+              <ul className="absolute z-50 mt-2 bg-white border rounded shadow w-36 right-0">
                 {countries.map((country) => (
                   <li
                     key={country}
@@ -114,7 +121,11 @@ const Header = () => {
               <Link
                 key={link.name}
                 href={link.href}
-                className="text-green-600 hover:text-green-700 hover:font-bold text-base"
+                className={`text-green-600 text-base ${
+                  pathname === link.href
+                    ? "text-green-900 font-bold border-l-4 border-green-700 pl-2"
+                    : "hover:text-green-700 hover:font-bold"
+                }`}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {link.name}
@@ -126,12 +137,12 @@ const Header = () => {
               </button>
             </Link>
             <Link href="/register">
-            <button className="bg-green-600 text-white px-5 py-2 rounded hover:bg-green-700 w-full text-center">
-              Register
-            </button>
-          </Link>
+              <button className="bg-green-600 text-white px-5 py-2 rounded hover:bg-green-700 w-full text-center">
+                Register
+              </button>
+            </Link>
 
-            <div className="relative">
+            <div className="relative z-50">
               <button
                 onClick={() => setShowDropdown(!showDropdown)}
                 className="flex items-center border px-3 py-2 rounded text-sm font-medium text-green-700 hover:text-green-900 w-full"
@@ -139,7 +150,7 @@ const Header = () => {
                 {selectedCountry} <FiChevronDown className="ml-1" />
               </button>
               {showDropdown && (
-                <ul className="mt-2 bg-white border rounded shadow w-full">
+                <ul className="mt-2 bg-white border rounded shadow w-full z-50">
                   {countries.map((country) => (
                     <li
                       key={country}
