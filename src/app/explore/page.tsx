@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef, JSX } from "react";
 import { DateRange } from "react-date-range";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import { addDays, format } from "date-fns";
 import {
   FiSearch,
@@ -88,7 +89,10 @@ const ImageWithErrorBoundary: React.FC<{
   );
 };
 
-const ExplorePage: React.FC<{ province?: string }> = ({ province }) => {
+const ExplorePage = () => {
+  const searchParams = useSearchParams();
+  const province = searchParams.get("province") || undefined;
+
   const [hotels, setHotels] = useState<ExtendedHotel[]>([]);
   const [currentImage, setCurrentImage] = useState<{ [key: string]: number }>(
     {}
