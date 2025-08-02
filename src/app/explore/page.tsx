@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef, JSX } from "react";
+import React, { useState, useEffect, useRef, JSX, Suspense } from "react";
 import { DateRange } from "react-date-range";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
@@ -89,7 +89,8 @@ const ImageWithErrorBoundary: React.FC<{
   );
 };
 
-const ExplorePage = () => {
+// Client component that uses useSearchParams
+const ExplorePageContent: React.FC = () => {
   const searchParams = useSearchParams();
   const province = searchParams.get("province") || undefined;
 
@@ -741,6 +742,15 @@ const ExplorePage = () => {
         {getPaginationButtons()}
       </div>
     </section>
+  );
+};
+
+// Main page component with Suspense boundary
+const ExplorePage = () => {
+  return (
+    <Suspense fallback={<div className="text-center p-4 sm:p-6">Loading...</div>}>
+      <ExplorePageContent />
+    </Suspense>
   );
 };
 
