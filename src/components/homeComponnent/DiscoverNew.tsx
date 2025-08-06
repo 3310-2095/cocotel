@@ -9,15 +9,43 @@ import Image from "next/image";
 import parse from "html-react-parser";
 import Link from "next/link";
 
+// Define the interface for the raw hotel data from the API
+interface RawHotelData {
+  _id: string;
+  sectionData?: {
+    Company?: {
+      web_title?: string;
+      name?: string;
+      description?: string;
+      slug?: string;
+      primary_image?: string;
+      gallery_image?: string;
+      city?: string;
+      province?: string;
+      country?: string;
+    };
+  };
+}
+
+// Define the interface for the mapped hotel data used in the component
+interface MappedHotel {
+  id: string;
+  title: string;
+  description: string;
+  slug?: string;
+  image: string;
+  location: string;
+}
+
 const DiscoverNew = () => {
-  const [hotels, setHotels] = useState([]);
+  const [hotels, setHotels] = useState<MappedHotel[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchHotels() {
       try {
-        const data = await apiGetData({
+        const data: RawHotelData[] = await apiGetData({
           dbName: "hanahotelnew",
           collectionName: "company",
           query: { "sectionData.Company.is_deleted": false },
@@ -25,8 +53,7 @@ const DiscoverNew = () => {
           cacheKey: "discover-new-hotels",
         });
 
-        // Map the data from sectionData.Company
-        const mappedHotels = data.map((hotel) => {
+        const mappedHotels: MappedHotel[] = data.map((hotel) => {
           const company = hotel.sectionData?.Company || {};
 
           const galleryImages = company.gallery_image
@@ -52,9 +79,13 @@ const DiscoverNew = () => {
         });
 
         setHotels(mappedHotels);
-      } catch (err) {
+      } catch (err: unknown) {
         console.error("Error fetching hotels:", err);
-        setError("Failed to load hotels. Please try again later.");
+        if (err instanceof Error) {
+          setError(`Failed to load hotels: ${err.message}`);
+        } else {
+          setError("Failed to load hotels. An unknown error occurred.");
+        }
       } finally {
         setLoading(false);
       }
@@ -98,9 +129,10 @@ const DiscoverNew = () => {
                 <h2 className="text-3xl font-bold text-black mb-4">
                   {hotel.title}
                 </h2>
-                <p className="text-gray-700 mb-6 whitespace-pre-line">
+                {/* Changed the outer <p> tag to a <div> */}
+                <div className="text-gray-700 mb-6 whitespace-pre-line">
                   {parse(hotel.description)}
-                </p>
+                </div>
                 <Link href={`/hotel/${hotel.slug}`} className="bg-green-600 text-white px-6 py-3 rounded-md hover:bg-green-700 transition">
                   Explore More
                 </Link>

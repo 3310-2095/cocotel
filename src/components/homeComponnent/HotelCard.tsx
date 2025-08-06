@@ -4,7 +4,7 @@ import Link from "next/link";
 interface Hotel {
   id: string;
   name: string;
-  slug:string;
+  slug: string;
   location: string;
   price: number;
   discountPrice: number;
@@ -12,6 +12,14 @@ interface Hotel {
   province: string;
   rating: number;
   reviews: number;
+  // Add sectionData to the Hotel interface
+  sectionData?: {
+    Company?: {
+      slug?: string;
+      // Add other properties from Company if they are directly used in HotelCard
+      // e.g., name, primary_image, etc., if they are not already mapped to top-level Hotel properties
+    };
+  };
 }
 
 interface HotelCardProps {
@@ -21,7 +29,8 @@ interface HotelCardProps {
 export default function HotelCard({ hotel }: HotelCardProps) {
   return (
     <Link
-      href={`/hotel/${hotel.sectionData.Company.slug}`}
+      // Safely access slug, providing a fallback if sectionData or Company is undefined
+      href={`/hotel/${hotel.sectionData?.Company?.slug || hotel.slug}`}
       data-id={`${hotel.id}`}
       className="block rounded-2xl overflow-hidden hotel-card transition bg-white"
     >

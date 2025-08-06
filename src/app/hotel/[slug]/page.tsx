@@ -1,6 +1,26 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { apiGetData } from "@/lib/api"; // Adjust the import path based on where your apiGetData is located
+import { apiGetData } from "@/lib/api";
+
+// Define an interface for the raw data coming from the API
+interface RawHotelData {
+  _id: string;
+  sectionData: {
+    Company: {
+      name?: string;
+      slug?: string;
+      region?: string;
+      price?: number;
+      discountPrice?: number;
+      primary_image?: string;
+      province?: string;
+      rating?: number;
+      reviews?: number;
+      description?: string;
+      amenities?: string;
+    };
+  };
+}
 
 interface Hotel {
   id: string;
@@ -17,14 +37,19 @@ interface Hotel {
   amenities?: string[];
 }
 
+// Define the component props, satisfying the type checker's demand for a Promise
+interface HotelPageProps {
+  params: Promise<{
+    slug: string;
+  }>;
+}
+
 async function fetchHotel(slug: string): Promise<Hotel | null> {
- 
   try {
     const data = await apiGetData({
       dbName: "hanahotelnew",
       collectionName: "company",
       query: { "sectionData.Company.slug": slug },
-      
     });
 
     if (!data || data.length === 0) {
@@ -32,24 +57,40 @@ async function fetchHotel(slug: string): Promise<Hotel | null> {
       return null;
     }
 
-    const hotel = data[0];
+    const hotel = data[0] as RawHotelData;
+    const hotelData = hotel.sectionData.Company;
+
+    const amenitiesArray =
+      typeof hotelData.amenities === "string"
+        ? hotelData.amenities.split(",").map((item) => item.trim())
+        : [];
+
     return {
       id: hotel._id.toString(),
-      name: hotel.sectionData.Company.name || "Unknown Hotel",
-      slug: hotel.sectionData.Company.slug || slug,
-      sectionData: hotel.sectionData.Company 
+      name: hotelData.name || "Unknown Hotel",
+      slug: hotelData.slug || slug,
+      location: hotelData.region || "Unknown Location",
+      price: hotelData.price || 0,
+      discountPrice: hotelData.discountPrice || 0,
+      image: hotelData.primary_image || "/images/fallback-image.jpg",
+      province: hotelData.province || "Unknown Province",
+      rating: hotelData.rating || 0,
+      reviews: hotelData.reviews || 0,
+      description: hotelData.description,
+      amenities: amenitiesArray,
     };
-    
   } catch (err) {
     console.error("Error fetching hotel:", err);
     return null;
   }
 }
 
-export default async function HotelPage({ params }: { params: { slug: string } }) {
-  const hotel = await fetchHotel(params.slug);
+// Await the params Promise to get the actual slug object
+export default async function HotelPage({ params }: HotelPageProps) {
+  const { slug } = await params;
+
+  const hotel = await fetchHotel(slug);
   console.log(hotel);
-  
 
   if (!hotel) {
     notFound();
@@ -60,7 +101,7 @@ export default async function HotelPage({ params }: { params: { slug: string } }
       <div className="max-w-4xl mx-auto">
         <div className="relative rounded-2xl overflow-hidden">
           <Image
-            src={hotel.sectionData.primary_image}
+            src={hotel.image}
             alt={hotel.name}
             width={800}
             height={400}
@@ -72,7 +113,7 @@ export default async function HotelPage({ params }: { params: { slug: string } }
         <div className="mt-6">
           <h1 className="text-3xl font-bold">{hotel.name}</h1>
           <p className="text-gray-600 mt-2">
-            {hotel.sectionData.region}, {hotel.sectionData.province}
+            {hotel.location}, {hotel.province}
           </p>
 
           <div className="flex items-center mt-2">
@@ -118,7 +159,9 @@ export default async function HotelPage({ params }: { params: { slug: string } }
               <h2 className="text-xl font-semibold">Amenities</h2>
               <ul className="mt-2 grid grid-cols-2 gap-2">
                 {hotel.amenities.map((amenity, index) => (
-                  <li key={index} className="text-gray-600">• {amenity}</li>
+                  <li key={index} className="text-gray-600">
+                    • {amenity}
+                  </li>
                 ))}
               </ul>
             </div>

@@ -113,6 +113,7 @@ export async function getFeaturedHotels(province?: string): Promise<Hotel[]> {
 
         return {
           id: item._id || "unknown",
+          slug: company.slug || "unknown",
           name: company.name || "Unknown Hotel",
           location:
             [company.city, company.province, company.country]
@@ -161,7 +162,7 @@ export async function apiGetData<T>({
   projection = {},
   limit = 1000,
   skip = 0,
-  order = '',
+  order, // <-- Removed the default value here
   lookups = [],
   cacheKey,
 }: ApiRequest): Promise<T[]> {
@@ -187,7 +188,7 @@ export async function apiGetData<T>({
         projection,
         limit,
         skip,
-        order,
+        order, // <-- `order` will now be `undefined` if not provided, which is valid.
         lookups,
       }),
     });

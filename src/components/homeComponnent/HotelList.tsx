@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import HotelCard from "@/components/homeComponnent/HotelCard";
 import { getFeaturedHotels, Hotel } from "@/lib/api";
-import dynamic from "next/dynamic";
 
 interface HotelListProps {
   initialHotels: Hotel[];
