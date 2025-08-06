@@ -4,6 +4,7 @@ import Link from "next/link";
 interface Hotel {
   id: string;
   name: string;
+  slug:string;
   location: string;
   price: number;
   discountPrice: number;
@@ -20,7 +21,8 @@ interface HotelCardProps {
 export default function HotelCard({ hotel }: HotelCardProps) {
   return (
     <Link
-      href={`/hotels/${hotel.id}`}
+      href={`/hotel/${hotel.sectionData.Company.slug}`}
+      data-id={`${hotel.id}`}
       className="block rounded-2xl overflow-hidden hotel-card transition bg-white"
     >
       <div className="relative">
@@ -29,7 +31,7 @@ export default function HotelCard({ hotel }: HotelCardProps) {
           alt={hotel.name}
           width={400}
           height={200}
-          className="w-full h-50 object-cover"
+          className="w-full h-60 object-cover"
         />
         <span className="absolute bottom-[-12px] right-3 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">
           New Hotels

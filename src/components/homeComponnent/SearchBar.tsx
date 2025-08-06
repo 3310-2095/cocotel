@@ -7,11 +7,15 @@ import { DateRange } from "react-date-range";
 import Image from "next/image";
 import { addDays, format } from "date-fns";
 import { FiSearch, FiCalendar, FiUsers } from "react-icons/fi";
+import { useRouter, useSearchParams } from "next/navigation"; // Import useSearchParams
+import { apiGetData } from "@/lib/api";
 
 const SearchBox = () => {
   const [location, setLocation] = useState("");
+  const [selectedSlug, setSelectedSlug] = useState("");
   const [showLocationDropdown, setShowLocationDropdown] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [searchDetails, setSearchDetails] = useState([]);
   const [adults, setAdults] = useState(1);
   const [child, setChild] = useState(0);
   const [rooms, setRooms] = useState(1);
@@ -26,11 +30,43 @@ const SearchBox = () => {
   ]);
 
   const [checkIn, setCheckIn] = useState(format(new Date(), "yyyy-MM-dd"));
-  const [checkOut, setCheckOut] = useState(format(addDays(new Date(), 1), "yyyy-MM-dd"));
+  const [checkOut, setCheckOut] = useState(
+    format(addDays(new Date(), 1), "yyyy-MM-dd")
+  );
 
-  const locationRef = useRef<HTMLDivElement>(null);
-  const datePickerRef = useRef<HTMLDivElement>(null);
-  const guestsRef = useRef<HTMLDivElement>(null);
+  const locationRef = useRef(null);
+  const datePickerRef = useRef(null);
+  const guestsRef = useRef(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    async function fetchHotels() {
+      try {
+        const data = await apiGetData({
+          dbName: "hanahotelnew",
+          collectionName: "company",
+          query: { "sectionData.Company.is_deleted": false },
+          projection: {
+            _id: "$_id",
+            slug: "$sectionData.Company.slug",
+            name: "$sectionData.Company.name",
+          },
+          cacheKey: "search-hotels",
+        });
+
+        const mappedHotels = data.map((hotel) => ({
+          id: hotel._id,
+          slug: hotel.slug,
+          title: hotel.name || "Unknown Hotel",
+        }));
+
+        setSearchDetails(mappedHotels);
+      } catch (err) {
+        console.error("Error fetching hotels:", err);
+      }
+    }
+    fetchHotels();
+  }, []);
 
   useEffect(() => {
     setCheckIn(format(state[0].startDate, "yyyy-MM-dd"));
@@ -38,9 +74,8 @@ const SearchBox = () => {
   }, [state]);
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as Node;
-
+    const handleClickOutside = (event) => {
+      const target = event.target;
       if (locationRef.current && !locationRef.current.contains(target)) {
         setShowLocationDropdown(false);
       }
@@ -58,34 +93,42 @@ const SearchBox = () => {
     };
   }, []);
 
-  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSearch = (e) => {
     e.preventDefault();
-    console.log("Location:", location);
-    console.log("Check-In:", checkIn);
-    console.log("Check-Out:", checkOut);
+
+    if (!selectedSlug) {
+      alert("Please select a location.");
+      return;
+    }
+
+    // Format dates for URL (e.g., DD-MM-YYYY)
+    const formattedCheckIn = format(state[0].startDate, "dd-MM-yyyy");
+    const formattedCheckOut = format(state[0].endDate, "dd-MM-yyyy");
+
+    // Construct the URL with query parameters for /explore
+    const queryParams = new URLSearchParams({
+      slug: selectedSlug,
+      checkIn: formattedCheckIn,
+      checkOut: formattedCheckOut,
+      adults: adults.toString(),
+      rooms: rooms.toString(),
+      child: child.toString(),
+    }).toString();
+
+    const url = `/explore?${queryParams}`;
+
+    // Redirect to the /explore route
+    router.push(url);
+
     console.log("Guests:", adults, "Child:", child, "Rooms:", rooms);
   };
 
-  const locations = [
-    "New York, USA",
-    "London, UK",
-    "Paris, France",
-    "Tokyo, Japan",
-    "Sydney, Australia",
-    "Dubai, UAE",
-    "Singapore, Singapore",
-    "Mumbai, India",
-    "Los Angeles, USA",
-    "Rome, Italy",
-  ];
-
   const filteredLocations =
-  location.trim() === "" || locations.includes(location)
-    ? locations
-    : locations.filter((loc) =>
-        loc.toLowerCase().includes(location.toLowerCase())
-      );
-
+    location.trim() === ""
+      ? searchDetails
+      : searchDetails.filter((loc) =>
+          loc.title.toLowerCase().includes(location.toLowerCase())
+        );
 
   return (
     <div className="relative z-10 max-w-5xl mx-auto px-4 custom-margin">
@@ -94,29 +137,25 @@ const SearchBox = () => {
         className="search-hotel-form bg-white/90 backdrop-blur-md flex flex-col lg:flex-row items-center space-y-4 lg:space-y-0 lg:space-x-4"
       >
         {/* Location */}
-        <div
-          className="ms-3 flex-1 relative w-full lg-w-auto"
-          ref={locationRef}
-        >
-<input
-  type="text"
-  placeholder="Location"
-  value={location}
-  onChange={(e) => {
-    setLocation(e.target.value);
-    setShowLocationDropdown(true);
-  }}
-  onFocus={() => {
-    setShowLocationDropdown(true);
-  }}
-  onKeyDown={(e) => {
-    if (e.key === "Enter") {
-      e.preventDefault(); // ✅ Prevent form submission on Enter
-    }
-  }}
-  className="text-sm text-black font-medium w-full p-2 cursor-pointer rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 pl-8 placeholder-black"
-/>
-
+        <div className="ms-3 flex-1 relative w-full lg-w-auto" ref={locationRef}>
+          <input
+            type="text"
+            placeholder="Location"
+            value={location}
+            onChange={(e) => {
+              setLocation(e.target.value);
+              setShowLocationDropdown(true);
+            }}
+            onFocus={() => {
+              setShowLocationDropdown(true);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+              }
+            }}
+            className="text-sm text-black font-medium w-full p-2 cursor-pointer rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 pl-8 placeholder-black"
+          />
           <Image
             src="/images/location.svg"
             alt="Location"
@@ -129,14 +168,15 @@ const SearchBox = () => {
             <ul className="absolute z-50 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-40 overflow-y-auto">
               {filteredLocations.map((loc) => (
                 <li
-                  key={loc}
+                  key={loc.id}
                   onClick={() => {
-                    setLocation(loc);
+                    setLocation(loc.title);
+                    setSelectedSlug(loc.slug);
                     setShowLocationDropdown(false);
                   }}
                   className="p-2 hover:bg-gray-100 cursor-pointer text-gray-700 text-sm"
                 >
-                  {loc}
+                  {loc.title}
                 </li>
               ))}
             </ul>
@@ -145,49 +185,48 @@ const SearchBox = () => {
 
         {/* Date Range */}
         <div className="flex-1 relative w-full lg-w-auto" ref={datePickerRef}>
-  <button
-    type="button"
-    onClick={() => setShowDatePicker(!showDatePicker)}
-    className="w-full text-sm p-2 cursor-pointer rounded-md text-left focus:outline-none focus:ring-1 focus:ring-green-500 pl-8"
-  >
-    <span className="text-black font-medium">
-      {`${format(state[0].startDate, "dd MMM yyyy")} - ${format(
-        state[0].endDate,
-        "dd MMM yyyy"
-      )}`}
-    </span>
-    <FiCalendar className="absolute left-2 top-2.5 text-green-600" />
-  </button>
-
-  {/* ✅ Calendar inside same div with ref */}
-  {showDatePicker && (
-    <div className="absolute z-50 mt-2 w-full bg-white border border-gray-300 rounded-md shadow-lg">
-<DateRange
-  editableDateInputs={true}
-  onChange={(item) => {
-    const { startDate, endDate } = item.selection;
-    setState([
-      {
-        startDate: startDate || new Date(),
-        endDate: endDate || new Date(),
-        key: "selection",
-      },
-    ]);
-
-    // Only close if both dates are picked
-    if (startDate && endDate && startDate.getTime() !== endDate.getTime()) {
-      setShowDatePicker(false);
-    }
-  }}
-  moveRangeOnFirstSelection={false}
-  ranges={state}
-  minDate={new Date()}
-  className="p-4"
-/>
-
-    </div>
-  )}
-</div>
+          <button
+            type="button"
+            onClick={() => setShowDatePicker(!showDatePicker)}
+            className="w-full text-sm p-2 cursor-pointer rounded-md text-left focus:outline-none focus:ring-1 focus:ring-green-500 pl-8"
+          >
+            <span className="text-black font-medium">
+              {`${format(state[0].startDate, "dd MMM yyyy")} - ${format(
+                state[0].endDate,
+                "dd MMM yyyy"
+              )}`}
+            </span>
+            <FiCalendar className="absolute left-2 top-2.5 text-green-600" />
+          </button>
+          {showDatePicker && (
+            <div className="absolute z-50 mt-2 w-full bg-white border border-gray-300 rounded-md shadow-lg">
+              <DateRange
+                editableDateInputs={true}
+                onChange={(item) => {
+                  const { startDate, endDate } = item.selection;
+                  setState([
+                    {
+                      startDate: startDate || new Date(),
+                      endDate: endDate || new Date(),
+                      key: "selection",
+                    },
+                  ]);
+                  if (
+                    startDate &&
+                    endDate &&
+                    startDate.getTime() !== endDate.getTime()
+                  ) {
+                    setShowDatePicker(false);
+                  }
+                }}
+                moveRangeOnFirstSelection={false}
+                ranges={state}
+                minDate={new Date()}
+                className="p-4"
+              />
+            </div>
+          )}
+        </div>
 
         {/* Guests and Rooms */}
         <div className="relative flex-1 w-full lg-w-auto" ref={guestsRef}>
@@ -202,7 +241,6 @@ const SearchBox = () => {
           {showGuestsDropdown && (
             <div className="absolute z-10 mt-2 w-full bg-white border border-gray-300 rounded-md shadow-lg">
               <div className="p-4">
-                {/* Adults */}
                 <div className="flex justify-between items-center mb-4">
                   <span>Adults</span>
                   <div className="flex items-center space-x-2">
@@ -223,8 +261,6 @@ const SearchBox = () => {
                     </button>
                   </div>
                 </div>
-
-                {/* Children */}
                 <div className="flex justify-between items-center mb-4">
                   <span>Child</span>
                   <div className="flex items-center space-x-2">
@@ -245,8 +281,6 @@ const SearchBox = () => {
                     </button>
                   </div>
                 </div>
-
-                {/* Rooms */}
                 <div className="flex justify-between items-center">
                   <span>Rooms</span>
                   <div className="flex items-center space-x-2">
@@ -267,8 +301,6 @@ const SearchBox = () => {
                     </button>
                   </div>
                 </div>
-
-                {/* Done Button */}
                 <button
                   type="button"
                   onClick={() => setShowGuestsDropdown(false)}
@@ -284,7 +316,7 @@ const SearchBox = () => {
         {/* Search Button */}
         <button
           type="submit"
-          className="bg-green-500 text-white p-2 rounded-full w-full lg:w-auto h-[50px] lg:h-[85px] px-8 hover:bg-green-600 transition"
+          className="bg-green-500 text-white p-3 rounded-full w-full lg:w-auto h-[50px] lg:h-[90px] px-8 hover:bg-green-600 transition"
         >
           <FiSearch className="inline mr-2" /> Search
         </button>
