@@ -1,8 +1,10 @@
 "use client";
 
-import React, { useState, useEffect, useRef, JSX } from "react";
+import React, { useState, useEffect, useRef, JSX, Suspense } from "react";
+import SearchBar from "@/components/homeComponnent/SearchBar";
 import { DateRange } from "react-date-range";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import { addDays, format } from "date-fns";
 import {
   FiSearch,
@@ -90,7 +92,11 @@ const ImageWithErrorBoundary: React.FC<{
   );
 };
 
-const ExplorePage: React.FC<{ province?: string }> = ({ province }) => {
+// Client component that uses useSearchParams
+const ExplorePageContent: React.FC = () => {
+  const searchParams = useSearchParams();
+  const province = searchParams.get("province") || undefined;
+
   const [hotels, setHotels] = useState<ExtendedHotel[]>([]);
   const [currentImage, setCurrentImage] = useState<{ [key: string]: number }>(
     {}
@@ -102,12 +108,8 @@ const ExplorePage: React.FC<{ province?: string }> = ({ province }) => {
 
   // Search bar states
   const [location, setLocation] = useState("");
-  const [showLocationDropdown, setShowLocationDropdown] = useState(false);
-  const [showDatePicker, setShowDatePicker] = useState(false);
-  const [adults, setAdults] = useState(1);
-  const [child, setChild] = useState(0);
-  const [rooms, setRooms] = useState(1);
-  const [showGuestsDropdown, setShowGuestsDropdown] = useState(false);
+  
+ 
   const [state, setState] = useState([
     {
       startDate: new Date(),
@@ -115,62 +117,12 @@ const ExplorePage: React.FC<{ province?: string }> = ({ province }) => {
       key: "selection",
     },
   ]);
-  const [checkIn, setCheckIn] = useState(format(new Date(), "yyyy-MM-dd"));
-  const [checkOut, setCheckOut] = useState(
-    format(addDays(new Date(), 1), "yyyy-MM-dd")
-  );
+  
 
   const locationRef = useRef<HTMLDivElement>(null);
   const datePickerRef = useRef<HTMLDivElement>(null);
   const guestsRef = useRef<HTMLDivElement>(null);
 
-  // Sample location data
-  const locations = [
-    "New York, USA",
-    "London, UK",
-    "Paris, France",
-    "Tokyo, Japan",
-    "Sydney, Australia",
-    "Dubai, UAE",
-    "Singapore, Singapore",
-    "Mumbai, India",
-    "Los Angeles, USA",
-    "Rome, Italy",
-  ];
-
-  // Filter locations based on input
-  const filteredLocations =
-    location.trim() === "" || locations.includes(location)
-      ? locations
-      : locations.filter((loc) =>
-          loc.toLowerCase().includes(location.toLowerCase())
-        );
-
-  useEffect(() => {
-    setCheckIn(format(state[0].startDate, "yyyy-MM-dd"));
-    setCheckOut(format(state[0].endDate, "yyyy-MM-dd"));
-  }, [state]);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as Node;
-
-      if (locationRef.current && !locationRef.current.contains(target)) {
-        setShowLocationDropdown(false);
-      }
-      if (datePickerRef.current && !datePickerRef.current.contains(target)) {
-        setShowDatePicker(false);
-      }
-      if (guestsRef.current && !guestsRef.current.contains(target)) {
-        setShowGuestsDropdown(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
 
   useEffect(() => {
     const fetchHotels = async () => {
@@ -196,16 +148,8 @@ const ExplorePage: React.FC<{ province?: string }> = ({ province }) => {
     fetchHotels();
   }, [province, location]);
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log({ location, checkIn, checkOut, adults, child, rooms });
-  };
-
-  const handleLocationKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      e.preventDefault(); // Prevent form submission on Enter
-    }
-  };
+ 
+  
 
   const handleNext = (id: string, images: string[]) =>
     setCurrentImage((prev) => ({
@@ -236,7 +180,6 @@ const ExplorePage: React.FC<{ province?: string }> = ({ province }) => {
           .filter((s) => s.match(/^https?:\/\/[^\s/$.?#].[^\s]*$/))
       );
     }
-    console.log(`Gallery images:`, images);
     return images.length > 0 ? images : ["/images/fallback-image.jpg"];
   };
 
@@ -387,200 +330,17 @@ const ExplorePage: React.FC<{ province?: string }> = ({ province }) => {
     return buttons;
   };
 
-  if (loading) return <div className="text-center p-4 sm:p-6">Loading hotels...</div>;
-  if (error) return <div className="text-center p-4 sm:p-6 text-red-500">{error}</div>;
+  if (loading)
+    return <div className="text-center p-4 sm:p-6">Loading hotels...</div>;
+  if (error)
+    return <div className="text-center p-4 sm:p-6 text-red-500">{error}</div>;
   if (hotels.length === 0)
     return <div className="text-center p-4 sm:p-6">No hotels found.</div>;
 
   return (
-    <section className="p-2 sm:p-4 md:p-6 max-w-[90rem] mx-auto">
+    <section className="container mx-auto mt-40">
       {/* Search Bar */}
-      <div className="relative z-20 max-w-4xl mx-auto mt-20 sm:mt-16 md:mt-20 lg:mt-[72px]">
-        <form
-          onSubmit={handleSearch}
-          className="search-hotel-form bg-white/90 backdrop-blur-md flex flex-col lg:flex-row items-center space-y-4 lg:space-y-0 lg:space-x-4 rounded-lg shadow-lg px-4 py-6"
-        >
-          {/* Location */}
-          <div className="ms-3 flex-1 relative w-full lg-w-auto" ref={locationRef}>
-            <input
-              type="text"
-              placeholder="Location"
-              value={location}
-              onChange={(e) => {
-                setLocation(e.target.value);
-                setShowLocationDropdown(true);
-              }}
-              onFocus={() => {
-                setShowLocationDropdown(true);
-              }}
-              onKeyDown={handleLocationKeyDown}
-              className="text-sm text-black font-medium w-full p-2 cursor-pointer rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 pl-8 placeholder-black"
-            />
-            <Image
-              src="/images/location.svg"
-              alt="Location"
-              width={14}
-              height={14}
-              className="object-cover absolute left-2 top-2.5 text-green-600"
-              priority
-            />
-            {showLocationDropdown && filteredLocations.length > 0 && (
-              <ul className="absolute z-50 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-40 overflow-y-auto">
-                {filteredLocations.map((loc) => (
-                  <li
-                    key={loc}
-                    onClick={() => {
-                      setLocation(loc);
-                      setShowLocationDropdown(false);
-                    }}
-                    className="p-2 hover:bg-gray-100 cursor-pointer text-gray-700 text-sm"
-                  >
-                    {loc}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-
-          {/* Date Range */}
-          <div className="flex-1 relative w-full lg-w-auto" ref={datePickerRef}>
-            <button
-              type="button"
-              onClick={() => setShowDatePicker(!showDatePicker)}
-              className="w-full text-sm p-2 cursor-pointer rounded-md text-left focus:outline-none focus:ring-1 focus:ring-green-500 pl-8"
-            >
-              <span className="text-black font-medium">
-                {`${format(state[0].startDate, "dd MMM yyyy")} - ${format(
-                  state[0].endDate,
-                  "dd MMM yyyy"
-                )}`}
-              </span>
-              <FiCalendar className="absolute left-2 top-2.5 text-green-600" />
-            </button>
-            {showDatePicker && (
-              <div className="absolute z-50 mt-2 w-full sm:w-[300px] md:w-[600px] bg-white border border-gray-300 rounded-md shadow-lg">
-                <DateRange
-                  editableDateInputs={true}
-                  onChange={(item) => {
-                    const { startDate, endDate } = item.selection;
-                    setState([
-                      {
-                        startDate: startDate || new Date(),
-                        endDate: endDate || new Date(),
-                        key: "selection",
-                      },
-                    ]);
-                    if (
-                      startDate &&
-                      endDate &&
-                      startDate.toDateString() !== endDate.toDateString()
-                    ) {
-                      setTimeout(() => setShowDatePicker(false), 150);
-                    }
-                  }}
-                  moveRangeOnFirstSelection={false}
-                  ranges={state}
-                  minDate={new Date()}
-                  className="p-2 sm:p-4"
-                />
-              </div>
-            )}
-          </div>
-
-          {/* Guests and Rooms */}
-          <div className="relative flex-1 w-full lg-w-auto" ref={guestsRef}>
-            <button
-              type="button"
-              onClick={() => setShowGuestsDropdown(!showGuestsDropdown)}
-              className="w-full cursor-pointer text-sm text-black font-medium p-2 rounded-md text-left focus:outline-none focus:ring-1 focus:ring-green-500 pl-8"
-            >
-              <span>{`${adults} Adults - ${child} Child - ${rooms} Room`}</span>
-              <FiUsers className="absolute left-2 top-2.5 text-green-600" />
-            </button>
-            {showGuestsDropdown && (
-              <div className="absolute z-10 mt-2 w-full bg-white border border-gray-300 rounded-md shadow-lg">
-                <div className="p-2 sm:p-4">
-                  <div className="flex justify-between items-center mb-4">
-                    <span className="text-sm sm:text-base">Adults</span>
-                    <div className="flex items-center space-x-2">
-                      <button
-                        type="button"
-                        onClick={() => setAdults(Math.max(1, adults - 1))}
-                        className="w-6 h-6 sm:w-8 sm:h-8 bg-gray-200 text-green-600 rounded-full font-bold hover:bg-gray-300"
-                      >
-                        -
-                      </button>
-                      <span className="text-sm sm:text-base">{adults}</span>
-                      <button
-                        type="button"
-                        onClick={() => setAdults(adults + 1)}
-                        className="w-6 h-6 sm:w-8 sm:h-8 bg-gray-200 text-green-600 rounded-full font-bold hover:bg-gray-300"
-                      >
-                        +
-                      </button>
-                    </div>
-                  </div>
-                  <div className="flex justify-between items-center mb-4">
-                    <span className="text-sm sm:text-base">Child</span>
-                    <div className="flex items-center space-x-2">
-                      <button
-                        type="button"
-                        onClick={() => setChild(Math.max(0, child - 1))}
-                        className="w-6 h-6 sm:w-8 sm:h-8 bg-gray-200 text-green-600 rounded-full font-bold hover:bg-gray-300"
-                      >
-                        -
-                      </button>
-                      <span className="text-sm sm:text-base">{child}</span>
-                      <button
-                        type="button"
-                        onClick={() => setChild(child + 1)}
-                        className="w-6 h-6 sm:w-8 sm:h-8 bg-gray-200 text-green-600 rounded-full font-bold hover:bg-gray-300"
-                      >
-                        +
-                      </button>
-                    </div>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm sm:text-base">Rooms</span>
-                    <div className="flex items-center space-x-2">
-                      <button
-                        type="button"
-                        onClick={() => setRooms(Math.max(1, rooms - 1))}
-                        className="w-6 h-6 sm:w-8 sm:h-8 bg-gray-200 text-green-600 rounded-full font-bold hover:bg-gray-300"
-                      >
-                        -
-                      </button>
-                      <span className="text-sm sm:text-base">{rooms}</span>
-                      <button
-                        type="button"
-                        onClick={() => setRooms(rooms + 1)}
-                        className="w-6 h-6 sm:w-8 sm:h-8 bg-gray-200 text-green-600 rounded-full font-bold hover:bg-gray-300"
-                      >
-                        +
-                      </button>
-                    </div>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => setShowGuestsDropdown(false)}
-                    className="w-full mt-4 bg-green-500 text-white p-2 rounded-md hover:bg-green-600 text-sm sm:text-base"
-                  >
-                    Done
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Search Button */}
-          <button
-            type="submit"
-            className="bg-green-500 text-white p-2 rounded-full w-full lg:w-auto h-[50px] lg:h-[85px] px-8 hover:bg-green-600 transition text-sm sm:text-base"
-          >
-            <FiSearch className="inline mr-2" /> Search
-          </button>
-        </form>
-      </div>
+      <SearchBar />
 
       {/* Add spacing below search bar */}
       <div className="h-6 sm:h-12 md:h-16 lg:h-20" />
@@ -591,17 +351,23 @@ const ExplorePage: React.FC<{ province?: string }> = ({ province }) => {
       </h1>
 
       {/* Hotel Cards */}
-      <div className="mt-2 sm:mt-4 md:mt-6 lg:mt-8">
-        {currentHotels.map((hotel) => {
-          const images = getGalleryImages(
-            hotel.sectionData?.Company?.gallery_image,
-            hotel.sectionData?.Company?.primary_image
-          );
-          console.log(`Hotel ${hotel.name} images:`, images);
-          const amenities = getAmenities(hotel.sectionData?.Company?.amenities);
-          const desc = getDescription(hotel.sectionData?.Company?.description);
-          const imgIndex = currentImage[hotel.id] || 0;
+      <div className="mt-2 sm:mt-4 md:mt-6 lg:mt-8 flex">
+        <div className="w-3/4">
+          {currentHotels.map((hotel) => {
+            const images = getGalleryImages(
+              hotel.sectionData?.Company?.gallery_image,
+              hotel.sectionData?.Company?.primary_image
+            );
+            console.log(`Hotel ${hotel.name} images:`, images);
+            const amenities = getAmenities(
+              hotel.sectionData?.Company?.amenities
+            );
+            const desc = getDescription(
+              hotel.sectionData?.Company?.description
+            );
+            const imgIndex = currentImage[hotel.id] || 0;
 
+<<<<<<< HEAD
           return (
             <Link href={`/explore/${hotel.id}`}>
             <div className="bg-white w-full max-w-6xl mx-auto rounded-2xl shadow-[0_4px_12px_rgba(0,0,0,0.3)] hover:shadow-xl hover:scale-[1.01] transition-all duration-300 ease-in-out cursor-pointer flex flex-col md:flex-row overflow-hidden mb-4 sm:mb-6">
@@ -717,8 +483,136 @@ const ExplorePage: React.FC<{ province?: string }> = ({ province }) => {
                           ? Math.round((1 - hotel.discountPrice / hotel.price) * 100)
                           : 0}
                         %
+=======
+            return (
+              <div
+                key={hotel.id}
+                className="bg-white w-full rounded-2xl shadow-[0_4px_12px_rgba(0,0,0,0.3)] flex flex-col md:flex-row overflow-hidden mb-4 sm:mb-6"
+              >
+                <div className="relative w-full sm:w-[40%] h-[160px] sm:h-[200px] md:h-[240px] lg:h-[300px]">
+                  <ImageWithErrorBoundary
+                    src={images[imgIndex]}
+                    alt={hotel.name || "Hotel Image"}
+                    layout="fill"
+                    objectFit="cover"
+                    className="rounded-t-2xl sm:rounded-l-2xl sm:rounded-t-none"
+                  />
+                  <button
+                    onClick={() => handlePrev(hotel.id, images)}
+                    className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white p-1 sm:p-2 rounded-full shadow-md hover:bg-gray-100 transition"
+                  >
+                    <FiChevronLeft size={16} className="sm:size-20" />
+                  </button>
+                  <button
+                    onClick={() => handleNext(hotel.id, images)}
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white p-1 sm:p-2 rounded-full shadow-md hover:bg-gray-100 transition"
+                  >
+                    <FiChevronRight size={16} className="sm:size-20" />
+                  </button>
+                </div>
+
+                <div className="w-full sm:flex-1 p-3 sm:p-4 md:p-5 flex flex-col justify-between">
+                  <div>
+                    <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-gray-900">
+                      {hotel.name || "Unknown Hotel"}
+                    </h2>
+                    <div className="flex items-center mt-1 flex-wrap">
+                      {[...Array(Math.floor(hotel.rating || 0))].map((_, i) => (
+                        <Image
+                          key={i}
+                          src="/images/full-star.svg"
+                          alt="Star"
+                          width={12}
+                          height={12}
+                          className="sm:w-4 sm:h-4 md:w-5 md:h-5"
+                          onError={() =>
+                            console.warn("Failed to load full-star.svg")
+                          }
+                        />
+                      ))}
+                      {(hotel.rating || 0) % 1 !== 0 && (
+                        <Image
+                          src="/images/half-star.svg"
+                          alt="Half Star"
+                          width={12}
+                          height={12}
+                          className="sm:w-4 sm:h-4 md:w-5 md:h-5"
+                          onError={() =>
+                            console.warn("Failed to load half-star.svg")
+                          }
+                        />
+                      )}
+                      <span className="text-xs sm:text-sm md:text-base text-gray-600 ml-2">
+                        {hotel.rating || "N/A"}
+                      </span>
+                      <span className="text-xs sm:text-sm md:text-base text-green-600 ml-2">
+                        {hotel.location || "Unknown Location"}
+                      </span>
+                    </div>
+                    <p className="text-xs sm:text-sm md:text-base text-gray-700 mt-1 sm:mt-2 md:mt-3">
+                      {desc}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row justify-between mt-3 sm:mt-4">
+                    <div>
+                      <h3 className="text-xs sm:text-sm md:text-base font-semibold text-gray-800 mb-1 sm:mb-2 md:mb-3">
+                        Amenities
+                      </h3>
+                      <div className="flex items-center gap-2 sm:gap-3 md:gap-5 flex-wrap">
+                        {amenities.length > 0 ? (
+                          amenities.map((a, i) => (
+                            <div key={i} className="relative group">
+                              <Image
+                                src={getAmenityIcon(a)}
+                                alt={a}
+                                width={16}
+                                height={16}
+                                className="sm:w-6 sm:h-6 md:w-8 md:h-8 hover:scale-110 transition-transform duration-200"
+                                onError={() =>
+                                  console.warn(
+                                    `Failed to load amenity icon: ${a}`
+                                  )
+                                }
+                              />
+                              <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 whitespace-nowrap">
+                                {a}
+                              </span>
+                            </div>
+                          ))
+                        ) : (
+                          <span className="text-xs sm:text-sm md:text-base text-gray-600">
+                            No amenities available
+                          </span>
+                        )}
                       </div>
                     </div>
+
+                    <div className="text-left sm:text-right mt-3 sm:mt-0">
+                      {hotel.sectionData?.Company?.promo_active === 1 && (
+                        <span className="bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded">
+                          Flash Sale
+                        </span>
+                      )}
+                      <div className="flex justify-start sm:justify-end mt-1">
+                        <div className="text-xs sm:text-sm md:text-lg text-gray-400 line-through">
+                          $ {hotel.price || 0}
+                        </div>
+                        <div className="text-xs sm:text-sm md:text-lg font-bold text-yellow-500 ml-1">
+                          {hotel.price && hotel.discountPrice
+                            ? Math.round(
+                                (1 - hotel.discountPrice / hotel.price) * 100
+                              )
+                            : 0}
+                          %
+                        </div>
+>>>>>>> 13acd1fcc2c4065522ace92e2272ca39ea93c2a5
+                      </div>
+                      <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-blue-600">
+                        $ {hotel.discountPrice || 0}
+                      </h2>
+                    </div>
+<<<<<<< HEAD
                     <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-blue-600">
                       ${hotel.discountPrice || 0}
                     </h2>
@@ -729,6 +623,15 @@ const ExplorePage: React.FC<{ province?: string }> = ({ province }) => {
           </Link>
           );
         })}
+=======
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <div className="w-1/4"></div>
+>>>>>>> 13acd1fcc2c4065522ace92e2272ca39ea93c2a5
       </div>
 
       {/* Pagination */}
@@ -736,6 +639,17 @@ const ExplorePage: React.FC<{ province?: string }> = ({ province }) => {
         {getPaginationButtons()}
       </div>
     </section>
+  );
+};
+
+// Main page component with Suspense boundary
+const ExplorePage = () => {
+  return (
+    <Suspense
+      fallback={<div className="text-center p-4 sm:p-6">Loading...</div>}
+    >
+      <ExplorePageContent />
+    </Suspense>
   );
 };
 
