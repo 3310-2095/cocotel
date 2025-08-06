@@ -14,6 +14,8 @@ import {
 import { getFeaturedHotels, Hotel } from "@/lib/api";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
+import Link from "next/link";
+
 
 interface ExtendedHotel extends Hotel {
   sectionData?: {
@@ -601,12 +603,11 @@ const ExplorePage: React.FC<{ province?: string }> = ({ province }) => {
           const imgIndex = currentImage[hotel.id] || 0;
 
           return (
-            <div
-              key={hotel.id}
-              className="bg-white w-full max-w-6xl mx-auto rounded-2xl shadow-[0_4px_12px_rgba(0,0,0,0.3)] flex flex-col md:flex-row overflow-hidden mb-4 sm:mb-6"
-            >
+            <Link href={`/explore/${hotel.id}`}>
+            <div className="bg-white w-full max-w-6xl mx-auto rounded-2xl shadow-[0_4px_12px_rgba(0,0,0,0.3)] hover:shadow-xl hover:scale-[1.01] transition-all duration-300 ease-in-out cursor-pointer flex flex-col md:flex-row overflow-hidden mb-4 sm:mb-6">
+              {/* Image Section */}
               <div className="relative w-full sm:w-[40%] h-[160px] sm:h-[200px] md:h-[240px] lg:h-[300px]">
-                <ImageWithErrorBoundary
+                <Image
                   src={images[imgIndex]}
                   alt={hotel.name || "Hotel Image"}
                   layout="fill"
@@ -614,19 +615,26 @@ const ExplorePage: React.FC<{ province?: string }> = ({ province }) => {
                   className="rounded-t-2xl sm:rounded-l-2xl sm:rounded-t-none"
                 />
                 <button
-                  onClick={() => handlePrev(hotel.id, images)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handlePrev(hotel.id, images);
+                  }}
                   className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white p-1 sm:p-2 rounded-full shadow-md hover:bg-gray-100 transition"
                 >
-                  <FiChevronLeft size={16} className="sm:size-20" />
+                  <FiChevronLeft size={20} />
                 </button>
                 <button
-                  onClick={() => handleNext(hotel.id, images)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNext(hotel.id, images);
+                  }}
                   className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white p-1 sm:p-2 rounded-full shadow-md hover:bg-gray-100 transition"
                 >
-                  <FiChevronRight size={16} className="sm:size-20" />
+                  <FiChevronRight size={20} />
                 </button>
               </div>
-
+      
+              {/* Content Section */}
               <div className="w-full sm:flex-1 p-3 sm:p-4 md:p-5 flex flex-col justify-between">
                 <div>
                   <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-gray-900">
@@ -638,24 +646,18 @@ const ExplorePage: React.FC<{ province?: string }> = ({ province }) => {
                         key={i}
                         src="/images/full-star.svg"
                         alt="Star"
-                        width={12}
-                        height={12}
+                        width={16}
+                        height={16}
                         className="sm:w-4 sm:h-4 md:w-5 md:h-5"
-                        onError={() =>
-                          console.warn("Failed to load full-star.svg")
-                        }
                       />
                     ))}
                     {(hotel.rating || 0) % 1 !== 0 && (
                       <Image
                         src="/images/half-star.svg"
                         alt="Half Star"
-                        width={12}
-                        height={12}
+                        width={16}
+                        height={16}
                         className="sm:w-4 sm:h-4 md:w-5 md:h-5"
-                        onError={() =>
-                          console.warn("Failed to load half-star.svg")
-                        }
                       />
                     )}
                     <span className="text-xs sm:text-sm md:text-base text-gray-600 ml-2">
@@ -669,7 +671,7 @@ const ExplorePage: React.FC<{ province?: string }> = ({ province }) => {
                     {desc}
                   </p>
                 </div>
-
+      
                 <div className="flex flex-col sm:flex-row justify-between mt-3 sm:mt-4">
                   <div>
                     <h3 className="text-xs sm:text-sm md:text-base font-semibold text-gray-800 mb-1 sm:mb-2 md:mb-3">
@@ -682,12 +684,9 @@ const ExplorePage: React.FC<{ province?: string }> = ({ province }) => {
                             <Image
                               src={getAmenityIcon(a)}
                               alt={a}
-                              width={16}
-                              height={16}
+                              width={24}
+                              height={24}
                               className="sm:w-6 sm:h-6 md:w-8 md:h-8 hover:scale-110 transition-transform duration-200"
-                              onError={() =>
-                                console.warn(`Failed to load amenity icon: ${a}`)
-                              }
                             />
                             <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 whitespace-nowrap">
                               {a}
@@ -701,7 +700,8 @@ const ExplorePage: React.FC<{ province?: string }> = ({ province }) => {
                       )}
                     </div>
                   </div>
-
+      
+                  {/* Pricing & Flash Sale */}
                   <div className="text-left sm:text-right mt-3 sm:mt-0">
                     {hotel.sectionData?.Company?.promo_active === 1 && (
                       <span className="bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded">
@@ -710,24 +710,23 @@ const ExplorePage: React.FC<{ province?: string }> = ({ province }) => {
                     )}
                     <div className="flex justify-start sm:justify-end mt-1">
                       <div className="text-xs sm:text-sm md:text-lg text-gray-400 line-through">
-                        $ {hotel.price || 0}
+                        ${hotel.price || 0}
                       </div>
                       <div className="text-xs sm:text-sm md:text-lg font-bold text-yellow-500 ml-1">
                         {hotel.price && hotel.discountPrice
-                          ? Math.round(
-                              (1 - hotel.discountPrice / hotel.price) * 100
-                            )
+                          ? Math.round((1 - hotel.discountPrice / hotel.price) * 100)
                           : 0}
                         %
                       </div>
                     </div>
                     <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-blue-600">
-                      $ {hotel.discountPrice || 0}
+                      ${hotel.discountPrice || 0}
                     </h2>
                   </div>
                 </div>
               </div>
             </div>
+          </Link>
           );
         })}
       </div>
