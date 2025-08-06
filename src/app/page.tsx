@@ -1,6 +1,7 @@
 import SearchBar from "@/components/homeComponnent/SearchBar";
 import Image from "next/image";
 import { getFeaturedHotels } from "@/lib/api";
+
 import HotelList from "@/components/homeComponnent/HotelList";
 import DiscoverSection from "@/components/homeComponnent/DiscoverSection";
 import DiscoverNew from "@/components/homeComponnent/DiscoverNew";
@@ -28,20 +29,24 @@ export default async function Home() {
   return (
     <>
       {/* Hero Section */}
-      <section className="container mx-auto mt-6 p-4 max-w-[80rem] py-5 px-2 flex">
+      <section className="container mx-auto mt-4 p-4  py-5 px-2 flex">
         <div className="home-main-section">
           <div className="grid grid-cols-1 lg:grid-cols-2 home-main-section">
             <div className="escape-the-ordinary-main">
-              <h1 className="text-5xl lg:text-7xl font-semibold">
-                Just Unpacked!
+              <h1 className="text-4xl lg:text-[64px] leading-[64px] font-semibold wow animate__animated animate__fadeInUp">
+                Just<br></br> Unpacked!
               </h1>
-              <p className="text-xl mt-8">
+              <p
+                className="text-xl mt-8 wow animate__animated animate__fadeInUp"
+                data-wow-delay="0.3s"
+                data-wow-duration="1s"
+              >
                 Just unpacked! Welcome to our new look website. Discover the
                 Cocotel Collection, featuring 4-5 star hotels and resorts. Each
                 property is meticulously selected for explorers, business
-                travellers&apos;, and leisure seekers seeking unique experiences. With
-                over 300+ hotels, book directly for the best pricing and
-                exclusive deals!
+                travellers&apos;, and leisure seekers seeking unique
+                experiences. With over 300+ hotels, book directly for the best
+                pricing and exclusive deals!
               </p>
             </div>
             <div className="escape-the-ordinary-img">
@@ -57,16 +62,22 @@ export default async function Home() {
           <SearchBar />
         </div>
       </section>
+      
 
       {/* Featured Hotels Section */}
-      <section className="container p-4 mx-auto mt-0 lg:mt-32 max-w-[80rem]">
-        <h2 className="text-[40px] font-semibold text-start mb-5">
-          Our most visited hotels and resorts
+      <section className="container p-4 mx-auto mt-0 lg:mt-10 ">
+        <h2 className="text-[40px] font-semibold text-start mb-5 wow animate__animated animate__fadeInUp">
+          Featured or Top visited properties
         </h2>
         <div className="flex flex-col sm:flex-row justify-between items-center mb-5">
-          <p className="text-base">
+          <p
+            className="text-base wow animate__animated animate__fadeInUp"
+            data-wow-delay="0.3s"
+            data-wow-duration="1s"
+          >
             &quot;Discover #CocotelCollections and exceptional stays in the
-            Philippines.<br />
+            Philippines.
+            <br />
             Explore Batangas, Cebu, and more top destinations&quot;
           </p>
           <button className="flex text-base text-green-600 bg-green-200 py-2 px-6 cursor-pointer rounded">
@@ -77,15 +88,14 @@ export default async function Home() {
       </section>
 
       <section className="container p-4 mx-auto mt-20 mb-10 max-w-[80rem]">
-        <DiscoverSection />
-      </section>
-
-      <section className="container p-4 mx-auto mt-20 mb-10 max-w-[80rem]">
         <DiscoverNew />
       </section>
 
       <section className="container p-4 mx-auto mt-20 mb-10 max-w-[80rem]">
         <UserReview />
+      </section>
+      <section className="container p-4 mx-auto mt-20 mb-10 max-w-[80rem]">
+        <DiscoverSection />
       </section>
     </>
   );
