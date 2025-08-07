@@ -7,15 +7,29 @@ import { DateRange } from "react-date-range";
 import Image from "next/image";
 import { addDays, format } from "date-fns";
 import { FiSearch, FiCalendar, FiUsers } from "react-icons/fi";
-import { useRouter, useSearchParams } from "next/navigation"; // Import useSearchParams
+import { useRouter } from "next/navigation";
 import { apiGetData } from "@/lib/api";
+
+// Define the interface for the raw data from the API
+interface RawSearchHotel {
+  _id: string;
+  slug: string;
+  name: string;
+}
+
+// Define the interface for the mapped data used in the component's state
+interface MappedSearchHotel {
+  id: string;
+  slug: string;
+  title: string;
+}
 
 const SearchBox = () => {
   const [location, setLocation] = useState("");
   const [selectedSlug, setSelectedSlug] = useState("");
   const [showLocationDropdown, setShowLocationDropdown] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [searchDetails, setSearchDetails] = useState([]);
+  const [searchDetails, setSearchDetails] = useState<MappedSearchHotel[]>([]);
   const [adults, setAdults] = useState(1);
   const [child, setChild] = useState(0);
   const [rooms, setRooms] = useState(1);
@@ -29,20 +43,16 @@ const SearchBox = () => {
     },
   ]);
 
-  const [checkIn, setCheckIn] = useState(format(new Date(), "yyyy-MM-dd"));
-  const [checkOut, setCheckOut] = useState(
-    format(addDays(new Date(), 1), "yyyy-MM-dd")
-  );
-
-  const locationRef = useRef(null);
-  const datePickerRef = useRef(null);
-  const guestsRef = useRef(null);
+  const locationRef = useRef<HTMLDivElement>(null);
+  const datePickerRef = useRef<HTMLDivElement>(null);
+  const guestsRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
   useEffect(() => {
     async function fetchHotels() {
       try {
-        const data = await apiGetData({
+        // Assert the data type here
+        const data: RawSearchHotel[] = await apiGetData({
           dbName: "hanahotelnew",
           collectionName: "company",
           query: { "sectionData.Company.is_deleted": false },
@@ -69,13 +79,8 @@ const SearchBox = () => {
   }, []);
 
   useEffect(() => {
-    setCheckIn(format(state[0].startDate, "yyyy-MM-dd"));
-    setCheckOut(format(state[0].endDate, "yyyy-MM-dd"));
-  }, [state]);
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      const target = event.target;
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Node;
       if (locationRef.current && !locationRef.current.contains(target)) {
         setShowLocationDropdown(false);
       }
@@ -93,7 +98,7 @@ const SearchBox = () => {
     };
   }, []);
 
-  const handleSearch = (e) => {
+  const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!selectedSlug) {

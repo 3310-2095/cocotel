@@ -1,15 +1,11 @@
+
 "use client";
 
-import React, { useState, useEffect, useRef, JSX, Suspense } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import SearchBar from "@/components/homeComponnent/SearchBar";
-import { DateRange } from "react-date-range";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import { addDays, format } from "date-fns";
 import {
-  FiSearch,
-  FiCalendar,
-  FiUsers,
   FiChevronLeft,
   FiChevronRight,
 } from "react-icons/fi";
@@ -29,7 +25,7 @@ interface ExtendedHotel extends Hotel {
       description?: string;
       gallery_image?: string;
       amenities?: string;
-      promo_active?: number;
+      promo_active?: number | string;
       price?: number;
       discountPrice?: number;
       primary_image?: string;
@@ -106,33 +102,15 @@ const ExplorePageContent: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const hotelsPerPage = 5;
 
-  // Search bar states
-  const [location, setLocation] = useState("");
-  
- 
-  const [state, setState] = useState([
-    {
-      startDate: new Date(),
-      endDate: addDays(new Date(), 1),
-      key: "selection",
-    },
-  ]);
-  
-
-  const locationRef = useRef<HTMLDivElement>(null);
-  const datePickerRef = useRef<HTMLDivElement>(null);
-  const guestsRef = useRef<HTMLDivElement>(null);
-
-
   useEffect(() => {
     const fetchHotels = async () => {
       try {
         setLoading(true);
         const fetched = await getFeaturedHotels(
-          province || location.split(",")[1]?.trim()
+          province
         );
         console.log("Fetched hotels:", JSON.stringify(fetched, null, 2));
-        setHotels(fetched);
+        setHotels(fetched as ExtendedHotel[]);
         const initState = fetched.reduce((acc, h) => {
           acc[h.id] = 0;
           return acc;
@@ -146,10 +124,7 @@ const ExplorePageContent: React.FC = () => {
       }
     };
     fetchHotels();
-  }, [province, location]);
-
- 
-  
+  }, [province]);
 
   const handleNext = (id: string, images: string[]) =>
     setCurrentImage((prev) => ({
@@ -236,7 +211,7 @@ const ExplorePageContent: React.FC = () => {
   };
 
   const getPaginationButtons = () => {
-    const buttons: JSX.Element[] = [];
+    const buttons: React.JSX.Element[] = [];
     const maxButtons = 5;
     let startPage = Math.max(1, currentPage - Math.floor(maxButtons / 2));
     const endPage = Math.min(totalPages, startPage + maxButtons - 1);
@@ -472,7 +447,7 @@ const ExplorePageContent: React.FC = () => {
                     </div>
 
                     <div className="text-left sm:text-right mt-3 sm:mt-0">
-                      {hotel.sectionData?.Company?.promo_active === 1 && (
+                      {hotel.sectionData?.Company?.promo_active == 1 && (
                         <span className="bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded">
                           Flash Sale
                         </span>
