@@ -12,7 +12,6 @@ import {
 import { getFeaturedHotels, Hotel } from "@/lib/api";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
-import Link from "next/link";
 
 
 interface ExtendedHotel extends Hotel {
