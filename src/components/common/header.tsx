@@ -48,16 +48,17 @@ const Header = () => {
         <div className="hidden lg:flex items-center space-x-5 xl:space-x-10 text-green-600 font-normal text-base">
           {navLinks.map((link) => (
             <Link
-              key={link.name}
-              href={link.href}
-              className={`text-base transition transform hover:scale-105 hover:text-green-700 ${
-                pathname === link.href
-                  ? "text-green-900 font-bold border-b-2 border-green-700"
-                  : "border-transparent"
-              }`}
-            >
-              {link.name}
-            </Link>
+            key={link.name}
+            href={link.href}
+            className={`text-base transition transform hover:scale-105 hover:text-green-700 hover:font-bold ${
+              pathname === link.href
+                ? "text-green-700 font-bold border-green-700"
+                : "border-transparent"
+            }`}
+          >
+            {link.name}
+          </Link>
+          
           ))}
         </div>
 

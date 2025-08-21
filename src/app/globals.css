@@ -17,9 +17,33 @@ body{
     opacity: 0;
   }
 }
-
+/* Home page css */
 .blink-animation {
   animation: smooth-blink 2s ease-in-out infinite;
 }
+.btn-viewall-green {
+  @apply flex text-base text-[#4CAA42] bg-[#b5e1b5] py-2 px-10 cursor-pointer rounded
+         hover:text-[#4CAA42] hover:bg-[#4baa4238] transition-colors duration-200;
+}
+.province-btn {
+  @apply px-3 py-1 rounded-xl border border-gray-500 text-gray-700 bg-white transition;
+}
+.province-btn-active {
+  background-color: #95DD8D;
+  border: 1px solid #95DD8D;
+  margin: 0px 6px; /* ✅ optional, same as your .nav-pills */
+  color: #0D7F25;
+  border-radius: 11px;
+}
+/* hide scrollbar */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+
 
 

@@ -1,21 +1,11 @@
 import SearchBar from "@/components/homeComponnent/SearchBar";
 import Image from "next/image";
-import { getFeaturedHotels } from "@/lib/api";
+import { getFeaturedHotels, getProvinces } from "@/lib/api";
 
 import HotelList from "@/components/homeComponnent/HotelList";
 import DiscoverSection from "@/components/homeComponnent/DiscoverSection";
 import DiscoverNew from "@/components/homeComponnent/DiscoverNew";
 import UserReview from "@/components/homeComponnent/UserReview";
-
-const provinces = [
-  "Batangas",
-  "Oriental Mindoro",
-  "Cebu",
-  "Siargao",
-  "Palawan",
-  "Laguna",
-  "Metro Manila",
-];
 
 // Server Component to fetch initial data
 async function getInitialHotels() {
@@ -23,13 +13,22 @@ async function getInitialHotels() {
   return hotels;
 }
 
-export default async function Home() {
-  const initialHotels = await getInitialHotels();
+//fetch restricted province data
+async function getProvinceList() {
+  return await getProvinces();
+}
 
+export default async function Home() {
+  //const initialHotels = await getInitialHotels();
+  const [initialHotels, provinces] = await Promise.all([
+    getInitialHotels(),
+    getProvinceList(),
+  ]);
   return (
     <>
       {/* Hero Section */}
-      <section className="container mx-auto mt-4 p-4  py-5 px-2 flex">
+      {/* <section className="container mx-auto mt-4 p-4  py-5 px-2 flex"> */}
+      <section className="max-w-7xl mx-auto mt-4 p-4 py-5 px-2 flex">
         <div className="home-main-section">
           <div className="grid grid-cols-1 lg:grid-cols-2 home-main-section">
             <div className="escape-the-ordinary-main">
@@ -65,7 +64,8 @@ export default async function Home() {
       
 
       {/* Featured Hotels Section */}
-      <section className="container p-4 mx-auto mt-0 lg:mt-10 ">
+      {/* <section className="container p-4 mx-auto mt-0 lg:mt-10 "> */}
+      <section className="max-w-7xl p-4 mx-auto mt-0 lg:mt-10">
         <h2 className="text-[40px] font-semibold text-start mb-5 wow animate__animated animate__fadeInUp">
           Featured or Top visited properties
         </h2>
@@ -80,9 +80,9 @@ export default async function Home() {
             <br />
             Explore Batangas, Cebu, and more top destinations&quot;
           </p>
-          <button className="flex text-base text-green-600 bg-green-200 py-2 px-6 cursor-pointer rounded">
-            View All
-          </button>
+          <div className="hidden lg:block">
+            <button className="btn-viewall-green">View All</button>
+          </div>
         </div>
         <HotelList initialHotels={initialHotels} provinces={provinces} />
       </section>
