@@ -60,6 +60,7 @@ const DiscoverSection = () => {
                 width={40}
                 height={40}
                 className="rounded-md object-cover"
+                loading="lazy"
               />
             </div>
             <p className="text-gray-800 text-sm font-medium">Beatch</p>
@@ -77,6 +78,7 @@ const DiscoverSection = () => {
                 width={35}
                 height={35}
                 className="rounded-md object-cover"
+                loading="lazy"
               />
             </div>
             <p className="text-gray-800 text-sm font-medium">Nature</p>
@@ -94,6 +96,7 @@ const DiscoverSection = () => {
                 width={35}
                 height={35}
                 className="rounded-md object-cover"
+                loading="lazy"
               />
             </div>
             <p className="text-gray-800 text-sm font-medium">Resorts</p>
@@ -111,6 +114,7 @@ const DiscoverSection = () => {
                 width={35}
                 height={35}
                 className="rounded-md object-cover"
+                loading="lazy"
               />
             </div>
             <p className="text-gray-800 text-sm font-medium">Farms</p>
@@ -127,6 +131,7 @@ const DiscoverSection = () => {
                 width={35}
                 height={35}
                 className="rounded-md object-cover"
+                loading="lazy"
               />
             </div>
             <p className="text-gray-800 text-sm font-medium">Culture</p>
@@ -144,6 +149,7 @@ const DiscoverSection = () => {
                 width={35}
                 height={35}
                 className="rounded-md object-cover"
+                loading="lazy"
               />
             </div>
             <p className="text-gray-800 text-sm font-medium">City</p>
@@ -161,6 +167,7 @@ const DiscoverSection = () => {
                 width={35}
                 height={35}
                 className="rounded-md object-cover"
+                loading="lazy"
               />
             </div>
             <p className="text-gray-800 text-sm font-medium">Islands</p>
@@ -178,6 +185,7 @@ const DiscoverSection = () => {
                 width={35}
                 height={35}
                 className="rounded-md object-cover"
+                loading="lazy"
               />
             </div>
             <p className="text-gray-800 text-sm font-medium">Swimming Pool</p>

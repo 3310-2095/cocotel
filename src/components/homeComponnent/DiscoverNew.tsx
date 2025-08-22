@@ -118,6 +118,7 @@ const DiscoverNew = () => {
                   fill
                   className="rounded-tl-[20px] rounded-bl-[20px] rounded-tr-[20px] lg:rounded-tr-none rounded-br-[20px] lg:rounded-br-none object-cover"
                   sizes="(max-width: 1024px) 100vw, 50vw"
+                  loading="lazy"
                   // priority
                 />
               </div>

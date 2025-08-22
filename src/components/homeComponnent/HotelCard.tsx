@@ -38,6 +38,7 @@ export default function HotelCard({ hotel }: HotelCardProps) {
           width={400}
           height={200}
           className="w-full h-40 sm:h-52 md:h-60 object-cover"
+          loading="lazy"
         />
         <span className="absolute bottom-[-12px] right-3 bg-[#4CAA42] text-white text-[10px] sm:text-xs md:text-sm font-bold px-2 sm:px-3 md:px-4 py-1 sm:py-1.5 rounded">
           New Hotels
@@ -66,6 +67,7 @@ export default function HotelCard({ hotel }: HotelCardProps) {
                   width={12}
                   height={12}
                   className="object-cover"
+                  loading="lazy"
                   // priority
                 />
               ))}
