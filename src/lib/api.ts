@@ -244,8 +244,7 @@ export async function getProvinces(): Promise<string[]> {
     // Extract and filter
     const provinces = companies
       .map((c) => c.sectionData?.Company?.province)
-      .filter((p): p is string => Boolean(p) && allowedProvinces.includes(p));
-
+      .filter((p): p is string => p !== undefined && allowedProvinces.includes(p));
     // Return unique sorted provinces
     return [...new Set(provinces)].sort();
   } catch (error) {

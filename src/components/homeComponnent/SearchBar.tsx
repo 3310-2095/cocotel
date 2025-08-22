@@ -7,7 +7,6 @@ import { DateRange } from "react-date-range";
 import Image from "next/image";
 import { addDays, format } from "date-fns";
 import { FiSearch, FiCalendar, FiUsers } from "react-icons/fi";
-import { AiFillCalendar } from "react-icons/ai";
 import { useRouter } from "next/navigation";
 import { apiGetData } from "@/lib/api";
 
