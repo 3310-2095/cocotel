@@ -1,3 +1,4 @@
+
 import NodeCache from "node-cache";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -55,10 +56,12 @@ interface ApiRequest {
 
 export async function getFeaturedHotels(province?: string): Promise<Hotel[]> {
   const cacheKey = province ? `hotels_${province}` : "hotels_all";
-  const cachedData = cache.get<Hotel[]>(cacheKey);
-  if (cachedData) {
-    return cachedData;
-  }
+
+  // ⚠️ disable cache for random selection (or else it will always return the same 3)
+  // const cachedData = cache.get<Hotel[]>(cacheKey);
+  // if (cachedData) {
+  //   return cachedData;
+  // }
 
   try {
     const response = await fetch(`${API_BASE_URL}`, {
@@ -71,8 +74,9 @@ export async function getFeaturedHotels(province?: string): Promise<Hotel[]> {
         dbName: "hanahotelnew",
         collectionName: "company",
         ...(province && {
-          filter: { "sectionData.Company.province": province },
+          query: { "sectionData.Company.province": province },
         }),
+        limit: 0, // ensure we fetch all hotels
       }),
     });
 
@@ -147,8 +151,13 @@ export async function getFeaturedHotels(province?: string): Promise<Hotel[]> {
       }
     );
 
-    cache.set(cacheKey, hotels);
-    return hotels;
+    // 🔀 Shuffle hotels
+    const shuffled = hotels.sort(() => 0.5 - Math.random());
+
+    // 🎯 Pick first 3
+    const randomThree = shuffled.slice(0, 3);
+
+    return randomThree;
   } catch (error) {
     console.error("Error fetching featured hotels:", error);
     return [];
@@ -210,3 +219,166 @@ export async function apiGetData<T>({
     return [];
   }
 }
+
+// Get restricted province list
+export async function getProvinces(): Promise<string[]> {
+  try {
+    const companies = await apiGetData<ApiHotel>({
+      dbName: "hanahotelnew",
+      collectionName: "company",
+      projection: { "sectionData.Company.province": 1 },
+      cacheKey: "provinces",
+    });
+
+    // Allowed provinces
+    const allowedProvinces = [
+      "Batangas",
+      "Oriental Mindoro",
+      "Cebu",
+      "Siargao",
+      "Palawan",
+      "Laguna",
+      "Metro Manila",
+    ];
+
+    // Extract and filter
+    const provinces = companies
+      .map((c) => c.sectionData?.Company?.province)
+      .filter((p): p is string => Boolean(p) && allowedProvinces.includes(p));
+
+    // Return unique sorted provinces
+    return [...new Set(provinces)].sort();
+  } catch (error) {
+    console.error("Error fetching provinces:", error);
+    return [];
+  }
+}
+
+// export async function getProvinces(): Promise<string[]> {
+//   try {
+//     const companies = await apiGetData<ApiHotel>({
+//       dbName: "hanahotelnew",
+//       collectionName: "company",
+//       projection: { "sectionData.Company.province": 1 },
+//       cacheKey: "provinces",
+//     });
+
+//     // Extract provinces
+//     const provinces = companies
+//       .map((c) => c.sectionData?.Company?.province)
+//       .filter((p): p is string => Boolean(p));
+
+//     // Return unique sorted provinces
+//     return [...new Set(provinces)].sort();
+//   } catch (error) {
+//     console.error("Error fetching provinces:", error);
+//     return [];
+//   }
+// }
+
+// export async function getHotelBySlug(slug: string) {
+//   try {
+//     // fetch hotel
+//     const response = await fetch(`${API_BASE_URL}`, {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//         "x-api-key": API_KEY,
+//       },
+//       body: JSON.stringify({
+//         dbName: "hanahotelnew",
+//         collectionName: "company",
+//         query: { "sectionData.Company.slug": slug },
+//         projection: {},
+//         limit: 1,
+//       }),
+//     });
+
+//     if (!response.ok) {
+//       throw new Error(`HTTP error! status: ${response.status}`);
+//     }
+
+//     const dataRes = await response.json();
+//     const item: ApiHotel | undefined = Array.isArray(dataRes?.data)
+//       ? dataRes.data[0]
+//       : dataRes?.data;
+
+//     if (!item) return null;
+
+//     const company = item.sectionData?.Company || {};
+
+//     // ✅ step 1: parse amenity IDs
+//     const amenityIds = typeof company.amenities === "string"
+//       ? company.amenities.split(",").map((id: string) => id.trim())
+//       : [];
+
+//     // ✅ step 2: fetch amenities details
+//     let amenitiesDetails: { id: string; name: string; icon: string }[] = [];
+
+//     if (amenityIds.length > 0) {
+//       const amenityRes = await fetch(`${API_BASE_URL}`, {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//           "x-api-key": API_KEY,
+//         },
+//         body: JSON.stringify({
+//           dbName: "hanahotelnew",
+//           collectionName: "amenities",
+//           query: { _id: { $in: amenityIds } }, // filter amenities by ID list
+//           projection: { "sectionData.amenities.amenity_name": 1, "sectionData.amenities.icon": 1 },
+//         }),
+//       });
+
+//       if (amenityRes.ok) {
+//         const amenityJson = await amenityRes.json();
+//         amenitiesDetails = (amenityJson?.data || []).map((a: any) => ({
+//           id: a._id,
+//           name: a.sectionData?.amenities?.amenity_name || "",
+//           icon: a.sectionData?.amenities?.icon || "",
+//         }));
+//       }
+//     }
+
+//     // ✅ step 3: map into hotel object
+//     const hotel: Hotel = {
+//       id: item._id || "unknown",
+//       slug: company.slug || "unknown",
+//       name: company.name || "Unknown Hotel",
+//       location:
+//         [company.city, company.province, company.country]
+//           .filter(Boolean)
+//           .join(", ")
+//           .replace(/, , /g, ", ")
+//           .trim() || "Unknown Location",
+//       price: Number(company.price) || 0,
+//       discountPrice: Number(company.discountPrice) || 0,
+//       image: company.primary_image || "https://www.cocotel.com/fallback-image.jpg",
+//       province: company.province || "",
+//       rating: Number(company.rating) || 0,
+//       reviews: Number(company.reviews) || 0,
+//       sectionData: {
+//         Company: {
+//           name: company.name,
+//           slug: company.slug,
+//           city: company.city,
+//           province: company.province,
+//           country: company.country,
+//           description: company.description,
+//           gallery_image: company.gallery_image,
+//           amenities: amenitiesDetails, // ✅ enriched with name + icon
+//           promo_active: Number(company.promo_active) || 0,
+//           price: Number(company.price) || 0,
+//           discountPrice: Number(company.discountPrice) || 0,
+//           primary_image: company.primary_image,
+//         },
+//       },
+//     };
+//     console.log('responseDate:',hotel);
+//     return hotel;
+//   } catch (error) {
+//     console.error("Error fetching hotel by slug:", error);
+//     return null;
+//   }
+// }
+

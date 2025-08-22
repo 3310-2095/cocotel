@@ -103,7 +103,9 @@ const Page = () => {
       {/* Hero Section */}
       <div
         className="relative bg-cover bg-center bg-no-repeat text-white w-full h-[500px] sm:h-[600px] lg:h-[550px] mx-auto px-4 sm:px-6 lg:px-8"
-        style={{ backgroundImage: "url('/events/event_banner.png')" }}
+        style={{
+          backgroundImage: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('/events/event_banner.png')`,
+        }}
       >
         <div className="relative mx-auto py-10 sm:py-16 text-center">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold">
@@ -115,7 +117,7 @@ const Page = () => {
           <p className="text-[16px] mt-2 sm:mt-6 max-w-2xl mx-auto leading-relaxed">
             Your special moments deserve the best. At Cocotel, we offer stunning venues and tailored packages for all events—grand gatherings, intimate weddings, corporate galas, and family reunions. Our elegant and versatile venues ensure the perfect setting for any occasion. With our expert assistance, you&apos;ll create unforgettable memories. Celebrate every occasion at Cocotel.
           </p>
-          <button className="mt-6 sm:mt-8 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded text-base">
+          <button className="mt-6 sm:mt-8 bg-[#4CAA42] hover:bg-[#157347] text-white px-6 py-3 rounded text-base">
             I want to see more
           </button>
         </div>
@@ -124,7 +126,7 @@ const Page = () => {
       {/* Events Section */}
       <div className="max-w-[80rem] mx-auto p-1">
         <h1 className="text-[38px] font-normal font-[MontserratSemiBold] md:text-left mt-10 text-[#212529]">
-          Events
+          Event
         </h1>
 
         {events.map((event, index) => (
@@ -144,9 +146,9 @@ const Page = () => {
             </div>
 
             {/* Text Section */}
-            <div className="w-full md:w-1/2 bg-green-50 p-6 flex flex-col justify-between">
+            <div className="w-full md:w-1/2 bg-green-50 p-12 flex flex-col justify-between">
               <div>
-                <h3 className="text-gray-600 text-xl uppercase tracking-wide font-semibold">
+                <h3 className="text-gray-600 text-xl  tracking-wide">
                   {event.event_type}
                 </h3>
                 <h2 className="text-gray-900 text-4xl mt-4 font-semibold">
@@ -157,7 +159,7 @@ const Page = () => {
                 </p>
                 <div className="flex mt-8">
                   <Link href={`/events/${encodeURIComponent(event.event_name.replace(/\s+/g, '-').toLowerCase())}`}>
-                    <button className="sm:mt-0 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded text-base">
+                    <button className="sm:mt-0 bg-[#4CAA42] hover:bg-[#157347] text-white px-6 py-3 rounded text-base">
                       See more
                     </button>
                   </Link>

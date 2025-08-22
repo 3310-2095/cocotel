@@ -37,7 +37,7 @@ const hotels = [
 
 const UserReview = () => {
   return (
-    <div>
+    <div className="px-3 sm:px-6">
       <Swiper
         modules={[Navigation]}
         spaceBetween={20}
@@ -47,11 +47,17 @@ const UserReview = () => {
         {hotels.map((hotel) => (
           <SwiperSlide key={hotel.id}>
             <div className="grid grid-cols-1 lg:grid-cols-3 items-center bg-white shadow-md rounded-lg overflow-hidden">
-              <div className="p-8 h-full col-span-1 lg:col-span-2 order-2 lg:order-1">
-                <h2 className="text-4xl font-medium text-black mb-4">
+
+              {/* Left Content */}
+              <div className="p-4 sm:p-6 md:p-8 h-full col-span-1 lg:col-span-2 order-2 lg:order-1">
+
+                {/* Title */}
+                <h2 className="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-medium text-black mb-3 sm:mb-4">
                   {hotel.title}
                 </h2>
-                <div className="flex items-center mt-1">
+
+                {/* Location + Stars */}
+                <div className="flex flex-wrap items-center mt-1">
                   <span className="flex items-center gap-1">
                     {Array.from({ length: 5 }).map((_, i) => (
                       <Image
@@ -63,42 +69,50 @@ const UserReview = () => {
                         }
                         alt="star"
                         className="object-cover"
-                        width={14}
-                        height={14}
+                        width={12}
+                        height={12}
                         priority
                       />
                     ))}
                   </span>
-                  <span className="text-gray-500 text-sm ml-5">
+                  <span className="text-gray-600 text-xs sm:text-sm ml-3 sm:ml-5">
                     {hotel.address1}, {hotel.address2}, {hotel.country}
                   </span>
                 </div>
-                <p className="text-gray-700 mt-4 whitespace-pre-line max-h-30 overflow-y-scroll">
+
+                {/* Description */}
+                <p className="text-gray-600 text-xs sm:text-sm md:text-base mt-3 sm:mt-4 whitespace-pre-line leading-relaxed">
                   {hotel.description}
                 </p>
-                <div className="mt-5 flex justify-start items-center">
+
+                {/* User Review */}
+                <div className="mt-4 sm:mt-5 flex items-center gap-3">
                   <Image
                     src="https://www.cocotel.com/frontend/images/review.png"
                     alt="user"
-                    width={58}
-                    height={58}
-                    className=" object-cover"
+                    width={48}
+                    height={48}
+                    className="rounded-full object-cover"
                   />
                   <div>
-                    <p className="text-2xl font-bold">
+                    <p className="text-sm sm:text-lg md:text-xl font-bold">
                       Patricia Jane Francisco
                     </p>
-                    <p className="text-base font-normal">2 months ago</p>
+                    <p className="text-xs sm:text-sm font-normal text-gray-500">
+                      2 months ago
+                    </p>
                   </div>
                 </div>
               </div>
+
+              {/* Right Image */}
               <div className="col-span-1 order-1 lg:order-2">
                 <Image
                   src={hotel.image}
                   alt={hotel.title}
                   width={600}
                   height={400}
-                  className="rounded-tl-[20px] lg:rounded-tl-none rounded-bl-[20px] lg:rounded-bl-none rounded-tr-[20px] rounded-br-[20px] object-cover w-full h-full"
+                  className="rounded-t-lg lg:rounded-none object-cover w-full h-52 sm:h-72 md:h-full"
                 />
               </div>
             </div>

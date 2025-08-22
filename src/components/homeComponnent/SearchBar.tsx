@@ -7,6 +7,7 @@ import { DateRange } from "react-date-range";
 import Image from "next/image";
 import { addDays, format } from "date-fns";
 import { FiSearch, FiCalendar, FiUsers } from "react-icons/fi";
+import { AiFillCalendar } from "react-icons/ai";
 import { useRouter } from "next/navigation";
 import { apiGetData } from "@/lib/api";
 
@@ -321,7 +322,7 @@ const SearchBox = () => {
         {/* Search Button */}
         <button
           type="submit"
-          className="bg-green-500 text-white p-3 rounded-full w-full lg:w-auto h-[50px] lg:h-[90px] px-8 hover:bg-green-600 transition"
+          className="bg-[#4CAA42] text-white p-3 rounded-full w-full lg:w-auto h-[50px] lg:h-[90px] px-8 hover:bg-green-600 transition"
         >
           <FiSearch className="inline mr-2" /> Search
         </button>

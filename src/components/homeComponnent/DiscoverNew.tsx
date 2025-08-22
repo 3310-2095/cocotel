@@ -123,7 +123,7 @@ const DiscoverNew = () => {
                 />
               </div>
               <div className="p-8 h-full">
-                <p className="text-xl text-gray-600 mb-3">
+                <p className="text-xl text-black-600 mb-3">
                   Discover Something New
                 </p>
                 <h2 className="text-3xl font-bold text-black mb-4">
@@ -133,7 +133,11 @@ const DiscoverNew = () => {
                 <div className="text-gray-700 mb-6 whitespace-pre-line">
                   {parse(hotel.description)}
                 </div>
-                <Link href={`/hotel/${hotel.slug}`} className="bg-green-600 text-white px-6 py-3 rounded-md hover:bg-green-700 transition">
+                {/* <Link href={`/hotel/${hotel.slug}`} className="bg-green-600 text-white px-6 py-3 rounded-md hover:bg-green-700 transition"> */}
+                <Link
+  href={`/hotel/${hotel.slug}`}
+  className="text-[17px] bg-[#4CAA42] text-white px-[38px] py-[15px] rounded-md hover:bg-[#279c1a] transition"
+>
                   Explore More
                 </Link>
               </div>
