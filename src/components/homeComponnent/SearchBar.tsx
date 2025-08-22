@@ -142,7 +142,7 @@ const SearchBox = () => {
         className="search-hotel-form bg-white/90 backdrop-blur-md flex flex-col lg:flex-row items-center space-y-4 lg:space-y-0 lg:space-x-4"
       >
         {/* Location */}
-        <div className="ms-3 flex-1 relative w-full lg-w-auto" ref={locationRef}>
+        <div className="ms-0 lg:ms-3 flex-1 relative w-full lg:w-auto" ref={locationRef}>
           <input
             type="text"
             placeholder="Location"

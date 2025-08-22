@@ -83,11 +83,17 @@ export default function HotelCard({ hotel }: HotelCardProps) {
 
         {/* Prices */}
         <p className="text-gray-500 text-[10px] sm:text-xs md:text-sm line-through mt-1">
+          ₱ 3080 Per Night
+        </p>
+        <p className="text-red-500 font-semibold text-base sm:text-xl md:text-2xl mt-1 animate-slide-up">
+          ₱ 4,400 Per Night
+        </p>
+        {/* <p className="text-gray-500 text-[10px] sm:text-xs md:text-sm line-through mt-1">
           ${hotel.price} Per Night
         </p>
         <p className="text-red-500 font-semibold text-base sm:text-xl md:text-2xl mt-1 animate-slide-up">
           ${hotel.discountPrice} Per Night
-        </p>
+        </p> */}
       </div>
     </Link>
   );

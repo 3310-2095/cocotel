@@ -201,3 +201,12 @@ font-weight: bold !important;
       display: none;
     }
 }
+@media (max-width: 768px) {
+  .escape-the-ordinary-main {
+   background-color: #f6fcf9;
+  padding: 40px;
+  border-radius: 50px 50px 0px 0px;
+  height: 100%;
+  box-shadow: -1px 2px 5px -1px #736c6c;
+  }
+}
