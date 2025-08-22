@@ -55,6 +55,7 @@ export default async function Home() {
                 width={800}
                 height={500}
                 className="rounded-md object-cover"
+                priority={true}
               />
             </div>
           </div>

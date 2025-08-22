@@ -66,7 +66,7 @@ export default function HotelCard({ hotel }: HotelCardProps) {
                   width={12}
                   height={12}
                   className="object-cover"
-                  priority
+                  // priority
                 />
               ))}
             </span>

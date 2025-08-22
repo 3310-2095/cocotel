@@ -71,7 +71,7 @@ const UserReview = () => {
                         className="object-cover"
                         width={12}
                         height={12}
-                        priority
+                        // priority
                       />
                     ))}
                   </span>

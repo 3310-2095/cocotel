@@ -39,7 +39,7 @@ const Header = () => {
               width={185}
               height={54}
               className="object-cover"
-              priority
+              priority={true}
             />
           </Link>
         </div>

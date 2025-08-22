@@ -70,9 +70,8 @@ const DiscoverNew = () => {
               (galleryImages.length > 0
                 ? galleryImages[0]
                 : "/placeholder.jpg"),
-            location: `${company.city || ""}, ${company.province || ""}, ${
-              company.country || ""
-            }`
+            location: `${company.city || ""}, ${company.province || ""}, ${company.country || ""
+              }`
               .replace(/, ,/g, ",")
               .trim(),
           };
@@ -119,7 +118,7 @@ const DiscoverNew = () => {
                   fill
                   className="rounded-tl-[20px] rounded-bl-[20px] rounded-tr-[20px] lg:rounded-tr-none rounded-br-[20px] lg:rounded-br-none object-cover"
                   sizes="(max-width: 1024px) 100vw, 50vw"
-                  priority
+                  // priority
                 />
               </div>
               <div className="p-8 h-full">
@@ -135,9 +134,9 @@ const DiscoverNew = () => {
                 </div>
                 {/* <Link href={`/hotel/${hotel.slug}`} className="bg-green-600 text-white px-6 py-3 rounded-md hover:bg-green-700 transition"> */}
                 <Link
-  href={`/hotel/${hotel.slug}`}
-  className="text-[17px] bg-[#4CAA42] text-white px-[38px] py-[15px] rounded-md hover:bg-[#279c1a] transition"
->
+                  href={`/hotel/${hotel.slug}`}
+                  className="text-[17px] bg-[#4CAA42] text-white px-[38px] py-[15px] rounded-md hover:bg-[#279c1a] transition"
+                >
                   Explore More
                 </Link>
               </div>

@@ -152,10 +152,11 @@ export async function getFeaturedHotels(province?: string): Promise<Hotel[]> {
     );
 
     // 🔀 Shuffle hotels
-    const shuffled = hotels.sort(() => 0.5 - Math.random());
+    // const shuffled = hotels.sort(() => 0.5 - Math.random());
 
-    // 🎯 Pick first 3
-    const randomThree = shuffled.slice(0, 3);
+    // // 🎯 Pick first 3
+    // const randomThree = shuffled.slice(0, 3);
+    const randomThree = hotels.slice(0, 3);
 
     return randomThree;
   } catch (error) {
