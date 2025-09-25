@@ -25,13 +25,26 @@ const DiscoverSection = () => {
             and resorts in beachside, cityscape, and mountain settings. Book now
             with no queues, no crowds—all discounted.
           </p>
-          <button
-            className="bg-green-600 text-white px-8 py-3 rounded-md hover:bg-green-700 transition duration-300 wow animate__animated animate__fadeInUp"
+          
+          {/* <Link
+           href="#"
+            className="text-[17px] bg-[#4CAA42] text-white px-[38px] py-[15px] rounded-md hover:bg-[#279c1a] transition duration-300 wow animate__animated animate__fadeInUp"
             data-wow-delay="0.3s"
             data-wow-duration="1s"
           >
             Explore
-          </button>
+          </Link> */}
+          <div className="flex justify-center sm:justify-start">
+  <Link
+    href="#"
+    className="w-full sm:w-auto text-center text-[15px] sm:text-[17px] bg-[#4CAA42] text-white px-6 py-3 rounded-md hover:bg-[#279c1a] transition duration-300 wow animate__animated animate__fadeInUp"
+    data-wow-delay="0.3s"
+    data-wow-duration="1s"
+  >
+    Explore
+  </Link>
+</div>
+          
         </WOWWrapper>
       </div>
       <div className="col-span-1 lg:col-span-2">
@@ -47,6 +60,7 @@ const DiscoverSection = () => {
                 width={40}
                 height={40}
                 className="rounded-md object-cover"
+                loading="lazy"
               />
             </div>
             <p className="text-gray-800 text-sm font-medium">Beatch</p>
@@ -64,6 +78,7 @@ const DiscoverSection = () => {
                 width={35}
                 height={35}
                 className="rounded-md object-cover"
+                loading="lazy"
               />
             </div>
             <p className="text-gray-800 text-sm font-medium">Nature</p>
@@ -81,6 +96,7 @@ const DiscoverSection = () => {
                 width={35}
                 height={35}
                 className="rounded-md object-cover"
+                loading="lazy"
               />
             </div>
             <p className="text-gray-800 text-sm font-medium">Resorts</p>
@@ -98,6 +114,7 @@ const DiscoverSection = () => {
                 width={35}
                 height={35}
                 className="rounded-md object-cover"
+                loading="lazy"
               />
             </div>
             <p className="text-gray-800 text-sm font-medium">Farms</p>
@@ -114,6 +131,7 @@ const DiscoverSection = () => {
                 width={35}
                 height={35}
                 className="rounded-md object-cover"
+                loading="lazy"
               />
             </div>
             <p className="text-gray-800 text-sm font-medium">Culture</p>
@@ -131,6 +149,7 @@ const DiscoverSection = () => {
                 width={35}
                 height={35}
                 className="rounded-md object-cover"
+                loading="lazy"
               />
             </div>
             <p className="text-gray-800 text-sm font-medium">City</p>
@@ -148,6 +167,7 @@ const DiscoverSection = () => {
                 width={35}
                 height={35}
                 className="rounded-md object-cover"
+                loading="lazy"
               />
             </div>
             <p className="text-gray-800 text-sm font-medium">Islands</p>
@@ -165,6 +185,7 @@ const DiscoverSection = () => {
                 width={35}
                 height={35}
                 className="rounded-md object-cover"
+                loading="lazy"
               />
             </div>
             <p className="text-gray-800 text-sm font-medium">Swimming Pool</p>
