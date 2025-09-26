@@ -40,7 +40,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={montserrat.className}>
-        <Header />
+        {/* <Header /> */}
         <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
