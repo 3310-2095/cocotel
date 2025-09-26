@@ -34,6 +34,7 @@ const Footer = () => {
               width={200}
               height={54}
               className="object-contain mt-4"
+              loading="lazy"
             />
           </div>
 

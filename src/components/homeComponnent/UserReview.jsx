@@ -14,7 +14,7 @@ const hotels = [
     address2: "Oriental Mindoro",
     country: "Philippines",
     image:
-      "https://img.cocotel.com/frontend/hotels/278/casa-marco-suites-g1867.jpg",
+      "https://hel1.your-objectstorage.com/hana/app3534482538357/company/Rold___Roub_Home_Suites-9931.webp",
     description: `Welcome to Casa Marco Suites, our latest #CocotelCollections addition!
       Nestled in a serene location, this boutique hotel combines elegance and comfort
       with modern amenities. Enjoy the tranquil garden, refreshing pool, and delicious
@@ -27,7 +27,7 @@ const hotels = [
     address2: "",
     country: "Philippines",
     image:
-      "https://img.cocotel.com/frontend/hotels/275/yello--hotel-cebu-powered-by-cocotel-g1851.jpg",
+      "https://hel1.your-objectstorage.com/hana/app3534482538357/company/Ronaldo_s_Inn-9048.webp",
     description: `It is a Hello from Yello! Hotel, our vibrant new spot in Cebu!
       This lively hotel features a contemporary design and colourful decor.
       Enjoy modern comforts, stunning city views from the rooftop bar, and easy access
@@ -71,6 +71,7 @@ const UserReview = () => {
                         className="object-cover"
                         width={12}
                         height={12}
+                        loading="lazy"
                         // priority
                       />
                     ))}
@@ -93,6 +94,7 @@ const UserReview = () => {
                     width={48}
                     height={48}
                     className="rounded-full object-cover"
+                    loading="lazy"
                   />
                   <div>
                     <p className="text-sm sm:text-lg md:text-xl font-bold">
@@ -113,6 +115,7 @@ const UserReview = () => {
                   width={600}
                   height={400}
                   className="rounded-t-lg lg:rounded-none object-cover w-full h-52 sm:h-72 md:h-full"
+                  loading="lazy"
                 />
               </div>
             </div>
