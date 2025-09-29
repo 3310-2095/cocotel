@@ -21,10 +21,10 @@ const WhyUs = () => {
           <div className="bg-yellow-50 border-2 border-yellow-300 rounded-lg p-4 hover:bg-yellow-100 transition duration-300">
             <div className="flex items-center mb-2">
               <FaTrophy className="text-yellow-500 mr-2" />
-              <h3 className="text-lg font-semibold text-yellow-700">Philippines' Top Travel Platform</h3>
+              <h3 className="text-lg font-semibold text-yellow-700">Philippines&apos; Top Travel Platform</h3>
             </div>
             <p className="text-gray-600">
-              Trusted by thousands of travelers and recognized for excellence, we make it easy to explore the Philippines from coast to coast.
+              Trusted by thousands of travelers and recognized for excellence, we make it easy to explore the Philippines from coast to coast&apost;.
             </p>
           </div>
 
@@ -49,7 +49,7 @@ const WhyUs = () => {
               <h3 className="text-lg font-semibold text-green-700">Best Price Guarantee</h3>
             </div>
             <p className="text-gray-600">
-              Get the lowest prices on all our services. If you find a better deal, we&#39;ll match it—no questions asked.
+              Get the lowest prices on all our services. If you find a better deal, we&apos;ll match it—no questions asked.
             </p>
           </div>
 
@@ -97,7 +97,7 @@ const WhyUs = () => {
               <h3 className="text-lg font-semibold text-red-700">24/7 Support in 14 Languages</h3>
             </div>
             <p className="text-gray-600">
-              We&#39;re here for you anytime, in your language. Our support team is available 24/7 to make sure your trip goes smoothly.
+              We&apos;re here for you anytime, in your language. Our support team is available 24/7 to make sure your trip goes smoothly.
             </p>
           </div>
         </div>
