@@ -46,7 +46,7 @@ const Photos = () => {
   return (
     <section className="py-8">
       <div className="max-w-7xl mx-auto px-4">
-        <h2 className="text-2xl md:text-3xl font-bold text-center mb-4 text-blue-600">
+        <h2 className="text-2xl md:text-3xl font-bold text-center mb-4 text-green-400">
           Photos of the Philippines
         </h2>
         <p className="text-center mb-8 text-gray-600">
