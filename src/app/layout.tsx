@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Montserrat } from 'next/font/google';
-import Header from "@/components/common/header";
 import ClientLayout from "@/components/common/clientLayout"; // New Client Component
 import "../../public/css/style.css";
 

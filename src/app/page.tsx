@@ -1,12 +1,12 @@
-
-
 import React from 'react';
-import Image from "next/image";
 import Head from 'next/head';
 import Header from '@/components/homeTwo/Header';
 import Hero from '@/components/homeTwo/Hero';
 import Features from '@/components/homeTwo/Features';
 import TopThingsToDo from '@/components/homeTwo/TopThingsToDo';
+import WhyUs from '@/components/homeTwo/whyus';
+import Attractions from '@/components/homeTwo/attractions';
+import Photos from '@/components/homeTwo/photos';
 
 export default async function Home() {
   return (
@@ -18,10 +18,11 @@ export default async function Home() {
       </Head>
       <Header />
       <Hero />
+            <TopThingsToDo />
       <Features />
-      <TopThingsToDo />
-      {/* Add footer or other sections as needed */}
+      <WhyUs />
+      <Attractions />
+      <Photos />
     </div>
- );
+  );
 }
-
