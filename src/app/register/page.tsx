@@ -148,9 +148,9 @@ const RegisterPage = () => {
               <input type="checkbox" className="mr-2 mt-1 sm:mt-0" />
               <label className="text-sm leading-snug">
                 I agree to the{" "}
-                <a href="#" className="text-green-600 font-medium">
+                <link href="#" className="text-green-600 font-medium">
                   Terms and Conditions
-                </a>
+                </link>
               </label>
             </div>
           </div>
@@ -164,9 +164,9 @@ const RegisterPage = () => {
           </button>
           <div className="flex items-center space-x-1 justify-center">
             <p className="text-black">Already have an account?</p>
-            <a href="/login" className="text-green-600 hover:underline">
+            <link href="/login" className="text-green-600 hover:underline">
               Login
-            </a>
+            </link>
           </div>
         </form>
       </div>

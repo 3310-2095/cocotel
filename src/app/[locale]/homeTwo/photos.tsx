@@ -89,9 +89,9 @@ const Photos: React.FC<PhotosProps> = ({ data }) => {
             </div>
           </div>
           <div className="text-right mt-4">
-            <a href="#" className="text-blue-600 hover:underline">
+            <link href="#" className="text-blue-600 hover:underline">
               See all photos →
-            </a>
+            </link>
           </div>
         </div>
 
