@@ -3,23 +3,32 @@
 import React, { useState } from "react";
 import Image from "next/image";
 
-const tours = [
-  { src: "/Top things/1.jpg", title: "Puerto Princesa Underground River" },
-  { src: "/Top things/2.jpg", title: "White Beach in Boracay Island" },
-  { src: "/Top things/3.jpg", title: "Chocolate Hills" },
-  { src: "/Top things/4.jpg", title: "Intramuros" },
-  { src: "/Top things/5.jpg", title: "Kayangan Lake" },
-  { src: "/Top things/6.jpg", title: "Kawasan Falls" },
-  { src: "/Top things/7.jpg", title: "Nacpan Beach" },
-  { src: "/Top things/8.jpg", title: "Calle Crisologo" },
-];
+interface Tour {
+  src: string;
+  title: string;
+}
 
-// First 6 for homepage thumbnails
-const visibleTours = tours.slice(0, 6);
+interface PhotosProps {
+  data: {
+    title: string;
+    subtitle: string;
+    tours: Tour[];
+  };
+}
 
-const Photos = () => {
+const Photos: React.FC<PhotosProps> = ({ data }) => {
+  // Move hooks to the top
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
+
+  // Validate data
+  if (!data || !data.tours || !Array.isArray(data.tours) || data.tours.length < 6) {
+    console.warn("Invalid or missing photos data");
+    return null;
+  }
+
+  const { title, subtitle, tours } = data;
+  const visibleTours = tours.slice(0, 6); // First 6 for homepage thumbnails
 
   const openPopup = (index: number) => {
     setSelectedImage(index);
@@ -32,31 +41,25 @@ const Photos = () => {
   };
 
   const handlePrev = () => {
-    setCurrentSlide((prev) =>
-      prev > 0 ? prev - 1 : tours.length - 1
-    );
+    setCurrentSlide((prev) => (prev > 0 ? prev - 1 : tours.length - 1));
   };
 
   const handleNext = () => {
-    setCurrentSlide((prev) =>
-      prev < tours.length - 1 ? prev + 1 : 0
-    );
+    setCurrentSlide((prev) => (prev < tours.length - 1 ? prev + 1 : 0));
   };
 
   return (
     <section className="py-8">
       <div className="max-w-7xl mx-auto px-4">
-        <h2 className="text-2xl md:text-3xl font-bold text-center mb-4 text-green-400">
-          Photos of the Philippines
+        <h2 className="text-2xl md:text-3xl font-bold text-center mb-4 text-black">
+          {title}
         </h2>
-        <p className="text-center mb-8 text-gray-600">
-          See pictures of the best destinations and attractions in the Philippines
-        </p>
+        <p className="text-center mb-8 text-gray-600">{subtitle}</p>
 
         <div className="relative">
           <div className="relative overflow-hidden rounded-lg border-4 border-brown-800">
             <Image
-              src={visibleTours[0].src}
+              src={visibleTours[0].src || "/fallback-image.jpg"}
               alt={visibleTours[0].title}
               width={896}
               height={479}
@@ -71,7 +74,7 @@ const Photos = () => {
                   onClick={() => openPopup(index)}
                 >
                   <Image
-                    src={tour.src}
+                    src={tour.src || "/fallback-image.jpg"}
                     alt={tour.title}
                     width={120}
                     height={90}
@@ -113,8 +116,8 @@ const Photos = () => {
                 &#10094;
               </button>
               <Image
-                src={tours[currentSlide].src}
-                alt=""
+                src={tours[currentSlide].src || "/fallback-image.jpg"}
+                alt={tours[currentSlide].title}
                 width={1000}
                 height={600}
                 className="max-w-full max-h-[80vh] object-contain"
@@ -127,7 +130,7 @@ const Photos = () => {
               </button>
             </div>
 
-            {/* Popup Thumbnails (all 8) */}
+            {/* Popup Thumbnails (all tours) */}
             <div className="flex space-x-2 overflow-x-auto px-4 pb-4">
               {tours.map((tour, index) => (
                 <div
@@ -136,8 +139,8 @@ const Photos = () => {
                   onClick={() => setCurrentSlide(index)}
                 >
                   <Image
-                    src={tour.src}
-                    alt=""
+                    src={tour.src || "/fallback-image.jpg"}
+                    alt={tour.title}
                     width={120}
                     height={90}
                     className={`rounded-lg object-cover border ${
