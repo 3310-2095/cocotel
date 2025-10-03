@@ -58,12 +58,12 @@ const LoginPage = () => {
             {/* Forgot Password + Login Button */}
             <div className="mb-6">
               <div className="flex justify-end mb-4">
-                <a
+                <link
                   href="#"
                   className="text-sm text-black hover:text-green-700 font-semibold"
                 >
                   Forgot Your Password?
-                </a>
+                </link>
               </div>
               <button
                 type="button"
@@ -76,9 +76,9 @@ const LoginPage = () => {
             <div className="text-center mt-10">
               <p className="text-black">Don&apos;t have an account?</p>
               <h3 className="text-black font-bold">
-                <a href="/register" className="hover:text-green-600 transition">
+                <link href="/register" className="hover:text-green-600 transition">
                   Sign up/Register
-                </a>
+                </link>
               </h3>
             </div>
           </form>

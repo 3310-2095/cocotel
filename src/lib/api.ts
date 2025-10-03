@@ -1,4 +1,3 @@
-
 import NodeCache from "node-cache";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -55,7 +54,7 @@ interface ApiRequest {
 }
 
 export async function getFeaturedHotels(province?: string): Promise<Hotel[]> {
-  const cacheKey = province ? `hotels_${province}` : "hotels_all";
+  // const cacheKey = province ? `hotels_${province}` : "hotels_all"; // This line was removed as it was unused.
 
   // ⚠️ disable cache for random selection (or else it will always return the same 3)
   // const cachedData = cache.get<Hotel[]>(cacheKey);
@@ -381,4 +380,3 @@ export async function getProvinces(): Promise<string[]> {
 //     return null;
 //   }
 // }
-
