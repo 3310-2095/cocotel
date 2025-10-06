@@ -7,87 +7,111 @@ import {
   FaPhoneAlt,
 } from "react-icons/fa";
 import Image from "next/image";
+import Link from "next/link";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#2E7D32] text-white py-10 px-6">
-{/* Main Footer Grid */}
-<div className="max-w-[1320px] mx-auto flex flex-col md:flex-row gap-8">
-  {/* Column 1: Social + Logo */}
-  <div className="flex flex-col items-center md:items-start space-y-5 text-center md:text-left w-full md:w-1/4">
-    <p className="text-base font-medium">Stay Connected with Us</p>
-    <div className="flex gap-5 text-2xl">
-      <FaFacebookF />
-      <FaInstagram />
-      <FaTiktok />
-    </div>
-    <Image
-      src="/logo/footer.svg"
-      alt="Cocotel Logo"
-      width={160}
-      height={48}
-      className="object-contain"
-    />
-  </div>
+    <footer className="bg-[#4baa42] text-white mt-[30px]">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 py-10">
+        {/* TOP: 50/50 layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16">
+          {/* Left (Social + Logo) */}
+          <div className="flex flex-col items-center md:items-start space-y-5 text-center md:text-left">
+            <p className="text-base font-medium">Stay Connected with Us</p>
+            <div className="flex gap-5">
+              {[FaFacebookF, FaInstagram, FaTiktok].map((Icon, idx) => (
+                <span
+                  key={idx}
+                  className="hover:drop-shadow-[0_2px_2px_rgba(0,0,0,0.7)] transition duration-300 cursor-pointer"
+                >
+                  <Icon className="w-7 h-7 md:w-8 md:h-8" />
+                </span>
+              ))}
+            </div>
+            <Image
+              src="/logo/footer.svg"
+              alt="Cocotel Logo"
+              width={200}
+              height={54}
+              className="object-contain mt-4"
+              loading="lazy"
+            />
+          </div>
 
-  {/* Columns 2–4 grouped on the right */}
-  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full">
-    {/* About Cocotel */}
-    <div>
-      <h4 className="text-xl font-semibold mb-4">About Cocotel</h4>
-      <ul className="space-y-3 text-base">
-        <li className="hover:underline cursor-pointer">Home</li>
-        <li className="hover:underline cursor-pointer">Blog</li>
-        <li className="hover:underline cursor-pointer">Explore</li>
-        <li className="hover:underline cursor-pointer">Gallery</li>
-      </ul>
-    </div>
+          {/* Right (Links) */}
+          <div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 border-b pb-10 border-white/100">
+              {[
+                {
+                  title: "About Cocotel",
+                  links: [
+                    { name: "Home", href: "/" },
+                    { name: "Blog", href: "/blog" },
+                    { name: "Explore", href: "/explore" },
+                    { name: "Gallery", href: "/gallery" },
+                  ],
+                },
+                {
+                  title: "Partner With Us",
+                  links: [
+                    { name: "Contact Us", href: "/contact" },
+                    { name: "Careers", href: "/careers" },
+                    { name: "Franchise", href: "/franchise" },
+                  ],
+                },
+                {
+                  title: "Events",
+                  links: [
+                    { name: "Main Events", href: "/events" },
+                    { name: "Meetings", href: "/events/meetings" },
+                    { name: "Milestones", href: "/events/milestones" },
+                    { name: "Weddings", href: "/events/weddings" },
+                  ],
+                },
+              ].map((section, idx) => (
+                <div key={idx} className="w-full text-center md:text-start">
+                  <h4 className="text-xl font-semibold mb-4">{section.title}</h4>
+                  <ul className="space-y-3 text-base">
+                    {section.links.map((link, i) => (
+                      <li
+                        key={i}
+                        className="cursor-pointer hover:drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] transition duration-300"
+                      >
+                        <Link href={link.href}>{link.name}</Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
 
-    {/* Partner With Us */}
-    <div>
-      <h4 className="text-xl font-semibold mb-4">Partner With Us</h4>
-      <ul className="space-y-3 text-base">
-        <li className="hover:underline cursor-pointer">Contact Us</li>
-        <li className="hover:underline cursor-pointer">Careers</li>
-        <li className="hover:underline cursor-pointer">Franchise</li>
-      </ul>
-    </div>
+        {/* BOTTOM: 50/50 layout with top border */}
+        <div className=" mt-10  grid grid-cols-1 md:grid-cols-2 items-center gap-6">
+          {/* Left (Copyright) */}
+          <div className="text-center md:text-left">
+            <p className="text-sm md:text-base font-light">
+              © 2025 Cocotel International. All Rights Reserved.
+            </p>
+          </div>
 
-    {/* Events */}
-    <div>
-      <h4 className="text-xl font-semibold mb-4">Events</h4>
-      <ul className="space-y-3 text-base">
-        <li className="hover:underline cursor-pointer">Main Events</li>
-        <li className="hover:underline cursor-pointer">Meetings</li>
-        <li className="hover:underline cursor-pointer">Milestones</li>
-        <li className="hover:underline cursor-pointer">Weddings</li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-{/* Divider & Bottom Row */}
-<div className="max-w-[1320px] mx-auto border-t border-white/30 mt-8 pt-4 px-4 flex flex-col md:flex-row justify-between gap-4 text-sm">
-  {/* Left Side: Email + Copyright */}
-  <div className="flex flex-col gap-2">
-    <p className="text-base font-light">
-      © 2025 Cocotel International. All Rights Reserved.
-    </p>
-    <div className="flex items-center gap-2">
-      <FaEnvelope className="text-white text-base" />
-      <p>info@cocotel.com.ph</p>
-    </div>
-  </div>
-
-  {/* Right Side: Contact Numbers (Stacked Vertically) */}
-  <div className="flex flex-col items-start md:items-end gap-1">
-    <div className="flex items-center gap-2">
-      <FaPhoneAlt className="text-white text-base" />
-      <p>+63-917-555-1234</p>
-    </div>
-    <p className="pl-6 md:pl-0">+63-908-777-8901</p>
-  </div>
-</div>
+          {/* Right (Contacts) */}
+          <div className="flex flex-col md:flex-row md:justify-end md:items-center gap-4 text-sm md:text-base">
+            <div className="flex items-center gap-2">
+              <FaEnvelope />
+              <p>csr@cocotel.com.ph</p>
+            </div>
+            <div className="flex flex-col md:flex-row md:items-center gap-2">
+              <div className="flex items-center gap-2">
+                <FaPhoneAlt />
+                <p>+63-917-307-7462</p>
+              </div>
+                <p>+63-908-932-1399</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </footer>
   );
 };
